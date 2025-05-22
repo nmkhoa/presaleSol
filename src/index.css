@@ -1,0 +1,93 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+
+body {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+button {
+  cursor: pointer;
+}
+
+.btn-connect-wallet {
+  padding: 1px;
+  background: linear-gradient(105.08deg, #fff5e4 11.08%, #ffaa34 34.14%);
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+}
+
+.btn-connect-wallet div {
+  display: flex;
+  height: 100%;
+  padding: 12px 20px;
+  background: linear-gradient(
+    141.48deg,
+    #ffde91 11.36%,
+    #ffae00 47.34%,
+    #ed6e00 98.48%
+  );
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 700;
+  color: #3d1605;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  -ms-border-radius: 7px;
+  -o-border-radius: 7px;
+}
+
+.hero-section {
+  background-image: url("/images/hero_bg.svg");
+  background-size: auto 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.text-primary {
+  background: linear-gradient(
+    47.35deg,
+    #ffde91 -11.43%,
+    #ffae00 30.86%,
+    #ed6e00 90.96%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-secondary {
+  background: linear-gradient(308.01deg, #7a8ba1 -25.74%, #dbebff 55.21%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.btn-gradient-secondary {
+  padding: 1px;
+  background: linear-gradient(271.06deg, #2f323d 8.52%, #3c3f48 104.75%);
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+}
+
+.btn-gradient-secondary div {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, #2F3138 0%, #1C1F2C 111.06%);
+  border-radius: 7px;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  -ms-border-radius: 7px;
+  -o-border-radius: 7px;
+}
