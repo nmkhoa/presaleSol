@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Stack,
   RadioCard,
@@ -8,7 +9,7 @@ import {
   Button,
   Image,
 } from "@chakra-ui/react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import IconSOL from "@assets/icon/icon_SOL.svg";
 import IconUSDC from "@assets/icon/icon_USDC.svg";
@@ -23,12 +24,12 @@ export default function RewardClaimPanel() {
     { key: "3", value: 45.5, title: "USDT", icon: IconUSDT },
   ];
 
-  const valueMap = useMemo(() => {
-    return new Map(items.map((item) => [item.key, item.value]));
-  }, [items]);
+  // const valueMap = useMemo(() => {
+  //   return new Map(items.map((item) => [item.key, item.value]));
+  // }, [items]);
 
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
-  const selectedValue = selectedKey ? valueMap.get(selectedKey) : null;
+  // const selectedValue = selectedKey ? valueMap.get(selectedKey) : null;
   return (
     <Box
       bg="linear-gradient(152.22deg,#14161B 38.95%,#15161C 96.26%)"
