@@ -1,9 +1,13 @@
-import { Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import ConnectWalletButton from "../wallet-custom/connect-wallet-button";
 import { navbarItems } from "../../../constants/home";
-import { Link } from "react-router-dom";
 
 const Header = () => {
+  const onScrollIntoView = (key: string) => {
+    const element = document.getElementById(key);
+    element?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <Flex
       px={"98px"}
@@ -11,7 +15,9 @@ const Header = () => {
       justifyContent={"space-between"}
       alignItems={"center"}
     >
-      <img src="/images/logo.svg" className="w-[140px] h-[35px]" alt="logo" />
+      <a href="https://unich.com/en" target="_blank">
+        <img src="/images/logo.svg" className="w-[140px] h-[35px]" alt="logo" />
+      </a>
       <Flex
         gap={"28px"}
         px={"20px"}
@@ -20,7 +26,15 @@ const Header = () => {
         borderRadius={"24px"}
       >
         {navbarItems?.map((item) => {
-          return <Link to={item.link} className="!p-2 !font-semibold !leading-[130%]">{item.name}</Link>;
+          return (
+            <Box
+              cursor={"pointer"}
+              className="!p-2 !font-semibold !leading-[130%] hover:!text-[#FFA60C]"
+              onClick={() => onScrollIntoView(item.key)}
+            >
+              {item.name}
+            </Box>
+          );
         })}
       </Flex>
       <ConnectWalletButton />

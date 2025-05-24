@@ -1,0 +1,1322 @@
+/**
+ * Program IDL in camelCase format in order to be used in JS/TS.
+ *
+ * Note that this is only a type helper and is not the actual IDL. The original
+ * IDL can be found at `target/idl/unich_presale_contract.json`.
+ */
+export type UnichPresaleContract = {
+  address: "45nYxQk8kA8CV2tCYZqeJonB55RfYLFCwci6HTpQnSGU";
+  metadata: {
+    name: "unichPresaleContract";
+    version: "0.1.0";
+    spec: "0.1.0";
+    description: "Created with Anchor";
+  };
+  instructions: [
+    {
+      name: "initialize";
+      discriminator: [175, 175, 109, 31, 13, 152, 155, 237];
+      accounts: [
+        {
+          name: "signer";
+          writable: true;
+          signer: true;
+        },
+        {
+          name: "admin";
+        },
+        {
+          name: "adminAccount";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  65,
+                  68,
+                  77,
+                  73,
+                  78,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ];
+              },
+              {
+                kind: "account";
+                path: "admin";
+              }
+            ];
+          };
+        },
+        {
+          name: "configAccount";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  67,
+                  79,
+                  78,
+                  70,
+                  73,
+                  71,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "systemProgram";
+          address: "11111111111111111111111111111111";
+        }
+      ];
+      args: [
+        {
+          name: "usdcMint";
+          type: "pubkey";
+        },
+        {
+          name: "usdtMint";
+          type: "pubkey";
+        }
+      ];
+    },
+    {
+      name: "initializeSale";
+      discriminator: [208, 103, 34, 154, 179, 6, 125, 208];
+      accounts: [
+        {
+          name: "signer";
+          writable: true;
+          signer: true;
+        },
+        {
+          name: "signerAdminAccount";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  65,
+                  68,
+                  77,
+                  73,
+                  78,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ];
+              },
+              {
+                kind: "account";
+                path: "signer";
+              }
+            ];
+          };
+        },
+        {
+          name: "saleAccount";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  83,
+                  65,
+                  76,
+                  69,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "usdcMint";
+          writable: true;
+          relations: ["configAccount"];
+        },
+        {
+          name: "saleUsdcAccount";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "account";
+                path: "saleAccount";
+              },
+              {
+                kind: "account";
+                path: "tokenProgram";
+              },
+              {
+                kind: "account";
+                path: "usdcMint";
+              }
+            ];
+            program: {
+              kind: "const";
+              value: [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ];
+            };
+          };
+        },
+        {
+          name: "configAccount";
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  67,
+                  79,
+                  78,
+                  70,
+                  73,
+                  71,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "tokenProgram";
+          address: "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
+        },
+        {
+          name: "associatedTokenProgram";
+          address: "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL";
+        },
+        {
+          name: "systemProgram";
+          address: "11111111111111111111111111111111";
+        }
+      ];
+      args: [
+        {
+          name: "startTime";
+          type: "u64";
+        },
+        {
+          name: "endTime";
+          type: "u64";
+        },
+        {
+          name: "tokensForSale";
+          type: "u64";
+        },
+        {
+          name: "denominator";
+          type: "u64";
+        },
+        {
+          name: "firstRoundPrice";
+          type: "u64";
+        },
+        {
+          name: "secondRoundPrice";
+          type: "u64";
+        },
+        {
+          name: "whitelistDiscount";
+          type: "u64";
+        },
+        {
+          name: "minUsdAmount";
+          type: "u64";
+        },
+        {
+          name: "maxUsdAmount";
+          type: "u64";
+        },
+        {
+          name: "refCurrencyRate";
+          type: "u64";
+        },
+        {
+          name: "refTokenRate";
+          type: "u64";
+        }
+      ];
+    },
+    {
+      name: "purchaseTokensWithSol";
+      discriminator: [201, 116, 194, 155, 196, 234, 179, 122];
+      accounts: [
+        {
+          name: "buyer";
+          writable: true;
+          signer: true;
+        },
+        {
+          name: "saleAccount";
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  83,
+                  65,
+                  76,
+                  69,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "configAccount";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  67,
+                  79,
+                  78,
+                  70,
+                  73,
+                  71,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "systemProgram";
+          address: "11111111111111111111111111111111";
+        }
+      ];
+      args: [];
+    },
+    {
+      name: "purchaseTokensWithUsdc";
+      discriminator: [117, 83, 210, 1, 212, 236, 109, 42];
+      accounts: [
+        {
+          name: "buyer";
+          writable: true;
+          signer: true;
+        },
+        {
+          name: "buyerAccount";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  85,
+                  83,
+                  69,
+                  82,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ];
+              },
+              {
+                kind: "account";
+                path: "buyer";
+              }
+            ];
+          };
+        },
+        {
+          name: "referrer";
+          optional: true;
+        },
+        {
+          name: "referrerAccount";
+          writable: true;
+          optional: true;
+        },
+        {
+          name: "usdcMint";
+          writable: true;
+          relations: ["configAccount"];
+        },
+        {
+          name: "saleAccount";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  83,
+                  65,
+                  76,
+                  69,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "saleUsdcAccount";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "account";
+                path: "saleAccount";
+              },
+              {
+                kind: "account";
+                path: "tokenProgram";
+              },
+              {
+                kind: "account";
+                path: "usdcMint";
+              }
+            ];
+            program: {
+              kind: "const";
+              value: [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ];
+            };
+          };
+        },
+        {
+          name: "buyerUsdcAccount";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "account";
+                path: "buyer";
+              },
+              {
+                kind: "account";
+                path: "tokenProgram";
+              },
+              {
+                kind: "account";
+                path: "usdcMint";
+              }
+            ];
+            program: {
+              kind: "const";
+              value: [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ];
+            };
+          };
+        },
+        {
+          name: "configAccount";
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  67,
+                  79,
+                  78,
+                  70,
+                  73,
+                  71,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "tokenProgram";
+          address: "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
+        },
+        {
+          name: "associatedTokenProgram";
+          address: "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL";
+        },
+        {
+          name: "systemProgram";
+          address: "11111111111111111111111111111111";
+        }
+      ];
+      args: [
+        {
+          name: "currencyAmount";
+          type: "u64";
+        }
+      ];
+    },
+    {
+      name: "purchaseTokensWithUsdt";
+      discriminator: [197, 159, 48, 11, 140, 182, 7, 114];
+      accounts: [
+        {
+          name: "buyer";
+          writable: true;
+          signer: true;
+        },
+        {
+          name: "saleAccount";
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  83,
+                  65,
+                  76,
+                  69,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "configAccount";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  67,
+                  79,
+                  78,
+                  70,
+                  73,
+                  71,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "systemProgram";
+          address: "11111111111111111111111111111111";
+        }
+      ];
+      args: [];
+    },
+    {
+      name: "updateSaleStatus";
+      discriminator: [237, 170, 8, 67, 8, 96, 85, 14];
+      accounts: [
+        {
+          name: "signer";
+          writable: true;
+          signer: true;
+        },
+        {
+          name: "signerAdminAccount";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  65,
+                  68,
+                  77,
+                  73,
+                  78,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ];
+              },
+              {
+                kind: "account";
+                path: "signer";
+              }
+            ];
+          };
+        },
+        {
+          name: "saleAccount";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  83,
+                  65,
+                  76,
+                  69,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "systemProgram";
+          address: "11111111111111111111111111111111";
+        }
+      ];
+      args: [
+        {
+          name: "isActive";
+          type: "bool";
+        }
+      ];
+    },
+    {
+      name: "updateTokenPrice";
+      discriminator: [155, 148, 125, 15, 147, 1, 126, 60];
+      accounts: [
+        {
+          name: "signer";
+          writable: true;
+          signer: true;
+        },
+        {
+          name: "signerAdminAccount";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  65,
+                  68,
+                  77,
+                  73,
+                  78,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ];
+              },
+              {
+                kind: "account";
+                path: "signer";
+              }
+            ];
+          };
+        },
+        {
+          name: "saleAccount";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  83,
+                  65,
+                  76,
+                  69,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "configAccount";
+          writable: true;
+          pda: {
+            seeds: [
+              {
+                kind: "const";
+                value: [
+                  67,
+                  79,
+                  78,
+                  70,
+                  73,
+                  71,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ];
+              }
+            ];
+          };
+        },
+        {
+          name: "systemProgram";
+          address: "11111111111111111111111111111111";
+        }
+      ];
+      args: [
+        {
+          name: "firstSalePrice";
+          type: {
+            option: "u64";
+          };
+        },
+        {
+          name: "secondSalePrice";
+          type: {
+            option: "u64";
+          };
+        }
+      ];
+    }
+  ];
+  accounts: [
+    {
+      name: "adminAccount";
+      discriminator: [153, 119, 180, 178, 43, 66, 235, 148];
+    },
+    {
+      name: "configAccount";
+      discriminator: [189, 255, 97, 70, 186, 189, 24, 102];
+    },
+    {
+      name: "saleAccount";
+      discriminator: [213, 18, 87, 228, 218, 230, 207, 182];
+    },
+    {
+      name: "userAccount";
+      discriminator: [211, 33, 136, 16, 186, 110, 242, 127];
+    }
+  ];
+  events: [
+    {
+      name: "tokenPurchased";
+      discriminator: [3, 73, 186, 50, 15, 181, 213, 37];
+    }
+  ];
+  errors: [
+    {
+      code: 6000;
+      name: "unauthorized";
+      msg: "unauthorized";
+    },
+    {
+      code: 6001;
+      name: "invalidTime";
+      msg: "invalidTime";
+    },
+    {
+      code: 6002;
+      name: "invalidSalePrice";
+      msg: "invalidSalePrice";
+    },
+    {
+      code: 6003;
+      name: "invalidTokensForSale";
+      msg: "invalidTokensForSale";
+    },
+    {
+      code: 6004;
+      name: "invalidSaleStatus";
+      msg: "invalidSaleStatus";
+    },
+    {
+      code: 6005;
+      name: "incorrectReferrerAccount";
+      msg: "incorrectReferrerAccount";
+    },
+    {
+      code: 6006;
+      name: "invalidUsdAmountRange";
+      msg: "invalidUsdAmountRange";
+    },
+    {
+      code: 6007;
+      name: "invalidRound";
+      msg: "invalidRound";
+    },
+    {
+      code: 6008;
+      name: "inactiveSale";
+      msg: "inactiveSale";
+    },
+    {
+      code: 6009;
+      name: "inactiveContract";
+      msg: "inactiveContract";
+    },
+    {
+      code: 6010;
+      name: "invalidBuyAmount";
+      msg: "invalidBuyAmount";
+    },
+    {
+      code: 6011;
+      name: "insufficientBalance";
+      msg: "insufficientBalance";
+    },
+    {
+      code: 6012;
+      name: "notEnoughTokenForSale";
+      msg: "notEnoughTokenForSale";
+    },
+    {
+      code: 6013;
+      name: "saleAlreadyCompleted";
+      msg: "saleAlreadyCompleted";
+    },
+    {
+      code: 6014;
+      name: "saleNotStartedYet";
+      msg: "saleNotStartedYet";
+    },
+    {
+      code: 6015;
+      name: "saleEnded";
+      msg: "saleEnded";
+    },
+    {
+      code: 6016;
+      name: "saleCompleted";
+      msg: "saleCompleted";
+    },
+    {
+      code: 6017;
+      name: "cannotReferSelf";
+      msg: "cannotReferSelf";
+    }
+  ];
+  types: [
+    {
+      name: "adminAccount";
+      type: {
+        kind: "struct";
+        fields: [
+          {
+            name: "isAdmin";
+            type: "bool";
+          }
+        ];
+      };
+    },
+    {
+      name: "configAccount";
+      type: {
+        kind: "struct";
+        fields: [
+          {
+            name: "isActive";
+            type: "bool";
+          },
+          {
+            name: "usdcMint";
+            type: "pubkey";
+          },
+          {
+            name: "usdcDecimals";
+            type: "u8";
+          },
+          {
+            name: "usdtMint";
+            type: "pubkey";
+          },
+          {
+            name: "usdtDecimals";
+            type: "u8";
+          },
+          {
+            name: "tokenDecimals";
+            type: "u8";
+          }
+        ];
+      };
+    },
+    {
+      name: "saleAccount";
+      type: {
+        kind: "struct";
+        fields: [
+          {
+            name: "startTime";
+            type: "u64";
+          },
+          {
+            name: "endTime";
+            type: "u64";
+          },
+          {
+            name: "tokensForSale";
+            type: "u64";
+          },
+          {
+            name: "tokensSold";
+            type: "u64";
+          },
+          {
+            name: "denominator";
+            type: "u64";
+          },
+          {
+            name: "firstRoundPrice";
+            type: "u64";
+          },
+          {
+            name: "secondRoundPrice";
+            type: "u64";
+          },
+          {
+            name: "whitelistDiscount";
+            type: "u64";
+          },
+          {
+            name: "currentRound";
+            type: "u8";
+          },
+          {
+            name: "minUsdAmount";
+            type: "u64";
+          },
+          {
+            name: "maxUsdAmount";
+            type: "u64";
+          },
+          {
+            name: "solRaised";
+            type: "u64";
+          },
+          {
+            name: "usdcRaised";
+            type: "u64";
+          },
+          {
+            name: "usdtRaised";
+            type: "u64";
+          },
+          {
+            name: "usdRaised";
+            type: "u64";
+          },
+          {
+            name: "refCurrencyRate";
+            type: "u64";
+          },
+          {
+            name: "refTokenRate";
+            type: "u64";
+          },
+          {
+            name: "isActive";
+            type: "bool";
+          },
+          {
+            name: "isCompleted";
+            type: "bool";
+          }
+        ];
+      };
+    },
+    {
+      name: "tokenPurchased";
+      type: {
+        kind: "struct";
+        fields: [
+          {
+            name: "buyer";
+            type: "pubkey";
+          },
+          {
+            name: "referrer";
+            type: "pubkey";
+          },
+          {
+            name: "currency";
+            type: "string";
+          },
+          {
+            name: "currencyAmount";
+            type: "u64";
+          },
+          {
+            name: "tokenAmount";
+            type: "u64";
+          },
+          {
+            name: "tokenPrice";
+            type: "u64";
+          },
+          {
+            name: "denominator";
+            type: "u64";
+          }
+        ];
+      };
+    },
+    {
+      name: "userAccount";
+      type: {
+        kind: "struct";
+        fields: [
+          {
+            name: "referrer";
+            type: "pubkey";
+          },
+          {
+            name: "solSpent";
+            type: "u64";
+          },
+          {
+            name: "usdcSpent";
+            type: "u64";
+          },
+          {
+            name: "usdtSpent";
+            type: "u64";
+          },
+          {
+            name: "usdSpent";
+            type: "u64";
+          },
+          {
+            name: "tokensPurchased";
+            type: "u64";
+          },
+          {
+            name: "whitelistTokensPurchased";
+            type: "u64";
+          },
+          {
+            name: "publicTokensPurchased";
+            type: "u64";
+          },
+          {
+            name: "tokenRefEarned";
+            type: "u64";
+          },
+          {
+            name: "solRefEarned";
+            type: "u64";
+          },
+          {
+            name: "usdcRefEarned";
+            type: "u64";
+          },
+          {
+            name: "usdtRefEarned";
+            type: "u64";
+          }
+        ];
+      };
+    }
+  ];
+  constants: [
+    {
+      name: "adminAccountSeed";
+      type: "bytes";
+      value: "[65, 68, 77, 73, 78, 95, 65, 67, 67, 79, 85, 78, 84, 95, 83, 69, 69, 68]";
+    },
+    {
+      name: "configAccountSeed";
+      type: "bytes";
+      value: "[67, 79, 78, 70, 73, 71, 95, 65, 67, 67, 79, 85, 78, 84, 95, 83, 69, 69, 68]";
+    },
+    {
+      name: "saleAccountSeed";
+      type: "bytes";
+      value: "[83, 65, 76, 69, 95, 65, 67, 67, 79, 85, 78, 84, 95, 83, 69, 69, 68]";
+    },
+    {
+      name: "usdDecimals";
+      type: "u8";
+      value: "6";
+    },
+    {
+      name: "userAccountSeed";
+      type: "bytes";
+      value: "[85, 83, 69, 82, 95, 65, 67, 67, 79, 85, 78, 84, 95, 83, 69, 69, 68]";
+    }
+  ];
+};

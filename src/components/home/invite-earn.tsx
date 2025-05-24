@@ -19,10 +19,10 @@ const InviteAndEarn = () => {
           borderRadius={"12px"}
         >
           <Flex gap={"40px"}>
-            <Text fontSize={"28px"} fontWeight={700}>
+            <Text fontSize={"28px"} fontWeight={700} color={"#FFFFFF"}>
               Invite friends & earn up to
             </Text>
-            <Text fontSize={"64px"} fontWeight={700}>
+            <Text fontSize={"64px"} fontWeight={700} color={"#FFFFFF"}>
               11%
             </Text>
           </Flex>

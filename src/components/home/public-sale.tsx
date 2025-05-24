@@ -1,13 +1,107 @@
-import { Box, Flex, Image, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Image, Input, Text } from "@chakra-ui/react";
 import { paymentMethods } from "../../constants/home";
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { ConnectWalletContext } from "../../contexts/connect-wallet-context";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { useUnichProgram } from "@/hooks/use-program";
+import { Transaction } from "@solana/web3.js";
+import { useAnchorProvider } from "@/hooks/use-anchor-provider";
+import { baseNumbTokenValue } from "@/constants/contract";
+import { BN } from "@coral-xyz/anchor";
+import type { SaleAccountInfoType } from "@/types/home";
+import { formatAmount } from "@/utils";
+import SaleWithoutConnectWallet from "./sale-connect";
 
-const PublicSale = () => {
-  const { connected } = useWallet();
+interface Props {
+  saleAccountInfo: SaleAccountInfoType | null;
+  tokenBalanceSol: number;
+  tokenBalanceUsdc: number;
+  tokenBalanceUsdt: number;
+}
+
+const PublicSale = ({
+  saleAccountInfo,
+  tokenBalanceSol,
+  tokenBalanceUsdc,
+  tokenBalanceUsdt,
+}: Props) => {
+  const { connected, publicKey } = useWallet();
   const [method, setMethod] = useState(paymentMethods[0]);
   const { setShowModal } = useContext(ConnectWalletContext);
+  const [inputAmount, setInputAmount] = useState("");
+  const program = useUnichProgram();
+  const provider = useAnchorProvider();
+  const [loadingPurchase, setLoadingPurchase] = useState(false);
+
+  const handleBuyUn = async () => {
+    if (!inputAmount || !publicKey || errorMessage) return;
+    try {
+      setLoadingPurchase(true);
+      const transaction = new Transaction();
+      const purchaseIx = await program!.methods
+        .purchaseTokensWithUsdc(new BN(+inputAmount * baseNumbTokenValue))
+        .accounts({
+          buyer: publicKey,
+          referrer: null,
+          referrerAccount: null,
+        })
+        .instruction();
+      transaction.add(purchaseIx);
+      await provider!.sendAndConfirm(transaction, []);
+    } catch (error) {
+      console.error("Error during purchase:", error);
+    } finally {
+      setLoadingPurchase(false);
+    }
+  };
+
+  const onHandleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value === "") {
+      setInputAmount("");
+      return;
+    }
+    const numberValue = Number(value);
+    if (isNaN(numberValue)) {
+      setInputAmount("");
+      return;
+    }
+    const numb = numberValue.toString();
+    if (numb.length > 30) return;
+    const idxDot = numb.indexOf(".");
+    if (idxDot !== -1) {
+      const decimalPart = numb.slice(idxDot + 1);
+      if (decimalPart.length > 4) return;
+    }
+    setInputAmount(numb);
+  };
+
+  const balanceByMethod = useMemo(() => {
+    if (method.key === paymentMethods[0].key) return tokenBalanceSol;
+    if (method.key === paymentMethods[1].key) return tokenBalanceUsdc;
+    if (method.key === paymentMethods[2].key) return tokenBalanceUsdt;
+  }, [method.key, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt]);
+
+  const errorMessage = useMemo(() => {
+    if (!inputAmount) return "";
+    if (
+      +inputAmount < +(saleAccountInfo?.minUsdAmount || 0) ||
+      +inputAmount > +(saleAccountInfo?.maxUsdAmount || 0)
+    )
+      return `Please enter a number between ${formatAmount(
+        saleAccountInfo?.minUsdAmount || 0
+      )} and ${formatAmount(saleAccountInfo?.maxUsdAmount || 0)}.`;
+    return "";
+  }, [inputAmount, saleAccountInfo]);
+
+  const receiveToken = useMemo(() => {
+    if (!inputAmount) return "0";
+    return +inputAmount / (saleAccountInfo?.firstRoundPrice || 1);
+  }, [inputAmount, saleAccountInfo?.firstRoundPrice]);
+
+  if (!connected) {
+    return <SaleWithoutConnectWallet />;
+  }
 
   return (
     <Box>
@@ -34,7 +128,10 @@ const PublicSale = () => {
               fontWeight={700}
               cursor={"pointer"}
               color={method.key === item.key ? "#FFAF40" : "#FFFFFF"}
-              onClick={() => setMethod(item)}
+              onClick={() => {
+                setMethod(item);
+                setInputAmount("");
+              }}
             >
               <img
                 src={item.icon}
@@ -73,6 +170,9 @@ const PublicSale = () => {
               lineHeight={"20px"}
               border={"none"}
               outline={"none"}
+              disabled={!balanceByMethod}
+              value={inputAmount}
+              onChange={onHandleInput}
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
             <Image
@@ -110,6 +210,7 @@ const PublicSale = () => {
               border={"none"}
               outline={"none"}
               disabled
+              value={receiveToken}
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
             <Image
@@ -122,14 +223,19 @@ const PublicSale = () => {
           </Flex>
         </Box>
       </Box>
+      <Text mt={"2px"} fontSize={"10px"} color={"red.400"}>
+        {errorMessage}
+      </Text>
       <Box
         className="btn-connect-wallet"
         height={"58px"}
         mt={"20px"}
         cursor={"pointer"}
-        onClick={() => setShowModal(true)}
+        onClick={() => (connected ? handleBuyUn() : setShowModal(true))}
       >
-        <div>{connected ? "Buy $UN Now" : "Connect wallet & Buy"}</div>
+        <Button w={"100%"} height={"100%"} loading={loadingPurchase}>
+          {connected ? "Buy $UN Now" : "Connect wallet & Buy"}
+        </Button>
       </Box>
       <Text
         mt={"20px"}

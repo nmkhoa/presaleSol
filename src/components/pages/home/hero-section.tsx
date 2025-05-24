@@ -1,17 +1,130 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Flex, Image } from "@chakra-ui/react";
 import Header from "../global/header";
 import TokenSold from "../../home/token-sold";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import clsx from "clsx";
 import PublicSale from "../../home/public-sale";
 import Whitelist from "../../home/whitelist";
 import InviteAndEarn from "../../home/invite-earn";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { PublicKey } from "@solana/web3.js";
+import { useUnichProgram } from "@/hooks/use-program";
+import {
+  baseNumbSolValue,
+  baseNumbTokenValue,
+  baseNumbUsdValue,
+  SALE_ACCOUNT_SEED,
+  USER_ACCOUNT_SEED,
+} from "@/constants/contract";
+import type { SaleAccountInfoType, UserAccountInfoType } from "@/types/home";
+import { navKey, paymentMethods } from "@/constants/home";
+import { getAccount, getAssociatedTokenAddress } from "@solana/spl-token";
 
 const HeroSection = () => {
   const [tab, setTab] = useState(0);
+  const { wallet, publicKey } = useWallet();
+  const [userAccountInfo, setUserAccountInfo] =
+    useState<UserAccountInfoType | null>(null);
+  const [saleAccountInfo, setSaleAccountInfo] =
+    useState<SaleAccountInfoType | null>(null);
+  const program = useUnichProgram();
+  const [tokenBalanceSol, setTokenBalanceSol] = useState(0);
+  const [tokenBalanceUsdc, setTokenBalanceUsdc] = useState(0);
+  const [tokenBalanceUsdt, setTokenBalanceUsdt] = useState(0);
+  const { connection } = useConnection();
+
+  const getBalance = useCallback(
+    async (
+      token: string,
+      baseNumb: number,
+      callBack: React.Dispatch<React.SetStateAction<number>>
+    ) => {
+      if (!publicKey || !token) return;
+      const ata = await getAssociatedTokenAddress(
+        new PublicKey(token),
+        publicKey
+      );
+      const accountInfo = await getAccount(connection, ata);
+      const humanBalance = Number(accountInfo.amount) / baseNumb;
+      callBack(humanBalance);
+    },
+    [connection, publicKey]
+  );
+
+  useEffect(() => {
+    getBalance(paymentMethods[0].token, baseNumbSolValue, setTokenBalanceSol);
+    getBalance(paymentMethods[1].token, baseNumbUsdValue, setTokenBalanceUsdc);
+    getBalance(paymentMethods[2].token, baseNumbUsdValue, setTokenBalanceUsdt);
+  }, [publicKey, connection, getBalance]);
+
+  const fetchUserAccount = useCallback(async () => {
+    if (!wallet || !wallet.adapter.publicKey || !publicKey) return;
+    try {
+      const [account] = PublicKey.findProgramAddressSync(
+        [Buffer.from(USER_ACCOUNT_SEED), publicKey.toBuffer()],
+        program.programId
+      );
+      const accountData = await program.account.userAccount.fetch(account);
+      setUserAccountInfo({
+        publicTokensPurchased:
+          accountData.publicTokensPurchased.toString() / baseNumbTokenValue,
+        referrer: accountData.referrer.toString(),
+        solSpent: accountData.solSpent.toString() / baseNumbSolValue,
+        tokensPurchased:
+          accountData.tokensPurchased.toString() / baseNumbTokenValue,
+        usdSpent: accountData.usdSpent.toString() / baseNumbUsdValue,
+        usdcSpent: accountData.usdcSpent.toString() / baseNumbUsdValue,
+        usdtSpent: accountData.usdtSpent.toString() / baseNumbUsdValue,
+        whitelistTokensPurchased:
+          accountData.whitelistTokensPurchased.toString() / baseNumbTokenValue,
+      });
+    } catch (err) {
+      console.error("Error fetch userAccount:", err);
+    }
+  }, [program, publicKey, wallet]);
+
+  const fetchSaleAccount = useCallback(async () => {
+    if (!wallet || !wallet.adapter.publicKey || !publicKey) return;
+    try {
+      const [saleAccount] = PublicKey.findProgramAddressSync(
+        [Buffer.from(SALE_ACCOUNT_SEED)],
+        program.programId
+      );
+      const saleAccountData = await program.account.saleAccount.fetch(
+        saleAccount
+      );
+      setSaleAccountInfo({
+        currentRound: saleAccountData.currentRound,
+        denominator: saleAccountData.denominator.toString(),
+        endTime: +saleAccountData.endTime.toString(),
+        firstRoundPrice:
+          saleAccountData.firstRoundPrice.toString() / baseNumbTokenValue,
+        isActive: saleAccountData.isActive,
+        maxUsdAmount: +saleAccountData.maxUsdAmount.toString(),
+        minUsdAmount: +saleAccountData.minUsdAmount.toString(),
+        secondRoundPrice:
+          saleAccountData.secondRoundPrice.toString() / baseNumbTokenValue,
+        startTime: +saleAccountData.startTime.toString(),
+        tokensForSale:
+          saleAccountData.tokensForSale.toString() / baseNumbTokenValue,
+        tokensSold: saleAccountData.tokensSold.toString() / baseNumbTokenValue,
+        whitelistDiscount:
+          saleAccountData.whitelistDiscount.toString() / baseNumbTokenValue,
+      });
+    } catch (err) {
+      console.error("Error fetch userAccount:", err);
+    }
+  }, [program, publicKey, wallet]);
+  console.log("saleAccountInfo", saleAccountInfo, userAccountInfo);
+
+  useEffect(() => {
+    fetchSaleAccount();
+    fetchUserAccount();
+  }, [wallet, publicKey, program, fetchSaleAccount, fetchUserAccount]);
 
   return (
-    <div className="relative">
+    <div id={navKey.buy} className="relative">
       <div className="absolute hero-section !h-[1450px] w-full" />
       <section className="relative">
         <Header />
@@ -47,7 +160,7 @@ const HeroSection = () => {
               "linear-gradient(152.22deg, #14161B 38.95%, #15161C 96.26%)"
             }
           >
-            <TokenSold />
+            <TokenSold saleAccountInfo={saleAccountInfo} />
           </Box>
           <Box
             w={"419px"}
@@ -82,7 +195,14 @@ const HeroSection = () => {
               </button>
             </Box>
             <div>
-              {!tab && <PublicSale />}
+              {!tab && (
+                <PublicSale
+                  saleAccountInfo={saleAccountInfo}
+                  tokenBalanceSol={tokenBalanceSol}
+                  tokenBalanceUsdc={tokenBalanceUsdc}
+                  tokenBalanceUsdt={tokenBalanceUsdt}
+                />
+              )}
               {!!tab && <Whitelist />}
             </div>
           </Box>

@@ -1,8 +1,9 @@
-import { Box, Flex, Image, Input, Link, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Input, Text } from "@chakra-ui/react";
 import { paymentMethods } from "../../constants/home";
 import { useContext, useState } from "react";
 import { ConnectWalletContext } from "../../contexts/connect-wallet-context";
 import { useWallet } from "@solana/wallet-adapter-react";
+import SaleWithoutConnectWallet from "./sale-connect";
 
 const Whitelist = () => {
   const { connected } = useWallet();
@@ -10,27 +11,7 @@ const Whitelist = () => {
   const { setShowModal } = useContext(ConnectWalletContext);
 
   if (!connected) {
-    return (
-      <Box>
-        <Text mt={"56px"} textAlign={"center"} fontWeight={500}>
-          Whitelist round is only eligible for users who own special UNICH NFT.
-          Please connect your wallet, or{" "}
-          <Link href="" target="_blank" color={"#FF9A0D"}>
-            Learn more
-          </Link>
-        </Text>
-        <Box
-          className="btn-connect-wallet"
-          w={"fit-content"}
-          mt={"36px"}
-          mx={"auto"}
-          cursor={"pointer"}
-          onClick={() => setShowModal(true)}
-        >
-          <div>Connect Wallet</div>
-        </Box>
-      </Box>
-    );
+    return <SaleWithoutConnectWallet />;
   }
 
   return (

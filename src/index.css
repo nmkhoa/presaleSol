@@ -5,7 +5,7 @@ body {
   font-family: "Montserrat", sans-serif;
   font-size: 16px;
   background-color: #000000;
-  color: #ffffff;
+  color: #c7ccd9;
 }
 
 button {
@@ -22,7 +22,8 @@ button {
   -o-border-radius: 8px;
 }
 
-.btn-connect-wallet div {
+.btn-connect-wallet div,
+.btn-connect-wallet button {
   display: flex;
   height: 100%;
   padding: 12px 20px;
@@ -38,11 +39,16 @@ button {
   color: #3d1605;
   justify-content: center;
   align-items: center;
+  border: none;
   border-radius: 7px;
   -webkit-border-radius: 7px;
   -moz-border-radius: 7px;
   -ms-border-radius: 7px;
   -o-border-radius: 7px;
+}
+
+.btn-connect-wallet button div {
+  width: 100%;
 }
 
 .hero-section {
@@ -84,10 +90,33 @@ button {
   height: 100%;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(90deg, #2F3138 0%, #1C1F2C 111.06%);
+  background: linear-gradient(90deg, #2f3138 0%, #1c1f2c 111.06%);
   border-radius: 7px;
+  color: #ffffff;
   -webkit-border-radius: 7px;
   -moz-border-radius: 7px;
   -ms-border-radius: 7px;
   -o-border-radius: 7px;
+}
+
+.animation-alliance {
+  animation: animationAlliance 40s linear infinite;
+  -webkit-animation: animationAlliance 40s linear infinite;
+}
+
+@keyframes animationAlliance {
+  0% {
+    transform: translateX(0px);
+    -webkit-transform: translateX(0px);
+    -moz-transform: translateX(0px);
+    -ms-transform: translateX(0px);
+    -o-transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+  }
 }
