@@ -10,7 +10,7 @@ import {
   Grid,
   Flex,
 } from "@chakra-ui/react";
-import IconSOL from "@assets/icon/Icon_SOL.svg";
+import IconSOL from "@assets/icon/icon_SOL.svg";
 import { getAddressFormat } from "@/utils";
 export default function ReferralInfoPanel() {
   const { user } = useAuthStore();
