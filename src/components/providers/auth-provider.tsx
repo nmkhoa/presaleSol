@@ -24,7 +24,7 @@ export default function AuthProvider({
   const { mutateAsync: login } = useLogin();
   const { mutateAsync: getMe } = useGetMe();
 
-  const { accessToken, user, setUser } = useAuthStore();
+  const { accessToken, user, setUser, referrerCode } = useAuthStore();
 
   useEffect(() => {
     if (connecting) {
@@ -91,6 +91,7 @@ export default function AuthProvider({
       await login({
         walletAddress,
         signature: bs58.encode(signature),
+        affiliateCode: referrerCode || undefined,
       });
     } catch (err) {
       console.error("Error signing message:", err);

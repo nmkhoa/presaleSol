@@ -53,12 +53,12 @@ const InviteAndEarn = () => {
               borderRadius={"8px"}
               disabled
               opacity={1}
-              value={user?.affiliateCode || ""}
+              value={user ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}` : ""}
               placeholder="Connect wallet to see your code"
             />
             {connected ? (
               <Clipboard.Root
-                value={user ? `unich.com/${user?.affiliateCode}` : ""}
+                value={user ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}` : ""}
                 timeout={1000}
               >
                 <Clipboard.Trigger asChild>

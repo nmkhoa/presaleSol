@@ -20,7 +20,7 @@ export const useLogin = () => {
       setAccessToken(res.accessToken);
       setUser(res.user);
       toaster.create({
-        description: "Login successplly!",
+        description: "Login successfully!",
         type: "success",
       });
     },

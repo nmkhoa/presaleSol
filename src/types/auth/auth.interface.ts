@@ -3,6 +3,7 @@ import type { User } from "../user/user.interface";
 export interface LoginRequest {
   walletAddress: string;
   signature: string;
+  affiliateCode?: string;
 }
 
 export interface LoginResponse {

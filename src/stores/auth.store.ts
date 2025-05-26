@@ -24,11 +24,14 @@ const cookieStorage: PersistStorage<any> = {
 type AuthState = {
   accessToken: string | "";
   user: User | null;
+  referrerCode?: string | null;
 };
 
 type AuthAction = {
   setAccessToken: (accessToken: string) => void;
   setUser: (user: User) => void;
+
+  setReferrerCode: (referrerCode: string | null) => void;
   resetAuthStore: () => void;
 };
 
@@ -43,6 +46,7 @@ export const useAuthStore = create<AuthState & AuthAction>()(
       ...initialAuth,
       setAccessToken: (accessToken) => set({ accessToken }),
       setUser: (user) => set({ user }),
+      setReferrerCode: (referrerCode) => set({ referrerCode }),
       resetAuthStore: () => {
         set(initialAuth);
         Cookies.remove(STORAGE_KEY.auth);

@@ -3,5 +3,5 @@ export interface User {
   walletAddress: string;
   affiliateCode: string;
   referrerCode: string | null;
-  referrer: string | null;
+  referrer: User | null;
 }

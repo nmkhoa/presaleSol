@@ -52,11 +52,13 @@ export default function ReferralInfoPanel() {
                     alignItems="center"
                   >
                     <Text fontSize={"12px"} color={"#FFEED6"} fontWeight={500}>
-                      {user ? `unich.com/${user?.affiliateCode}` : ""}
+                      {user
+                        ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}`
+                        : ""}
                     </Text>
                   </Box>
                   <Clipboard.Root
-                    value={user ? `unich.com/${user?.affiliateCode}` : ""}
+                    value={user ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}` : ""}
                     timeout={1000}
                   >
                     <Clipboard.Trigger asChild>
