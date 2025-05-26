@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import { Box, Flex, Image } from "@chakra-ui/react";
@@ -9,25 +10,31 @@ import PublicSale from "../../home/public-sale";
 import Whitelist from "../../home/whitelist";
 import InviteAndEarn from "../../home/invite-earn";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { clusterApiUrl, Connection, PublicKey } from "@solana/web3.js";
+import {
+  // clusterApiUrl, Connection,
+  PublicKey,
+} from "@solana/web3.js";
 import { useUnichProgram } from "@/hooks/use-program";
 import {
   baseNumbSolValue,
   baseNumbTokenValue,
   baseNumbUsdValue,
-  productPriceKey,
+  basePriceValue,
+  // productPriceKey,
   SALE_ACCOUNT_SEED,
   USER_ACCOUNT_SEED,
 } from "@/constants/contract";
 import { navKey, paymentMethods } from "@/constants/home";
 import { getAccount, getAssociatedTokenAddress } from "@solana/spl-token";
 import SaleWithoutConnectWallet from "@/components/home/sale-connect";
-import {
-  getPythProgramKeyForCluster,
-  PythHttpClient,
-} from "@pythnetwork/client";
-import { network } from "@/components/providers/solana-provider";
+// import {
+//   getPythProgramKeyForCluster,
+//   PythHttpClient,
+// } from "@pythnetwork/client";
+// import { network } from "@/components/providers/solana-provider";
 import { useTokenStore } from "@/stores/token.store";
+import { request } from "@/config/request";
+import { feedIdSolana, feedIdUsdc, feedIdUsdt } from "@/constants/environment";
 
 const HeroSection = () => {
   const [tab, setTab] = useState(0);
@@ -35,12 +42,12 @@ const HeroSection = () => {
   const { setSolUserAccountInfo, setSolSaleAccountInfo } = useTokenStore();
   const program = useUnichProgram();
   const { connection } = useConnection();
-  const endpoint = clusterApiUrl(network);
-  const connectionSol = new Connection(endpoint);
-  const client = new PythHttpClient(
-    connectionSol,
-    getPythProgramKeyForCluster("devnet")
-  );
+  // const endpoint = clusterApiUrl(network);
+  // const connectionSol = new Connection(endpoint);
+  // const client = new PythHttpClient(
+  //   connectionSol,
+  //   getPythProgramKeyForCluster("devnet")
+  // );
   const {
     setTokensPrice,
     setTokenBalanceSol,
@@ -49,15 +56,34 @@ const HeroSection = () => {
   } = useTokenStore();
 
   const getPriceData = useCallback(async () => {
-    const data = await client.getData();
-    const priceSolInfo = data.productPrice.get(productPriceKey.sol);
-    const priceUsdcInfo = data.productPrice.get(productPriceKey.usdc);
-    const priceUsdtInfo = data.productPrice.get(productPriceKey.usdt);
+    const results = await Promise.all([
+      request.get(
+        `https://hermes.pyth.network/api/latest_price_feeds?ids[]=${feedIdSolana}`
+      ),
+      request.get(
+        `https://hermes.pyth.network/api/latest_price_feeds?ids[]=${feedIdUsdc}`
+      ),
+      request.get(
+        `https://hermes.pyth.network/api/latest_price_feeds?ids[]=${feedIdUsdt}`
+      ),
+    ]);
+    const priceSol = (results as any)?.[0]?.data?.[0]?.price?.price || 0;
+    const priceUsdc = (results as any)?.[1]?.data?.[0]?.price?.price || 0;
+    const priceUsdt = (results as any)?.[2]?.data?.[0]?.price?.price || 0;
     setTokensPrice({
-      sol: priceSolInfo?.price || priceSolInfo?.aggregate?.price || 0,
-      usdc: priceUsdcInfo?.price || priceUsdcInfo?.aggregate?.price || 0,
-      usdt: priceUsdtInfo?.price || priceUsdtInfo?.aggregate?.price || 0,
+      sol: (priceSol || 0) / basePriceValue,
+      usdc: (priceUsdc || 0) / basePriceValue,
+      usdt: (priceUsdt || 0) / basePriceValue,
     });
+    // const data = await client.getData();
+    // const priceSolInfo = data.productPrice.get(productPriceKey.sol);
+    // const priceUsdcInfo = data.productPrice.get(productPriceKey.usdc);
+    // const priceUsdtInfo = data.productPrice.get(productPriceKey.usdt);
+    // setTokensPrice({
+    //   sol: priceSolInfo?.price || priceSolInfo?.aggregate?.price || 0,
+    //   usdc: priceUsdcInfo?.price || priceUsdcInfo?.aggregate?.price || 0,
+    //   usdt: priceUsdtInfo?.price || priceUsdtInfo?.aggregate?.price || 0,
+    // });
   }, []);
 
   useEffect(() => {
