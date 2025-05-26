@@ -12,6 +12,12 @@ button {
   cursor: pointer;
 }
 
+button:hover,
+.btn-connect-wallet:hover,
+.btn-gradient-secondary:hover {
+  opacity: 0.85;
+}
+
 .btn-connect-wallet {
   padding: 1px;
   background: linear-gradient(105.08deg, #fff5e4 11.08%, #ffaa34 34.14%);

@@ -23,3 +23,9 @@ export function hasDecimalPart(num: number | string) {
   const number = typeof num === "string" ? +num : num;
   return Math.floor(number) !== number;
 }
+
+export function getNumberFixed(number: number, fix?: number) {
+  if (!number) return 0;
+  if (!hasDecimalPart(number)) return number;
+  return +number.toFixed(fix ? fix : 4);
+}

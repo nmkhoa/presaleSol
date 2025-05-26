@@ -1,20 +1,18 @@
 import { Box, Text } from "@chakra-ui/react";
 import { socialLinks } from "../../constants/home";
-import type { SaleAccountInfoType } from "@/types/home";
 import { formatAmount } from "@/utils";
 import { useMemo } from "react";
+import { useTokenStore } from "@/stores/token.store";
 
-interface Props {
-  saleAccountInfo: SaleAccountInfoType | null;
-}
-
-const TokenSold = ({ saleAccountInfo }: Props) => {
+const TokenSold = () => {
+  const { solSaleAccountInfo } = useTokenStore();
   const totalSoldPerAll = useMemo(() => {
-    if (!saleAccountInfo?.tokensForSale || !saleAccountInfo) return 0;
+    if (!solSaleAccountInfo?.tokensForSale || !solSaleAccountInfo) return 0;
     return (
-      ((saleAccountInfo.tokensSold || 0) * 100) / saleAccountInfo.tokensForSale
+      ((solSaleAccountInfo.tokensSold || 0) * 100) /
+      solSaleAccountInfo.tokensForSale
     );
-  }, [saleAccountInfo]);
+  }, [solSaleAccountInfo]);
 
   return (
     <div>
@@ -45,10 +43,10 @@ const TokenSold = ({ saleAccountInfo }: Props) => {
           alt="token"
         />
         <span className="!text-2xl !leading-[28px] !font-bold">
-          {formatAmount(saleAccountInfo?.tokensSold || 0)}
+          {formatAmount(Math.floor(solSaleAccountInfo?.tokensSold || 0))}
         </span>
         <span className="!text-sm text-[#6E758A] !font-medium">
-          /{formatAmount(saleAccountInfo?.tokensForSale || 0)}
+          /{formatAmount(solSaleAccountInfo?.tokensForSale || 0)}
         </span>
       </div>
       <div className="h-[1px] !mt-5 bg-white opacity-10" />
@@ -57,16 +55,18 @@ const TokenSold = ({ saleAccountInfo }: Props) => {
       </div>
       <div className="!mt-1 flex gap-1 !items-end">
         <span className="!text-2xl !leading-[28px] !font-bold">
-          {formatAmount(
-            (saleAccountInfo?.tokensSold || 0) *
-              (saleAccountInfo?.firstRoundPrice || 0)
+          ${formatAmount(
+            Math.floor(
+              (solSaleAccountInfo?.tokensSold || 0) *
+                (solSaleAccountInfo?.firstRoundPrice || 0)
+            )
           )}
         </span>
         <span className="!text-sm text-[#6E758A] !font-medium">
           /
           {formatAmount(
-            (saleAccountInfo?.tokensForSale || 0) *
-              (saleAccountInfo?.firstRoundPrice || 0)
+            (solSaleAccountInfo?.tokensForSale || 0) *
+              (solSaleAccountInfo?.firstRoundPrice || 0)
           )}
         </span>
       </div>
@@ -80,7 +80,7 @@ const TokenSold = ({ saleAccountInfo }: Props) => {
             alt="token"
           />
           <span className="!text-lg !leading-[28px] text-[#FF9A0D] !font-bold">
-            1 $UN = ${saleAccountInfo?.firstRoundPrice || 0}
+            1 $UN = ${solSaleAccountInfo?.firstRoundPrice || 0}
           </span>
         </div>
         <div>
@@ -88,7 +88,7 @@ const TokenSold = ({ saleAccountInfo }: Props) => {
             Next Price:
           </span>
           <span className="!text-sm !font-bold !ml-1">
-            ${saleAccountInfo?.secondRoundPrice || 0}
+            ${solSaleAccountInfo?.secondRoundPrice || 0}
           </span>
         </div>
       </div>

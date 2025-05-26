@@ -1,57 +1,127 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Flex, Image, Input, Text } from "@chakra-ui/react";
 import { paymentMethods } from "../../constants/home";
 import { useContext, useMemo, useState } from "react";
 import { ConnectWalletContext } from "../../contexts/connect-wallet-context";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useUnichProgram } from "@/hooks/use-program";
-import { Transaction } from "@solana/web3.js";
+import {
+  clusterApiUrl,
+  Connection,
+  PublicKey,
+  Transaction,
+} from "@solana/web3.js";
 import { useAnchorProvider } from "@/hooks/use-anchor-provider";
-import { baseNumbTokenValue } from "@/constants/contract";
+import { baseNumbSolValue, baseNumbTokenValue } from "@/constants/contract";
 import { BN } from "@coral-xyz/anchor";
-import type { SaleAccountInfoType } from "@/types/home";
-import { formatAmount } from "@/utils";
-import SaleWithoutConnectWallet from "./sale-connect";
+import { formatAmount, getNumberFixed } from "@/utils";
+import { toaster } from "../ui/toaster";
+import { PythSolanaReceiver } from "@pythnetwork/pyth-solana-receiver";
+import { feedIdSolana, feedIdUsdc, feedIdUsdt } from "@/constants/environment";
+import { network } from "../providers/solana-provider";
+import { useTokenStore } from "@/stores/token.store";
 
 interface Props {
-  saleAccountInfo: SaleAccountInfoType | null;
-  tokenBalanceSol: number;
-  tokenBalanceUsdc: number;
-  tokenBalanceUsdt: number;
+  fetchSaleAccount: () => Promise<void>;
 }
 
-const PublicSale = ({
-  saleAccountInfo,
-  tokenBalanceSol,
-  tokenBalanceUsdc,
-  tokenBalanceUsdt,
-}: Props) => {
-  const { connected, publicKey } = useWallet();
+const PublicSale = ({ fetchSaleAccount }: Props) => {
+  const { solSaleAccountInfo } = useTokenStore();
+  const { connected, publicKey, wallet } = useWallet();
   const [method, setMethod] = useState(paymentMethods[0]);
   const { setShowModal } = useContext(ConnectWalletContext);
   const [inputAmount, setInputAmount] = useState("");
   const program = useUnichProgram();
   const provider = useAnchorProvider();
   const [loadingPurchase, setLoadingPurchase] = useState(false);
+  const endpoint = clusterApiUrl(network);
+  const pythSolanaReceiver = new PythSolanaReceiver({
+    connection: new Connection(endpoint),
+    wallet: wallet as any,
+  });
+  const { tokensPrice, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt } =
+    useTokenStore();
+
+  const getPurchaseToken = async () => {
+    if (method.key === paymentMethods[0].key) {
+      const solUsdPriceFeedAccount = pythSolanaReceiver
+        .getPriceFeedAccountAddress(0, feedIdSolana)
+        .toBase58();
+      const solUsdPriceFeedAccountPubkey = new PublicKey(
+        solUsdPriceFeedAccount
+      );
+      return await program!.methods
+        .purchaseTokensWithSol(new BN(+inputAmount * baseNumbSolValue))
+        .accounts({
+          buyer: publicKey,
+          referrer: null,
+          referrerAccount: null,
+          priceUpdate: solUsdPriceFeedAccountPubkey,
+        })
+        .instruction();
+    }
+    if (method.key === paymentMethods[1].key) {
+      const usdcUsdPriceFeedAccount = pythSolanaReceiver
+        .getPriceFeedAccountAddress(0, feedIdUsdc)
+        .toBase58();
+      const usdcUsdPriceFeedAccountPubkey = new PublicKey(
+        usdcUsdPriceFeedAccount
+      );
+      return await program!.methods
+        .purchaseTokensWithUsdc(new BN(+inputAmount * baseNumbTokenValue))
+        .accounts({
+          buyer: publicKey,
+          referrer: null,
+          referrerAccount: null,
+          priceUpdate: usdcUsdPriceFeedAccountPubkey,
+        })
+        .instruction();
+    }
+    if (method.key === paymentMethods[2].key) {
+      const usdtUsdPriceFeedAccount = pythSolanaReceiver
+        .getPriceFeedAccountAddress(0, feedIdUsdt)
+        .toBase58();
+      const usdtUsdPriceFeedAccountPubkey = new PublicKey(
+        usdtUsdPriceFeedAccount
+      );
+      return await program!.methods
+        .purchaseTokensWithUsdt(new BN(+inputAmount * baseNumbTokenValue))
+        .accounts({
+          buyer: publicKey,
+          referrer: null,
+          referrerAccount: null,
+          priceUpdate: usdtUsdPriceFeedAccountPubkey,
+        })
+        .instruction();
+    }
+  };
 
   const handleBuyUn = async () => {
     if (!inputAmount || !publicKey || errorMessage) return;
     try {
       setLoadingPurchase(true);
       const transaction = new Transaction();
-      const purchaseIx = await program!.methods
-        .purchaseTokensWithUsdc(new BN(+inputAmount * baseNumbTokenValue))
-        .accounts({
-          buyer: publicKey,
-          referrer: null,
-          referrerAccount: null,
-        })
-        .instruction();
+      const purchaseIx = await getPurchaseToken();
       transaction.add(purchaseIx);
       await provider!.sendAndConfirm(transaction, []);
-    } catch (error) {
-      console.error("Error during purchase:", error);
+      toaster.create({
+        title: "Transaction Successful!",
+        description: `You have successfully purchased ${formatAmount(
+          +inputAmount
+        )} ${method.title}. View your balance now!`,
+        type: "success",
+      });
+    } catch (error: any) {
+      console.error("Error during purchase:", error, error?.message);
+      toaster.create({
+        title: "Transaction Failed!",
+        description: error?.message || "Error",
+        type: "error",
+      });
     } finally {
       setLoadingPurchase(false);
+      fetchSaleAccount();
     }
   };
 
@@ -61,19 +131,13 @@ const PublicSale = ({
       setInputAmount("");
       return;
     }
-    const numberValue = Number(value);
-    if (isNaN(numberValue)) {
-      setInputAmount("");
-      return;
-    }
-    const numb = numberValue.toString();
-    if (numb.length > 30) return;
-    const idxDot = numb.indexOf(".");
+    if (value.length > 30) return;
+    const idxDot = value.indexOf(".");
     if (idxDot !== -1) {
-      const decimalPart = numb.slice(idxDot + 1);
+      const decimalPart = value.slice(idxDot + 1);
       if (decimalPart.length > 4) return;
     }
-    setInputAmount(numb);
+    setInputAmount(value);
   };
 
   const balanceByMethod = useMemo(() => {
@@ -82,26 +146,41 @@ const PublicSale = ({
     if (method.key === paymentMethods[2].key) return tokenBalanceUsdt;
   }, [method.key, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt]);
 
+  const getPriceByMethod = () => {
+    if (method.key === paymentMethods[0].key) return tokensPrice?.sol || 0;
+    if (method.key === paymentMethods[1].key) return tokensPrice?.usdc || 0;
+    if (method.key === paymentMethods[2].key) return tokensPrice?.usdt || 0;
+    return 0;
+  };
+
   const errorMessage = useMemo(() => {
     if (!inputAmount) return "";
+    const priceByMethod = getPriceByMethod();
+    const inputUsdAmount = +inputAmount * priceByMethod;
+    const minToken =
+      +(solSaleAccountInfo?.minUsdAmount || 0) / (priceByMethod || 1);
+    const maxToken =
+      +(solSaleAccountInfo?.maxUsdAmount || 0) / (priceByMethod || 1);
     if (
-      +inputAmount < +(saleAccountInfo?.minUsdAmount || 0) ||
-      +inputAmount > +(saleAccountInfo?.maxUsdAmount || 0)
+      +inputUsdAmount < +(solSaleAccountInfo?.minUsdAmount || 0) ||
+      +inputUsdAmount > +(solSaleAccountInfo?.maxUsdAmount || 0)
     )
       return `Please enter a number between ${formatAmount(
-        saleAccountInfo?.minUsdAmount || 0
-      )} and ${formatAmount(saleAccountInfo?.maxUsdAmount || 0)}.`;
+        getNumberFixed(minToken)
+      )} ${method?.key?.toUpperCase()} and ${formatAmount(
+        getNumberFixed(maxToken)
+      )} ${method?.key?.toUpperCase()}.`;
     return "";
-  }, [inputAmount, saleAccountInfo]);
+  }, [inputAmount, solSaleAccountInfo]);
 
   const receiveToken = useMemo(() => {
     if (!inputAmount) return "0";
-    return +inputAmount / (saleAccountInfo?.firstRoundPrice || 1);
-  }, [inputAmount, saleAccountInfo?.firstRoundPrice]);
-
-  if (!connected) {
-    return <SaleWithoutConnectWallet />;
-  }
+    const priceByMethod = getPriceByMethod();
+    return getNumberFixed(
+      (+inputAmount * priceByMethod) /
+        (solSaleAccountInfo?.firstRoundPrice || 1)
+    );
+  }, [inputAmount, solSaleAccountInfo?.firstRoundPrice]);
 
   return (
     <Box>

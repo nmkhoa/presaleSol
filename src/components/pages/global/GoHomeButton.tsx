@@ -14,6 +14,7 @@ export default function GoHomeButton() {
       _hover={{
         filter: "brightness(1.15)",
       }}
+      border={"none"}
       onClick={() => navigate("/")}
     >
       <chakra.img src={ArrowLeft} alt="arrow left" w="25px" h="25px" />

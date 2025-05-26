@@ -6,22 +6,30 @@ import { ROUTES } from "./constants/router";
 import { Provider } from "./components/ui/provider";
 import { SolanaProvider } from "./components/providers/solana-provider";
 import { ConnectWalletProvider } from "./contexts/connect-wallet-context";
+import ReactQueryProvider from "./components/providers/react-query-provider";
+import AuthProvider from "./components/providers/auth-provider";
+import { Toaster } from "./components/ui/toaster";
 
 function App() {
   return (
-    <Provider>
-      <SolanaProvider>
-        <ConnectWalletProvider>
-          <BrowserRouter>
-            <Routes>
-            <Route path={ROUTES.HOME} element={<Home />} />
-            <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
-            <Route path={ROUTES.REFERRAL} element={<Referral />} />
-            </Routes>
-          </BrowserRouter>
-        </ConnectWalletProvider>
-      </SolanaProvider>
-    </Provider>
+    <ReactQueryProvider>
+      <Provider>
+        <SolanaProvider>
+          <ConnectWalletProvider>
+            <AuthProvider>
+              <BrowserRouter>
+                <Routes>
+                  <Route path={ROUTES.HOME} element={<Home />} />
+                  <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
+                  <Route path={ROUTES.REFERRAL} element={<Referral />} />
+                </Routes>
+              </BrowserRouter>
+              <Toaster />
+            </AuthProvider>
+          </ConnectWalletProvider>
+        </SolanaProvider>
+      </Provider>
+    </ReactQueryProvider>
   );
 }
 

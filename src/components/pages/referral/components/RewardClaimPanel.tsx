@@ -8,6 +8,7 @@ import {
   Box,
   Button,
   Image,
+  Spacer,
 } from "@chakra-ui/react";
 import { useState } from "react";
 
@@ -32,7 +33,7 @@ export default function RewardClaimPanel() {
   // const selectedValue = selectedKey ? valueMap.get(selectedKey) : null;
   return (
     <Box
-      bg="linear-gradient(152.22deg,#14161B 38.95%,#15161C 96.26%)"
+      background={"linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"}
       w="full"
       h="full"
       borderRadius="12px"
@@ -84,6 +85,7 @@ export default function RewardClaimPanel() {
           <Stack direction="column" gap="12px">
             {items.map((item, index) => (
               <RadioCard.Item
+                cursor={"pointer"}
                 key={index}
                 value={item.key}
                 border="1px solid transparent"
@@ -127,10 +129,10 @@ export default function RewardClaimPanel() {
             ))}
           </Stack>
         </RadioCard.Root>
-
+        <Spacer />
         {/* Claim Button */}
         <Button
-          mt="67px"
+          w="full"
           h="58px"
           border="1px solid transparent"
           borderRadius="8px"

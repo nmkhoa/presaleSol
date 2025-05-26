@@ -23,3 +23,9 @@ export type SaleAccountInfoType = {
   tokensSold: number;
   whitelistDiscount: number;
 };
+
+export type TokenPriceType = {
+  sol: number;
+  usdc: number;
+  usdt: number;
+};

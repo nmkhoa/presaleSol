@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { Box, Flex, Image } from "@chakra-ui/react";
 import Header from "../global/header";
 import TokenSold from "../../home/token-sold";
@@ -8,37 +9,66 @@ import PublicSale from "../../home/public-sale";
 import Whitelist from "../../home/whitelist";
 import InviteAndEarn from "../../home/invite-earn";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { PublicKey } from "@solana/web3.js";
+import { clusterApiUrl, Connection, PublicKey } from "@solana/web3.js";
 import { useUnichProgram } from "@/hooks/use-program";
 import {
   baseNumbSolValue,
   baseNumbTokenValue,
   baseNumbUsdValue,
+  productPriceKey,
   SALE_ACCOUNT_SEED,
   USER_ACCOUNT_SEED,
 } from "@/constants/contract";
-import type { SaleAccountInfoType, UserAccountInfoType } from "@/types/home";
 import { navKey, paymentMethods } from "@/constants/home";
 import { getAccount, getAssociatedTokenAddress } from "@solana/spl-token";
+import SaleWithoutConnectWallet from "@/components/home/sale-connect";
+import {
+  getPythProgramKeyForCluster,
+  PythHttpClient,
+} from "@pythnetwork/client";
+import { network } from "@/components/providers/solana-provider";
+import { useTokenStore } from "@/stores/token.store";
 
 const HeroSection = () => {
   const [tab, setTab] = useState(0);
-  const { wallet, publicKey } = useWallet();
-  const [userAccountInfo, setUserAccountInfo] =
-    useState<UserAccountInfoType | null>(null);
-  const [saleAccountInfo, setSaleAccountInfo] =
-    useState<SaleAccountInfoType | null>(null);
+  const { wallet, publicKey, connected } = useWallet();
+  const { setSolUserAccountInfo, setSolSaleAccountInfo } = useTokenStore();
   const program = useUnichProgram();
-  const [tokenBalanceSol, setTokenBalanceSol] = useState(0);
-  const [tokenBalanceUsdc, setTokenBalanceUsdc] = useState(0);
-  const [tokenBalanceUsdt, setTokenBalanceUsdt] = useState(0);
   const { connection } = useConnection();
+  const endpoint = clusterApiUrl(network);
+  const connectionSol = new Connection(endpoint);
+  const client = new PythHttpClient(
+    connectionSol,
+    getPythProgramKeyForCluster("devnet")
+  );
+  const {
+    setTokensPrice,
+    setTokenBalanceSol,
+    setTokenBalanceUsdc,
+    setTokenBalanceUsdt,
+  } = useTokenStore();
+
+  const getPriceData = useCallback(async () => {
+    const data = await client.getData();
+    const priceSolInfo = data.productPrice.get(productPriceKey.sol);
+    const priceUsdcInfo = data.productPrice.get(productPriceKey.usdc);
+    const priceUsdtInfo = data.productPrice.get(productPriceKey.usdt);
+    setTokensPrice({
+      sol: priceSolInfo?.price || priceSolInfo?.aggregate?.price || 0,
+      usdc: priceUsdcInfo?.price || priceUsdcInfo?.aggregate?.price || 0,
+      usdt: priceUsdtInfo?.price || priceUsdtInfo?.aggregate?.price || 0,
+    });
+  }, []);
+
+  useEffect(() => {
+    getPriceData();
+  }, []);
 
   const getBalance = useCallback(
     async (
       token: string,
       baseNumb: number,
-      callBack: React.Dispatch<React.SetStateAction<number>>
+      callBack: (value: number) => void
     ) => {
       if (!publicKey || !token) return;
       const ata = await getAssociatedTokenAddress(
@@ -52,8 +82,14 @@ const HeroSection = () => {
     [connection, publicKey]
   );
 
+  const fetchBalance = async () => {
+    if (!publicKey) return;
+    const lamports = await connection.getBalance(publicKey);
+    setTokenBalanceSol(lamports / baseNumbSolValue);
+  };
+
   useEffect(() => {
-    getBalance(paymentMethods[0].token, baseNumbSolValue, setTokenBalanceSol);
+    fetchBalance();
     getBalance(paymentMethods[1].token, baseNumbUsdValue, setTokenBalanceUsdc);
     getBalance(paymentMethods[2].token, baseNumbUsdValue, setTokenBalanceUsdt);
   }, [publicKey, connection, getBalance]);
@@ -66,7 +102,7 @@ const HeroSection = () => {
         program.programId
       );
       const accountData = await program.account.userAccount.fetch(account);
-      setUserAccountInfo({
+      setSolUserAccountInfo({
         publicTokensPurchased:
           accountData.publicTokensPurchased.toString() / baseNumbTokenValue,
         referrer: accountData.referrer.toString(),
@@ -94,7 +130,7 @@ const HeroSection = () => {
       const saleAccountData = await program.account.saleAccount.fetch(
         saleAccount
       );
-      setSaleAccountInfo({
+      setSolSaleAccountInfo({
         currentRound: saleAccountData.currentRound,
         denominator: saleAccountData.denominator.toString(),
         endTime: +saleAccountData.endTime.toString(),
@@ -116,7 +152,6 @@ const HeroSection = () => {
       console.error("Error fetch userAccount:", err);
     }
   }, [program, publicKey, wallet]);
-  console.log("saleAccountInfo", saleAccountInfo, userAccountInfo);
 
   useEffect(() => {
     fetchSaleAccount();
@@ -160,7 +195,7 @@ const HeroSection = () => {
               "linear-gradient(152.22deg, #14161B 38.95%, #15161C 96.26%)"
             }
           >
-            <TokenSold saleAccountInfo={saleAccountInfo} />
+            <TokenSold />
           </Box>
           <Box
             w={"419px"}
@@ -194,17 +229,14 @@ const HeroSection = () => {
                 Whitelist
               </button>
             </Box>
-            <div>
-              {!tab && (
-                <PublicSale
-                  saleAccountInfo={saleAccountInfo}
-                  tokenBalanceSol={tokenBalanceSol}
-                  tokenBalanceUsdc={tokenBalanceUsdc}
-                  tokenBalanceUsdt={tokenBalanceUsdt}
-                />
-              )}
-              {!!tab && <Whitelist />}
-            </div>
+            {connected ? (
+              <div>
+                {!tab && <PublicSale fetchSaleAccount={fetchSaleAccount} />}
+                {!!tab && <Whitelist />}
+              </div>
+            ) : (
+              <SaleWithoutConnectWallet />
+            )}
           </Box>
         </Flex>
         <Box

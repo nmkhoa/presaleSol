@@ -6,3 +6,9 @@ export const USER_ACCOUNT_SEED = "USER_ACCOUNT_SEED";
 export const baseNumbTokenValue = 10 ** 6;
 export const baseNumbSolValue = 10 ** 9;
 export const baseNumbUsdValue = 10 ** 6;
+
+export const productPriceKey = {
+  sol: "Crypto.SOL/USD",
+  usdc: "Crypto.USDC/USD",
+  usdt: "Crypto.USDT/USD",
+};

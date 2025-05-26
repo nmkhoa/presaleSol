@@ -9,7 +9,7 @@ const ReferralSummaryPanel = () => {
         <RewardClaimPanel />
       </Box>
 
-      <Box flex="2 1 65%">
+      <Box flex="1 1 75%">
         <ReferralInfoPanel />
       </Box>
     </Flex>

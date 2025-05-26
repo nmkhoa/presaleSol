@@ -2,17 +2,10 @@ import { Box, Flex, Image, Input, Text } from "@chakra-ui/react";
 import { paymentMethods } from "../../constants/home";
 import { useContext, useState } from "react";
 import { ConnectWalletContext } from "../../contexts/connect-wallet-context";
-import { useWallet } from "@solana/wallet-adapter-react";
-import SaleWithoutConnectWallet from "./sale-connect";
 
 const Whitelist = () => {
-  const { connected } = useWallet();
   const [method, setMethod] = useState(paymentMethods[0]);
   const { setShowModal } = useContext(ConnectWalletContext);
-
-  if (!connected) {
-    return <SaleWithoutConnectWallet />;
-  }
 
   return (
     <Box>

@@ -1,4 +1,4 @@
-import { Flex, Heading } from "@chakra-ui/react";
+import { Flex, Heading, Image } from "@chakra-ui/react";
 
 import ConnectWalletButton from "../../wallet-custom/connect-wallet-button";
 
@@ -10,7 +10,7 @@ const ReferralHeader = () => {
       justifyContent={"space-between"}
       alignItems={"center"}
     >
-      <img src="/logo.svg" className="w-[140px] h-[35px]" alt="logo" />
+      <Image w={"140px"} h={"35px"} src="/images/logo.svg" alt="logo" />
       <Heading
         as="h1"
         fontSize="48px"

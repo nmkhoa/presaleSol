@@ -1,6 +1,25 @@
-import { Box, Button, Flex, Grid, Image, Input, Text } from "@chakra-ui/react";
+import { ROUTES } from "@/constants/router";
+import { ConnectWalletContext } from "@/contexts/connect-wallet-context";
+import { useAuthStore } from "@/stores/auth.store";
+import {
+  Box,
+  Button,
+  Clipboard,
+  Flex,
+  Grid,
+  Image,
+  Input,
+  Text,
+} from "@chakra-ui/react";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 const InviteAndEarn = () => {
+  const { connected } = useWallet();
+  const { user } = useAuthStore();
+  const { setShowModal } = useContext(ConnectWalletContext);
+
   return (
     <Box>
       <Flex
@@ -32,11 +51,42 @@ const InviteAndEarn = () => {
               background={"rgba(0, 0, 0, 0.95)"}
               color={"#FFEED6"}
               borderRadius={"8px"}
+              disabled
+              opacity={1}
+              value={user?.affiliateCode || ""}
               placeholder="Connect wallet to see your code"
             />
-            <Button h={"58px"} fontWeight={700} borderRadius={"8px"}>
-              Connect wallet
-            </Button>
+            {connected ? (
+              <Clipboard.Root
+                value={user ? `unich.com/${user?.affiliateCode}` : ""}
+                timeout={1000}
+              >
+                <Clipboard.Trigger asChild>
+                  <Button
+                    w={"80px"}
+                    h={"58px"}
+                    p={"12px"}
+                    background="#FFFFFF"
+                    rounded={"8px"}
+                    color={"#1A1001"}
+                    fontWeight={700}
+                    fontSize={"14px"}
+                    _hover={{ filter: "brightness(1.3)" }}
+                  >
+                    <Clipboard.CopyText />
+                  </Button>
+                </Clipboard.Trigger>
+              </Clipboard.Root>
+            ) : (
+              <Button
+                h={"58px"}
+                fontWeight={700}
+                borderRadius={"8px"}
+                onClick={() => setShowModal(true)}
+              >
+                Connect wallet
+              </Button>
+            )}
           </Flex>
         </Box>
         <Box
@@ -99,98 +149,100 @@ const InviteAndEarn = () => {
                 $-.--
               </Text>
             </Box>
-            <button className="btn-gradient-secondary">
+            <Link to={ROUTES.REFERRAL} className="btn-gradient-secondary">
               <div>Go to dashboard</div>
-            </button>
+            </Link>
           </Box>
         </Box>
       </Flex>
-      <Box
-        maxW={"1240px"}
-        mx={"auto"}
-        mt={"20px"}
-        p={"20px"}
-        background={
-          "linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"
-        }
-        borderRadius={"12px"}
-      >
-        <Text fontSize={"24px"} fontWeight={700} lineHeight={"28px"}>
-          Transaction History
-        </Text>
-        <Box h={"1px"} mt={"24px"} background={"white"} opacity={"0.1"} />
-        <Box>
-          <Box py={"24px"} className="grid grid-cols-6">
-            <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
-              Tx Hash
-            </Text>
-            <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
-              Amount
-            </Text>
-            <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
-              Currrency
-            </Text>
-            <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
-              Price
-            </Text>
-            <Text
-              className="col-span-2"
-              px={"16px"}
-              fontWeight={500}
-              color={"#6E758A"}
-              textAlign={"right"}
-            >
-              Time
-            </Text>
+      {connected && (
+        <Box
+          maxW={"1240px"}
+          mx={"auto"}
+          mt={"20px"}
+          p={"20px"}
+          background={
+            "linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"
+          }
+          borderRadius={"12px"}
+        >
+          <Text fontSize={"24px"} fontWeight={700} lineHeight={"28px"}>
+            Transaction History
+          </Text>
+          <Box h={"1px"} mt={"24px"} background={"white"} opacity={"0.1"} />
+          <Box>
+            <Box py={"24px"} className="grid grid-cols-6">
+              <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
+                Tx Hash
+              </Text>
+              <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
+                Amount
+              </Text>
+              <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
+                Currrency
+              </Text>
+              <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
+                Price
+              </Text>
+              <Text
+                className="col-span-2"
+                px={"16px"}
+                fontWeight={500}
+                color={"#6E758A"}
+                textAlign={"right"}
+              >
+                Time
+              </Text>
+            </Box>
+            <Grid gap={"8px"}>
+              {[...Array(5)].map((_, index) => {
+                return (
+                  <Box
+                    key={index}
+                    py={"18px"}
+                    background={"#15171F"}
+                    borderRadius={"8px"}
+                    className="grid grid-cols-6"
+                  >
+                    <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
+                      d28zsa38s
+                    </Text>
+                    <Flex
+                      gap={"2px"}
+                      px={"16px"}
+                      fontWeight={500}
+                      color={"#C7CCD9"}
+                    >
+                      <Image
+                        src="/images/token.svg"
+                        w={"20px"}
+                        h={"20px"}
+                        alt="token"
+                      />
+                      503.24
+                    </Flex>
+                    <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
+                      USDC
+                    </Text>
+                    <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
+                      $0.05
+                    </Text>
+                    <Text
+                      className="col-span-2"
+                      px={"16px"}
+                      fontWeight={500}
+                      color={"#C7CCD9"}
+                      textAlign={"right"}
+                    >
+                      2h ago
+                    </Text>
+                  </Box>
+                );
+              })}
+            </Grid>
           </Box>
-          <Grid gap={"8px"}>
-            {[...Array(5)].map((_, index) => {
-              return (
-                <Box
-                  key={index}
-                  py={"18px"}
-                  background={"#15171F"}
-                  borderRadius={"8px"}
-                  className="grid grid-cols-6"
-                >
-                  <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
-                    d28zsa38s
-                  </Text>
-                  <Flex
-                    gap={"2px"}
-                    px={"16px"}
-                    fontWeight={500}
-                    color={"#C7CCD9"}
-                  >
-                    <Image
-                      src="/images/token.svg"
-                      w={"20px"}
-                      h={"20px"}
-                      alt="token"
-                    />
-                    503.24
-                  </Flex>
-                  <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
-                    USDC
-                  </Text>
-                  <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
-                    $0.05
-                  </Text>
-                  <Text
-                    className="col-span-2"
-                    px={"16px"}
-                    fontWeight={500}
-                    color={"#C7CCD9"}
-                    textAlign={"right"}
-                  >
-                    2h ago
-                  </Text>
-                </Box>
-              );
-            })}
-          </Grid>
         </Box>
-      </Box>
+      )}
     </Box>
   );
 };
