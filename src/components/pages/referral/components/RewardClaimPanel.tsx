@@ -202,7 +202,7 @@ export default function RewardClaimPanel() {
                     </HStack>
                     <Box textAlign="right">
                       <Text fontWeight="bold" fontSize="16px" color="white">
-                        {formatAmount(getNumberFixed(item.value, 2))}
+                        {formatAmount(getNumberFixed(item.value, 4))}
                       </Text>
                       <Text
                         fontWeight="medium"

@@ -7,10 +7,9 @@ export function useAnchorProvider() {
   const wallet = useAnchorWallet();
   const { connection } = useConnection();
   return useMemo(() => {
-    if (!wallet) return undefined;
     const anchorProvider = new AnchorProvider(
       connection as any,
-      wallet as any,
+      wallet as any || {},
       {
         commitment: "confirmed",
       }

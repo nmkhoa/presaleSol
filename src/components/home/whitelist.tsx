@@ -30,9 +30,10 @@ import { useNftStore } from "@/stores/whitelist.store";
 
 interface Props {
   fetchSaleAccount: () => Promise<void>;
+  fetchUserAccount: () => Promise<void>;
 }
 
-const Whitelist = ({ fetchSaleAccount }: Props) => {
+const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
   const { nft } = useNftStore();
   const [method, setMethod] = useState(paymentMethods[0]);
   const { setShowModal } = useContext(ConnectWalletContext);
@@ -120,6 +121,7 @@ const Whitelist = ({ fetchSaleAccount }: Props) => {
     } finally {
       setLoadingPurchase(false);
       fetchSaleAccount();
+      fetchUserAccount();
     }
   };
 

@@ -11,10 +11,7 @@ import Whitelist from "../../home/whitelist";
 import InviteAndEarn from "../../home/invite-earn";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
-import {
-  useUnichProgram,
-  useUnichProgramWithoutConnect,
-} from "@/hooks/use-program";
+import { useUnichProgram } from "@/hooks/use-program";
 import {
   baseNumbSolValue,
   baseNumbUsdValue,
@@ -34,7 +31,6 @@ const HeroSection = () => {
   const { wallet, publicKey, connected } = useWallet();
   const { setSolUserAccountInfo, setSolSaleAccountInfo } = useTokenStore();
   const program = useUnichProgram();
-  const programPublic = useUnichProgramWithoutConnect();
   const { connection } = useConnection();
   const {
     setTokensPrice,
@@ -86,8 +82,10 @@ const HeroSection = () => {
   }, [publicKey, connection]);
 
   useEffect(() => {
-    getPriceData();
-  }, []);
+    if (publicKey) {
+      getPriceData();
+    }
+  }, [publicKey]);
 
   const getBalance = useCallback(
     async (
@@ -145,18 +143,21 @@ const HeroSection = () => {
   const fetchSaleAccount = useCallback(async () => {
     try {
       await getSolSaleAccount({
-        program: programPublic,
+        program: program,
         callBack: setSolSaleAccountInfo,
       });
     } catch (err) {
       console.error("Error fetch userAccount:", err);
     }
-  }, [programPublic, publicKey, wallet]);
+  }, [program]);
 
   useEffect(() => {
     fetchSaleAccount();
+  }, [wallet]);
+
+  useEffect(() => {
     fetchUserAccount();
-  }, [wallet, publicKey, program, fetchSaleAccount, fetchUserAccount]);
+  }, [wallet, publicKey]);
 
   return (
     <div id={navKey.buy} className="relative">
@@ -237,7 +238,12 @@ const HeroSection = () => {
                     fetchUserAccount={fetchUserAccount}
                   />
                 )}
-                {!!tab && <Whitelist fetchSaleAccount={fetchSaleAccount} />}
+                {!!tab && (
+                  <Whitelist
+                    fetchSaleAccount={fetchSaleAccount}
+                    fetchUserAccount={fetchUserAccount}
+                  />
+                )}
               </div>
             ) : (
               <SaleWithoutConnectWallet />
