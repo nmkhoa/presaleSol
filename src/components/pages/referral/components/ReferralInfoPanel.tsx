@@ -16,7 +16,7 @@ export default function ReferralInfoPanel() {
   const { user } = useAuthStore();
 
   return (
-    <Box w={"full"} h={"full"}>
+    <Box w={"full"} h={"full"} minH={"720px"}>
       <Stack gap={"12px"}>
         <Box
           w={"full"}
@@ -52,13 +52,15 @@ export default function ReferralInfoPanel() {
                     alignItems="center"
                   >
                     <Text fontSize={"12px"} color={"#FFEED6"} fontWeight={500}>
-                      {user
-                        ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}`
-                        : ""}
+                      {user ? `${user.affiliateCode}` : ""}
                     </Text>
                   </Box>
                   <Clipboard.Root
-                    value={user ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}` : ""}
+                    value={
+                      user
+                        ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}`
+                        : ""
+                    }
                     timeout={1000}
                   >
                     <Clipboard.Trigger asChild>
@@ -86,12 +88,12 @@ export default function ReferralInfoPanel() {
             "linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"
           }
           w="full"
-          h="full"
+          h="600px"
           borderRadius="12px"
           color="white"
-          p="20px"
+          py={"20px"}
         >
-          <Stack gap={"18px"}>
+          <Stack gap={"18px"} px={"20px"}>
             <Text fontWeight={700} fontSize={"18px"} color={"#FFFFFF"}>
               Your wallet for claiming rewards
             </Text>
@@ -112,15 +114,15 @@ export default function ReferralInfoPanel() {
               </HStack>
             </Box>
           </Stack>
-          <Box maxW={"1240px"} mx={"auto"} mt={"24px"}>
-            <HStack>
+          <Box maxW={"1240px"} mx={"auto"} mt={"24px"}  >
+            <HStack px={"20px"}>
               <Image src="/images/hand.svg" w={"36px"} h={"36px"} />
               <Text fontSize={"24px"} fontWeight={700} lineHeight={"24px"}>
                 My Referral
               </Text>
             </HStack>
-            <Box>
-              <Box py={"24px"} className="grid grid-cols-3">
+            <Box pl={"20px"} pr={"3px"}>
+              <Box py={"24px"} className="grid grid-cols-3" pr={"17px"}>
                 <Text
                   px={"16px"}
                   fontWeight={500}
@@ -148,8 +150,13 @@ export default function ReferralInfoPanel() {
                   Time
                 </Text>
               </Box>
-              <Grid gap={"8px"}>
-                {[...Array(5)].map((_, index) => {
+              <Grid
+                gap={"8px"}
+                maxH={"340px"}
+                overflowY="auto"
+                className="custom-scrollbar"
+              >
+                {[...Array(10)].map((_, index) => {
                   return (
                     <Box
                       key={index}

@@ -1,10 +1,17 @@
 export type UserAccountInfoType = {
   publicTokensPurchased: number;
   referrer: string;
+  solRefClaimed: number;
+  solRefEarned: number;
   solSpent: number;
+  tokenRefEarned: number;
   tokensPurchased: number;
   usdSpent: number;
+  usdcRefClaimed: number;
+  usdcRefEarned: number;
   usdcSpent: number;
+  usdtRefClaimed: number;
+  usdtRefEarned: number;
   usdtSpent: number;
   whitelistTokensPurchased: number;
 };

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { networkKey } from "@/constants/environment";
+
 /* eslint-disable no-unsafe-optional-chaining */
 export const getAddressFormat = (address: string | undefined, end?: number) => {
   if (!address) return "";
@@ -28,4 +31,41 @@ export function getNumberFixed(number: number, fix?: number) {
   if (!number) return 0;
   if (!hasDecimalPart(number)) return number;
   return +number.toFixed(fix ? fix : 4);
+}
+
+export function getTxHashLink(txHash: string) {
+  const link = `https://solscan.io/tx/${txHash}`;
+  return networkKey === "devnet" ? link + `?cluster=devnet` : link;
+}
+
+export function getErrorToast(error: any, token?: string) {
+  if (
+    error?.code === 4001 ||
+    error?.message?.includes("User rejected the request")
+  ) {
+    return {
+      type: "warning",
+      title: "Transaction Failed!",
+      message:
+        "The transaction was not completed because wallet approval was declined.",
+    };
+  } else if (
+    error?.message?.includes("insufficient funds") ||
+    error?.message?.includes("does not have enough balance") ||
+    error?.message?.includes("InsufficientBalance")
+  ) {
+    return {
+      type: "warning",
+      title: "Transaction Failed!",
+      message: `Insufficient ${
+        token?.toUpperCase() || "SOL"
+      } balance in your wallet! Please deposit more funds and try again.`,
+    };
+  } else {
+    return {
+      type: "error",
+      title: "Unexpected Error!",
+      message: "Something went wrong. Please try again.",
+    };
+  }
 }

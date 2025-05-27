@@ -1,11 +1,189 @@
-import { Box, Flex, Image, Input, Text } from "@chakra-ui/react";
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Box, Button, Flex, Image, Input, Text } from "@chakra-ui/react";
 import { paymentMethods } from "../../constants/home";
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { ConnectWalletContext } from "../../contexts/connect-wallet-context";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useUnichProgram } from "@/hooks/use-program";
+import {
+  clusterApiUrl,
+  Connection,
+  PublicKey,
+  Transaction,
+} from "@solana/web3.js";
+import { useAnchorProvider } from "@/hooks/use-anchor-provider";
+import { baseNumbSolValue, baseNumbTokenValue } from "@/constants/contract";
+import { BN } from "@coral-xyz/anchor";
+import { formatAmount, getErrorToast, getNumberFixed, getTxHashLink } from "@/utils";
+import { toaster } from "../ui/toaster";
+import { PythSolanaReceiver } from "@pythnetwork/pyth-solana-receiver";
+import { feedIdSolana } from "@/constants/environment";
+import { network } from "../providers/solana-provider";
+import { useTokenStore } from "@/stores/token.store";
+import { useNftStore } from "@/stores/whitelist.store";
 
-const Whitelist = () => {
+interface Props {
+  fetchSaleAccount: () => Promise<void>;
+}
+
+const Whitelist = ({ fetchSaleAccount }: Props) => {
+  const { nft } = useNftStore();
   const [method, setMethod] = useState(paymentMethods[0]);
   const { setShowModal } = useContext(ConnectWalletContext);
+  const { solSaleAccountInfo } = useTokenStore();
+  const { connected, publicKey, wallet } = useWallet();
+  const [inputAmount, setInputAmount] = useState("");
+  const program = useUnichProgram();
+  const provider = useAnchorProvider();
+  const [loadingPurchase, setLoadingPurchase] = useState(false);
+  const endpoint = clusterApiUrl(network);
+  const pythSolanaReceiver = new PythSolanaReceiver({
+    connection: new Connection(endpoint),
+    wallet: wallet as any,
+  });
+  const { tokensPrice, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt } =
+    useTokenStore();
+
+  const getPurchaseToken = async () => {
+    if (method.key === paymentMethods[0].key) {
+      const solUsdPriceFeedAccount = pythSolanaReceiver
+        .getPriceFeedAccountAddress(0, feedIdSolana)
+        .toBase58();
+      const solUsdPriceFeedAccountPubkey = new PublicKey(
+        solUsdPriceFeedAccount
+      );
+      return await program!.methods
+        .purchaseTokensWithSolWhitelist(new BN(+inputAmount * baseNumbSolValue))
+        .accounts({
+          buyer: publicKey,
+          priceUpdate: solUsdPriceFeedAccountPubkey,
+        })
+        .instruction();
+    }
+    if (method.key === paymentMethods[1].key) {
+      return await program!.methods
+        .purchaseTokensWithUsdcWhitelist(
+          new BN(+inputAmount * baseNumbTokenValue)
+        )
+        .accounts({
+          buyer: publicKey,
+          // priceUpdate: usdcUsdPriceFeedAccountPubkey,
+        })
+        .instruction();
+    }
+    if (method.key === paymentMethods[2].key) {
+      return await program!.methods
+        .purchaseTokensWithUsdtWhitelist(
+          new BN(+inputAmount * baseNumbTokenValue)
+        )
+        .accounts({
+          buyer: publicKey,
+          // priceUpdate: usdtUsdPriceFeedAccountPubkey,
+        })
+        .instruction();
+    }
+  };
+
+  const handleBuyUn = async () => {
+    if (!inputAmount || !publicKey || errorMessage) return;
+    try {
+      setLoadingPurchase(true);
+      const transaction = new Transaction();
+      const purchaseIx = await getPurchaseToken();
+      transaction.add(purchaseIx);
+      const txHash = await provider!.sendAndConfirm(transaction, []);
+      toaster.create({
+        title: "Transaction Successful!",
+        description: `You have successfully purchased ${formatAmount(
+          +inputAmount
+        )} ${method.title}. View your balance now!`,
+        type: "success",
+        meta: {
+          url: getTxHashLink(txHash),
+          urlTile: "View your balance",
+        },
+      });
+    } catch (error: any) {
+      console.error("Error during purchase:", error, error?.message);
+      const errorObj = getErrorToast(error);
+      toaster.create({
+        title: errorObj.title,
+        description: errorObj.message,
+        type: errorObj.type,
+      });
+    } finally {
+      setLoadingPurchase(false);
+      fetchSaleAccount();
+    }
+  };
+
+  const onHandleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value === "") {
+      setInputAmount("");
+      return;
+    }
+    if (value.length > 30) return;
+    const idxDot = value.indexOf(".");
+    if (idxDot !== -1) {
+      const decimalPart = value.slice(idxDot + 1);
+      if (decimalPart.length > 4) return;
+    }
+    setInputAmount(value);
+  };
+
+  const balanceByMethod = useMemo(() => {
+    if (method.key === paymentMethods[0].key) return tokenBalanceSol;
+    if (method.key === paymentMethods[1].key) return tokenBalanceUsdc;
+    if (method.key === paymentMethods[2].key) return tokenBalanceUsdt;
+  }, [method.key, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt]);
+
+  const getPriceByMethod = () => {
+    if (method.key === paymentMethods[0].key) return tokensPrice?.sol || 0;
+    if (method.key === paymentMethods[1].key) return tokensPrice?.usdc || 0;
+    if (method.key === paymentMethods[2].key) return tokensPrice?.usdt || 0;
+    return 0;
+  };
+
+  const errorMessage = useMemo(() => {
+    if (!inputAmount) return "";
+    const priceByMethod = getPriceByMethod();
+    const inputUsdAmount = +inputAmount * priceByMethod;
+    const minToken =
+      +(solSaleAccountInfo?.minUsdAmount || 0) / (priceByMethod || 1);
+    const maxToken =
+      +(solSaleAccountInfo?.maxUsdAmount || 0) / (priceByMethod || 1);
+    if (
+      +inputUsdAmount < +(solSaleAccountInfo?.minUsdAmount || 0) ||
+      +inputUsdAmount > +(solSaleAccountInfo?.maxUsdAmount || 0)
+    )
+      return `Please enter a number between ${formatAmount(
+        getNumberFixed(minToken)
+      )} ${method?.key?.toUpperCase()} and ${formatAmount(
+        getNumberFixed(maxToken)
+      )} ${method?.key?.toUpperCase()}.`;
+    return "";
+  }, [inputAmount, solSaleAccountInfo]);
+
+  const receiveToken = useMemo(() => {
+    if (!inputAmount) return "0";
+    const priceByMethod = getPriceByMethod();
+    return getNumberFixed(
+      (+inputAmount * priceByMethod) /
+        (solSaleAccountInfo?.firstRoundPrice || 1)
+    );
+  }, [inputAmount, solSaleAccountInfo?.firstRoundPrice]);
+
+  if (!nft) {
+    return (
+      <Box>
+        <Text mt={"84px"} textAlign={"center"} fontWeight={500} color={"white"}>
+          Special Unich NFT is required for whitelist purchase.
+        </Text>
+      </Box>
+    );
+  }
 
   return (
     <Box>
@@ -32,7 +210,10 @@ const Whitelist = () => {
               fontWeight={700}
               cursor={"pointer"}
               color={method.key === item.key ? "#FFAF40" : "#FFFFFF"}
-              onClick={() => setMethod(item)}
+              onClick={() => {
+                setMethod(item);
+                setInputAmount("");
+              }}
             >
               <img
                 src={item.icon}
@@ -71,6 +252,9 @@ const Whitelist = () => {
               lineHeight={"20px"}
               border={"none"}
               outline={"none"}
+              disabled={!balanceByMethod}
+              value={inputAmount}
+              onChange={onHandleInput}
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
             <Image
@@ -108,6 +292,7 @@ const Whitelist = () => {
               border={"none"}
               outline={"none"}
               disabled
+              value={receiveToken}
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
             <Image
@@ -120,14 +305,19 @@ const Whitelist = () => {
           </Flex>
         </Box>
       </Box>
+      <Text mt={"2px"} fontSize={"10px"} color={"red.400"}>
+        {errorMessage}
+      </Text>
       <Box
         className="btn-connect-wallet"
         height={"58px"}
         mt={"20px"}
         cursor={"pointer"}
-        onClick={() => setShowModal(true)}
+        onClick={() => (connected ? handleBuyUn() : setShowModal(true))}
       >
-        <div>Buy $UN Now</div>
+        <Button w={"100%"} height={"100%"} loading={loadingPurchase}>
+          {connected ? "Buy $UN Now" : "Connect wallet & Buy"}
+        </Button>
       </Box>
       <Text
         mt={"20px"}
@@ -136,7 +326,7 @@ const Whitelist = () => {
         textAlign={"center"}
         fontWeight={700}
       >
-        Get rewards of 25%
+        Get rewards of 11%
       </Text>
     </Box>
   );

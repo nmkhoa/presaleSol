@@ -178,3 +178,5 @@ export const footerSocialLinks = [
     link: "https://linktr.ee/unichfinance",
   },
 ];
+
+export const landingPageLink = "https://unich.com/en";

@@ -96,13 +96,14 @@ export default function AuthProvider({
     } catch (err) {
       console.error("Error signing message:", err);
       disconnect();
+      logout();
     } finally {
       setIsSigned(false);
     }
   };
   return (
     <>
-      {isSigned && <SignMessageModal />}
+      <SignMessageModal showModal={isSigned} />
       {children}
     </>
   );

@@ -1,6 +1,8 @@
 import { ROUTES } from "@/constants/router";
 import { ConnectWalletContext } from "@/contexts/connect-wallet-context";
 import { useAuthStore } from "@/stores/auth.store";
+import { useTokenStore } from "@/stores/token.store";
+import { formatAmount, getNumberFixed } from "@/utils";
 import {
   Box,
   Button,
@@ -12,13 +14,32 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { Link } from "react-router-dom";
+import { toaster } from "../ui/toaster";
 
 const InviteAndEarn = () => {
   const { connected } = useWallet();
-  const { user } = useAuthStore();
+  const { solUserAccountInfo, solSaleAccountInfo } = useTokenStore();
+  const { user, accessToken } = useAuthStore();
   const { setShowModal } = useContext(ConnectWalletContext);
+
+  const checkConnected = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!accessToken) {
+      e.preventDefault();
+      toaster.create({
+        description: "Please connect your wallet first!",
+        type: "warning",
+      });
+    }
+  };
+
+  const usdEarned = useMemo(() => {
+    if (!solUserAccountInfo || !solSaleAccountInfo) return 0;
+    const earned =
+      solUserAccountInfo.tokenRefEarned * solSaleAccountInfo.firstRoundPrice;
+    return getNumberFixed(earned);
+  }, [solSaleAccountInfo, solUserAccountInfo]);
 
   return (
     <Box>
@@ -53,12 +74,16 @@ const InviteAndEarn = () => {
               borderRadius={"8px"}
               disabled
               opacity={1}
-              value={user ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}` : ""}
+              value={user ? `${user.affiliateCode}` : ""}
               placeholder="Connect wallet to see your code"
             />
             {connected ? (
               <Clipboard.Root
-                value={user ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}` : ""}
+                value={
+                  user
+                    ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}`
+                    : ""
+                }
                 timeout={1000}
               >
                 <Clipboard.Trigger asChild>
@@ -114,7 +139,15 @@ const InviteAndEarn = () => {
                 alt="token"
               />
               <Text fontSize={"36px"} lineHeight={"42px"} fontWeight={700}>
-                -.--
+                {solUserAccountInfo
+                  ? formatAmount(
+                      getNumberFixed(
+                        solUserAccountInfo?.publicTokensPurchased +
+                          solUserAccountInfo?.whitelistTokensPurchased,
+                        2
+                      )
+                    )
+                  : "-.--"}
               </Text>
             </Flex>
           </Flex>
@@ -132,13 +165,17 @@ const InviteAndEarn = () => {
                   alt="token"
                 />
                 <Text fontSize={"24px"} fontWeight={700} lineHeight={"28px"}>
-                  -.--
+                  {solUserAccountInfo?.tokenRefEarned
+                    ? formatAmount(
+                        getNumberFixed(solUserAccountInfo?.tokenRefEarned, 2)
+                      )
+                    : "-.--"}
                 </Text>
               </Flex>
             </Box>
             <Box>
               <Text fontSize={"14px"} fontWeight={500} color={"#C7CCD9"}>
-                $UN Earned
+                USD Earned
               </Text>
               <Text
                 mt={"4px"}
@@ -146,10 +183,17 @@ const InviteAndEarn = () => {
                 fontWeight={700}
                 lineHeight={"28px"}
               >
-                $-.--
+                $
+                {usdEarned
+                  ? formatAmount(getNumberFixed(usdEarned, 2))
+                  : "-.--"}
               </Text>
             </Box>
-            <Link to={ROUTES.REFERRAL} className="btn-gradient-secondary">
+            <Link
+              to={ROUTES.REFERRAL}
+              onClick={checkConnected}
+              className="btn-gradient-secondary"
+            >
               <div>Go to dashboard</div>
             </Link>
           </Box>

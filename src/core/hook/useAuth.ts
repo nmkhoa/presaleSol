@@ -27,7 +27,7 @@ export const useLogin = () => {
     onError: (error) => {
       console.log("error", error);
       toaster.create({
-        description: "login failed",
+        description: "Login failed!",
         type: "error",
       });
     },
@@ -38,5 +38,12 @@ export const useGetNonce = () => {
   return useMutation<NonceResponse, AxiosError, NonceRequest>({
     mutationKey: ["useGetNonce"],
     mutationFn: getNonce,
+    onError: (error) => {
+      console.error("Error signing message:", error);
+      toaster.create({
+        description: "Oops! Server error occurred, please try again later.",
+        type: "error",
+      });
+    },
   });
 };

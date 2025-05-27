@@ -13,14 +13,24 @@ import {
   Transaction,
 } from "@solana/web3.js";
 import { useAnchorProvider } from "@/hooks/use-anchor-provider";
-import { baseNumbSolValue, baseNumbTokenValue } from "@/constants/contract";
+import {
+  baseNumbSolValue,
+  baseNumbTokenValue,
+  USER_ACCOUNT_SEED,
+} from "@/constants/contract";
 import { BN } from "@coral-xyz/anchor";
-import { formatAmount, getNumberFixed } from "@/utils";
+import {
+  formatAmount,
+  getErrorToast,
+  getNumberFixed,
+  getTxHashLink,
+} from "@/utils";
 import { toaster } from "../ui/toaster";
 import { PythSolanaReceiver } from "@pythnetwork/pyth-solana-receiver";
-import { feedIdSolana, feedIdUsdc, feedIdUsdt } from "@/constants/environment";
+import { feedIdSolana } from "@/constants/environment";
 import { network } from "../providers/solana-provider";
 import { useTokenStore } from "@/stores/token.store";
+import { useAuthStore } from "@/stores/auth.store";
 
 interface Props {
   fetchSaleAccount: () => Promise<void>;
@@ -40,10 +50,20 @@ const PublicSale = ({ fetchSaleAccount }: Props) => {
     connection: new Connection(endpoint),
     wallet: wallet as any,
   });
+  const { user } = useAuthStore();
   const { tokensPrice, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt } =
     useTokenStore();
 
   const getPurchaseToken = async () => {
+    const referrer = user?.referrer?.walletAddress;
+    let referralAccount = null;
+    if (referrer) {
+      const [referAccount] = PublicKey.findProgramAddressSync(
+        [Buffer.from(USER_ACCOUNT_SEED), new PublicKey(referrer).toBuffer()],
+        program!.programId
+      );
+      referralAccount = referAccount || null;
+    }
     if (method.key === paymentMethods[0].key) {
       const solUsdPriceFeedAccount = pythSolanaReceiver
         .getPriceFeedAccountAddress(0, feedIdSolana)
@@ -55,43 +75,29 @@ const PublicSale = ({ fetchSaleAccount }: Props) => {
         .purchaseTokensWithSol(new BN(+inputAmount * baseNumbSolValue))
         .accounts({
           buyer: publicKey,
-          referrer: null,
-          referrerAccount: null,
+          referrer: referrer ? new PublicKey(referrer) : null,
+          referrerAccount: referralAccount,
           priceUpdate: solUsdPriceFeedAccountPubkey,
         })
         .instruction();
     }
     if (method.key === paymentMethods[1].key) {
-      const usdcUsdPriceFeedAccount = pythSolanaReceiver
-        .getPriceFeedAccountAddress(0, feedIdUsdc)
-        .toBase58();
-      const usdcUsdPriceFeedAccountPubkey = new PublicKey(
-        usdcUsdPriceFeedAccount
-      );
       return await program!.methods
         .purchaseTokensWithUsdc(new BN(+inputAmount * baseNumbTokenValue))
         .accounts({
           buyer: publicKey,
-          referrer: null,
-          referrerAccount: null,
-          priceUpdate: usdcUsdPriceFeedAccountPubkey,
+          referrer: referrer ? new PublicKey(referrer) : null,
+          referrerAccount: referralAccount,
         })
         .instruction();
     }
     if (method.key === paymentMethods[2].key) {
-      const usdtUsdPriceFeedAccount = pythSolanaReceiver
-        .getPriceFeedAccountAddress(0, feedIdUsdt)
-        .toBase58();
-      const usdtUsdPriceFeedAccountPubkey = new PublicKey(
-        usdtUsdPriceFeedAccount
-      );
       return await program!.methods
         .purchaseTokensWithUsdt(new BN(+inputAmount * baseNumbTokenValue))
         .accounts({
           buyer: publicKey,
-          referrer: null,
-          referrerAccount: null,
-          priceUpdate: usdtUsdPriceFeedAccountPubkey,
+          referrer: referrer ? new PublicKey(referrer) : null,
+          referrerAccount: referralAccount,
         })
         .instruction();
     }
@@ -104,20 +110,25 @@ const PublicSale = ({ fetchSaleAccount }: Props) => {
       const transaction = new Transaction();
       const purchaseIx = await getPurchaseToken();
       transaction.add(purchaseIx);
-      await provider!.sendAndConfirm(transaction, []);
+      const txHash = await provider!.sendAndConfirm(transaction, []);
       toaster.create({
         title: "Transaction Successful!",
         description: `You have successfully purchased ${formatAmount(
           +inputAmount
         )} ${method.title}. View your balance now!`,
         type: "success",
+        meta: {
+          url: getTxHashLink(txHash),
+          urlTile: "View your balance",
+        },
       });
     } catch (error: any) {
       console.error("Error during purchase:", error, error?.message);
+      const errorObj = getErrorToast(error);
       toaster.create({
-        title: "Transaction Failed!",
-        description: error?.message || "Error",
-        type: "error",
+        title: errorObj.title,
+        description: errorObj.message,
+        type: errorObj.type,
       });
     } finally {
       setLoadingPurchase(false);

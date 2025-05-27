@@ -1,6 +1,6 @@
 import { Box, Text } from "@chakra-ui/react";
 import { socialLinks } from "../../constants/home";
-import { formatAmount } from "@/utils";
+import { formatAmount, getNumberFixed } from "@/utils";
 import { useMemo } from "react";
 import { useTokenStore } from "@/stores/token.store";
 
@@ -30,7 +30,8 @@ const TokenSold = () => {
           fontWeight={700}
           className="absolute top-1/2 left-4 -translate-y-1/2"
         >
-          {totalSoldPerAll < 1 ? "<1" : totalSoldPerAll}% Sold
+          {totalSoldPerAll < 1 ? "<1" : getNumberFixed(totalSoldPerAll, 2)}%
+          Sold
         </Text>
       </div>
       <div className="!mt-[36px] !text-sm !text-[#C7CCD9] !font-medium">
@@ -55,7 +56,8 @@ const TokenSold = () => {
       </div>
       <div className="!mt-1 flex gap-1 !items-end">
         <span className="!text-2xl !leading-[28px] !font-bold">
-          ${formatAmount(
+          $
+          {formatAmount(
             Math.floor(
               (solSaleAccountInfo?.tokensSold || 0) *
                 (solSaleAccountInfo?.firstRoundPrice || 0)

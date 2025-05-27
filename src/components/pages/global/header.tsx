@@ -1,6 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 import ConnectWalletButton from "../wallet-custom/connect-wallet-button";
-import { navbarItems } from "../../../constants/home";
+import { landingPageLink, navbarItems } from "../../../constants/home";
 
 const Header = () => {
   const onScrollIntoView = (key: string) => {
@@ -15,7 +15,7 @@ const Header = () => {
       justifyContent={"space-between"}
       alignItems={"center"}
     >
-      <a href="https://unich.com/en" target="_blank">
+      <a href={landingPageLink} target="_blank">
         <img src="/images/logo.svg" className="w-[140px] h-[35px]" alt="logo" />
       </a>
       <Flex

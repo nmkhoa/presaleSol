@@ -9,20 +9,21 @@ export default function ReferralLeaderboard() {
       background={"linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"}
       w="full"
       h="full"
+      minH={"480px"}
       borderRadius="12px"
       color="white"
-      p={"20px"}
       mb={"40px"}
+      py={"20px"}
     >
       <Box>
-        <HStack>
+        <HStack px={"20px"}>
           <Image src="/images/icon_leaderboard.svg" w={"36px"} h={"36px"} />
           <Text fontSize={"20px"} fontWeight={700} lineHeight={"24px"}>
             Leaderboard
           </Text>
         </HStack>
-        <Box>
-          <Box py={"24px"} className="grid grid-cols-4">
+        <Box pl={"20px"} pr={"3px"} >
+          <Box py={"24px"} pr={"17px"} className="grid grid-cols-4">
             <Text
               px={"16px"}
               fontWeight={500}
@@ -58,8 +59,13 @@ export default function ReferralLeaderboard() {
               Time
             </Text>
           </Box>
-          <Grid gap={"8px"}>
-            {[...Array(5)].map((_, index) => {
+          <Grid
+            gap={"8px"}
+            maxH={"340px"}
+            overflowY="auto"
+            className="custom-scrollbar"
+          >
+            {[...Array(10)].map((_, index) => {
               const bgImage =
                 index === 0
                   ? "url('/images/bg_rank1.svg')"

@@ -1,4 +1,4 @@
-import { navKey } from "@/constants/home";
+import { landingPageLink, navKey } from "@/constants/home";
 import { Box, Flex, Image, Link, Text } from "@chakra-ui/react";
 
 const Products = () => {
@@ -156,11 +156,11 @@ const Products = () => {
               </Text>
             </Box>
             <Link
-              href="https://unich.com/en/otc/market"
+              href={`${landingPageLink}/otc/market`}
               className="btn-gradient-secondary"
               target="_blank"
             >
-              <Text
+              <Flex
                 className="flex gap-1"
                 padding={"12px 20px"}
                 color={"white"}
@@ -173,7 +173,7 @@ const Products = () => {
                   h={"20px"}
                   alt="arrow"
                 />
-              </Text>
+              </Flex>
             </Link>
           </Flex>
         </Flex>
@@ -228,11 +228,11 @@ const Products = () => {
               </Text>
             </Box>
             <Link
-              href="https://unich.com/en/otc/market"
+              href={`${landingPageLink}/otc/market`}
               className="btn-gradient-secondary"
               target="_blank"
             >
-              <Text
+              <Flex
                 className="flex gap-1"
                 padding={"12px 20px"}
                 color={"white"}
@@ -245,7 +245,7 @@ const Products = () => {
                   h={"20px"}
                   alt="arrow"
                 />
-              </Text>
+              </Flex>
             </Link>
           </Flex>
         </Flex>

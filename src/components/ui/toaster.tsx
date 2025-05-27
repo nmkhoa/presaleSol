@@ -3,6 +3,7 @@
 import {
   Toaster as ChakraToaster,
   Icon,
+  Link,
   Portal,
   Spinner,
   Stack,
@@ -104,6 +105,16 @@ export const Toaster = () => {
                 {toast.description && (
                   <Toast.Description fontSize={"16px"} fontWeight={"normal"}>
                     {toast.description}
+                    {toast.meta?.url && toast?.meta?.urlTile && (
+                      <Link
+                        href={toast.meta?.url}
+                        target="_blank"
+                        pl={"4px"}
+                        textDecoration={"underline"}
+                      >
+                        {toast?.meta?.urlTile}
+                      </Link>
+                    )}
                   </Toast.Description>
                 )}
               </Stack>

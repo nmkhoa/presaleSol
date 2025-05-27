@@ -81,16 +81,20 @@ const ConnectWalletButton = () => {
                     </Text>
                   </Box>
                 </Flex>
-                <Grid gap={"8px"} className="grid-cols-2">
-                  <Clipboard.Root value={publicKey?.toBase58()}>
+                <Grid gap={"8px"} className="grid-cols-5">
+                  <Clipboard.Root
+                    value={publicKey?.toBase58()}
+                    className="col-span-3"
+                  >
                     <Clipboard.Trigger asChild>
                       <Button w={"100%"}>
                         <Clipboard.Indicator />
-                        <Clipboard.CopyText title="Copy address" />
+                        Copy address
                       </Button>
                     </Clipboard.Trigger>
                   </Clipboard.Root>
                   <Button
+                    className="col-span-2"
                     background={
                       "linear-gradient(90deg, #2F3138 0%, #1C1F2C 111.06%)"
                     }

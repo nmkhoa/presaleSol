@@ -23,6 +23,8 @@ type TokenAction = {
   setTokenBalanceSol: (tokenBalanceSol: number) => void;
   setTokenBalanceUsdc: (tokenBalanceUsdc: number) => void;
   setTokenBalanceUsdt: (tokenBalanceUsdt: number) => void;
+
+  resetTokenStore: () => void;
 };
 
 const initialToken: TokenState = {
@@ -46,6 +48,7 @@ export const useTokenStore = create<TokenState & TokenAction>()(
       setTokenBalanceSol: (tokenBalanceSol) => set({ tokenBalanceSol }),
       setTokenBalanceUsdc: (tokenBalanceUsdc) => set({ tokenBalanceUsdc }),
       setTokenBalanceUsdt: (tokenBalanceUsdt) => set({ tokenBalanceUsdt }),
+      resetTokenStore: () => set({ ...initialToken }),
     }),
     {
       name: STORAGE_KEY.tokenPrice,

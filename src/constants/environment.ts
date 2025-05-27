@@ -5,3 +5,6 @@ export const tokenSolana = import.meta.env.VITE_TOKEN_SOLANA;
 export const feedIdSolana = import.meta.env.VITE_SOL_PRICE_FEED_ID;
 export const feedIdUsdc = import.meta.env.VITE_USDC_PRICE_FEED_ID;
 export const feedIdUsdt = import.meta.env.VITE_USDT_PRICE_FEED_ID;
+export const heliusApiKey = import.meta.env.VITE_API_HELIUS_KEY;
+export const networkKey = import.meta.env.VITE_API_NETWORK_KEY;
+export const nftAddress = import.meta.env.VITE_NFT_ADDRESS;

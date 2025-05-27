@@ -10,31 +10,21 @@ import PublicSale from "../../home/public-sale";
 import Whitelist from "../../home/whitelist";
 import InviteAndEarn from "../../home/invite-earn";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import {
-  // clusterApiUrl, Connection,
-  PublicKey,
-} from "@solana/web3.js";
+import { PublicKey } from "@solana/web3.js";
 import { useUnichProgram } from "@/hooks/use-program";
 import {
   baseNumbSolValue,
-  baseNumbTokenValue,
   baseNumbUsdValue,
   basePriceValue,
-  // productPriceKey,
-  SALE_ACCOUNT_SEED,
-  USER_ACCOUNT_SEED,
 } from "@/constants/contract";
 import { navKey, paymentMethods } from "@/constants/home";
 import { getAccount, getAssociatedTokenAddress } from "@solana/spl-token";
 import SaleWithoutConnectWallet from "@/components/home/sale-connect";
-// import {
-//   getPythProgramKeyForCluster,
-//   PythHttpClient,
-// } from "@pythnetwork/client";
-// import { network } from "@/components/providers/solana-provider";
 import { useTokenStore } from "@/stores/token.store";
 import { request } from "@/config/request";
-import { feedIdSolana, feedIdUsdc, feedIdUsdt } from "@/constants/environment";
+import { feedIdSolana, nftAddress } from "@/constants/environment";
+import { useNftStore } from "@/stores/whitelist.store";
+import { useSolSale, useSolUser } from "@/core/hook/useSolUser";
 
 const HeroSection = () => {
   const [tab, setTab] = useState(0);
@@ -42,49 +32,54 @@ const HeroSection = () => {
   const { setSolUserAccountInfo, setSolSaleAccountInfo } = useTokenStore();
   const program = useUnichProgram();
   const { connection } = useConnection();
-  // const endpoint = clusterApiUrl(network);
-  // const connectionSol = new Connection(endpoint);
-  // const client = new PythHttpClient(
-  //   connectionSol,
-  //   getPythProgramKeyForCluster("devnet")
-  // );
   const {
     setTokensPrice,
     setTokenBalanceSol,
     setTokenBalanceUsdc,
     setTokenBalanceUsdt,
   } = useTokenStore();
+  const { setNft } = useNftStore();
+  const { mutateAsync: getSolSaleAccount } = useSolSale();
+  const { mutateAsync: getSolUserAccount } = useSolUser();
 
   const getPriceData = useCallback(async () => {
     const results = await Promise.all([
       request.get(
         `https://hermes.pyth.network/api/latest_price_feeds?ids[]=${feedIdSolana}`
       ),
-      request.get(
-        `https://hermes.pyth.network/api/latest_price_feeds?ids[]=${feedIdUsdc}`
-      ),
-      request.get(
-        `https://hermes.pyth.network/api/latest_price_feeds?ids[]=${feedIdUsdt}`
-      ),
     ]);
     const priceSol = (results as any)?.[0]?.data?.[0]?.price?.price || 0;
-    const priceUsdc = (results as any)?.[1]?.data?.[0]?.price?.price || 0;
-    const priceUsdt = (results as any)?.[2]?.data?.[0]?.price?.price || 0;
     setTokensPrice({
       sol: (priceSol || 0) / basePriceValue,
-      usdc: (priceUsdc || 0) / basePriceValue,
-      usdt: (priceUsdt || 0) / basePriceValue,
+      usdc: 1,
+      usdt: 1,
     });
-    // const data = await client.getData();
-    // const priceSolInfo = data.productPrice.get(productPriceKey.sol);
-    // const priceUsdcInfo = data.productPrice.get(productPriceKey.usdc);
-    // const priceUsdtInfo = data.productPrice.get(productPriceKey.usdt);
-    // setTokensPrice({
-    //   sol: priceSolInfo?.price || priceSolInfo?.aggregate?.price || 0,
-    //   usdc: priceUsdcInfo?.price || priceUsdcInfo?.aggregate?.price || 0,
-    //   usdt: priceUsdtInfo?.price || priceUsdtInfo?.aggregate?.price || 0,
-    // });
   }, []);
+
+  const getMyNft = async () => {
+    if (!publicKey) return;
+    const nftMintAddress = new PublicKey(nftAddress);
+    const associatedTokenAddress = await getAssociatedTokenAddress(
+      nftMintAddress,
+      publicKey
+    );
+    const tokenAccount = await connection.getParsedAccountInfo(
+      associatedTokenAddress
+    );
+    if (
+      tokenAccount.value &&
+      "parsed" in tokenAccount.value.data &&
+      tokenAccount?.value?.data?.parsed?.info
+    ) {
+      setNft(tokenAccount?.value?.data?.parsed?.info);
+    } else {
+      setNft(null);
+    }
+  };
+
+  useEffect(() => {
+    getMyNft();
+  }, [publicKey, connection]);
 
   useEffect(() => {
     getPriceData();
@@ -97,21 +92,31 @@ const HeroSection = () => {
       callBack: (value: number) => void
     ) => {
       if (!publicKey || !token) return;
-      const ata = await getAssociatedTokenAddress(
-        new PublicKey(token),
-        publicKey
-      );
-      const accountInfo = await getAccount(connection, ata);
-      const humanBalance = Number(accountInfo.amount) / baseNumb;
-      callBack(humanBalance);
+      try {
+        const ata = await getAssociatedTokenAddress(
+          new PublicKey(token),
+          publicKey
+        );
+        const accountInfo = await getAccount(connection, ata);
+        const humanBalance = Number(accountInfo.amount) / baseNumb;
+        callBack(humanBalance);
+      } catch (error) {
+        callBack(0);
+        console.error("Error fetching token balance:", error);
+      }
     },
     [connection, publicKey]
   );
 
   const fetchBalance = async () => {
     if (!publicKey) return;
-    const lamports = await connection.getBalance(publicKey);
-    setTokenBalanceSol(lamports / baseNumbSolValue);
+    try {
+      const lamports = await connection.getBalance(publicKey);
+      setTokenBalanceSol(lamports / baseNumbSolValue);
+    } catch (error) {
+      setTokenBalanceSol(0);
+      console.error("Error fetching token balance:", error);
+    }
   };
 
   useEffect(() => {
@@ -123,23 +128,10 @@ const HeroSection = () => {
   const fetchUserAccount = useCallback(async () => {
     if (!wallet || !wallet.adapter.publicKey || !publicKey) return;
     try {
-      const [account] = PublicKey.findProgramAddressSync(
-        [Buffer.from(USER_ACCOUNT_SEED), publicKey.toBuffer()],
-        program.programId
-      );
-      const accountData = await program.account.userAccount.fetch(account);
-      setSolUserAccountInfo({
-        publicTokensPurchased:
-          accountData.publicTokensPurchased.toString() / baseNumbTokenValue,
-        referrer: accountData.referrer.toString(),
-        solSpent: accountData.solSpent.toString() / baseNumbSolValue,
-        tokensPurchased:
-          accountData.tokensPurchased.toString() / baseNumbTokenValue,
-        usdSpent: accountData.usdSpent.toString() / baseNumbUsdValue,
-        usdcSpent: accountData.usdcSpent.toString() / baseNumbUsdValue,
-        usdtSpent: accountData.usdtSpent.toString() / baseNumbUsdValue,
-        whitelistTokensPurchased:
-          accountData.whitelistTokensPurchased.toString() / baseNumbTokenValue,
+      await getSolUserAccount({
+        program,
+        publicKey,
+        callBack: setSolUserAccountInfo,
       });
     } catch (err) {
       console.error("Error fetch userAccount:", err);
@@ -149,31 +141,7 @@ const HeroSection = () => {
   const fetchSaleAccount = useCallback(async () => {
     if (!wallet || !wallet.adapter.publicKey || !publicKey) return;
     try {
-      const [saleAccount] = PublicKey.findProgramAddressSync(
-        [Buffer.from(SALE_ACCOUNT_SEED)],
-        program.programId
-      );
-      const saleAccountData = await program.account.saleAccount.fetch(
-        saleAccount
-      );
-      setSolSaleAccountInfo({
-        currentRound: saleAccountData.currentRound,
-        denominator: saleAccountData.denominator.toString(),
-        endTime: +saleAccountData.endTime.toString(),
-        firstRoundPrice:
-          saleAccountData.firstRoundPrice.toString() / baseNumbTokenValue,
-        isActive: saleAccountData.isActive,
-        maxUsdAmount: +saleAccountData.maxUsdAmount.toString(),
-        minUsdAmount: +saleAccountData.minUsdAmount.toString(),
-        secondRoundPrice:
-          saleAccountData.secondRoundPrice.toString() / baseNumbTokenValue,
-        startTime: +saleAccountData.startTime.toString(),
-        tokensForSale:
-          saleAccountData.tokensForSale.toString() / baseNumbTokenValue,
-        tokensSold: saleAccountData.tokensSold.toString() / baseNumbTokenValue,
-        whitelistDiscount:
-          saleAccountData.whitelistDiscount.toString() / baseNumbTokenValue,
-      });
+      await getSolSaleAccount({ program, callBack: setSolSaleAccountInfo });
     } catch (err) {
       console.error("Error fetch userAccount:", err);
     }
@@ -258,7 +226,7 @@ const HeroSection = () => {
             {connected ? (
               <div>
                 {!tab && <PublicSale fetchSaleAccount={fetchSaleAccount} />}
-                {!!tab && <Whitelist />}
+                {!!tab && <Whitelist fetchSaleAccount={fetchSaleAccount} />}
               </div>
             ) : (
               <SaleWithoutConnectWallet />

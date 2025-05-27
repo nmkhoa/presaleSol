@@ -9,7 +9,7 @@ import { ConnectWalletProvider } from "./contexts/connect-wallet-context";
 import ReactQueryProvider from "./components/providers/react-query-provider";
 import AuthProvider from "./components/providers/auth-provider";
 import { Toaster } from "./components/ui/toaster";
-
+import ScrollToTop from "./components/pages/global/ScrollToTop";
 function App() {
   return (
     <ReactQueryProvider>
@@ -18,6 +18,7 @@ function App() {
           <ConnectWalletProvider>
             <AuthProvider>
               <BrowserRouter>
+                <ScrollToTop />
                 <Routes>
                   <Route path={ROUTES.HOME} element={<Home />} />
                   <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
