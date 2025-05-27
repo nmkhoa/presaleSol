@@ -19,6 +19,7 @@ const TokenSold = () => {
       <div className="relative !bg-[#06070A] !p-1 rounded-2xl">
         <Box
           w={totalSoldPerAll + "%"}
+          maxW={"100%"}
           h={"34px"}
           background={
             "linear-gradient(235.88deg, #FFDE91 8.35%, #FFAE00 45.69%, #ED6E00 98.76%)"

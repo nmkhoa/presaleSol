@@ -18,3 +18,8 @@ export function useAnchorProvider() {
     return anchorProvider;
   }, [connection, wallet]);
 }
+
+export function useAnchorProviderWithoutConnect() {
+  const { connection } = useConnection();
+  return new AnchorProvider(connection, {} as any, {});
+}

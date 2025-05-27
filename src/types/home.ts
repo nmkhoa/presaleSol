@@ -18,16 +18,22 @@ export type UserAccountInfoType = {
 
 export type SaleAccountInfoType = {
   currentRound: number;
-  denominator: string;
+  denominator: number;
   endTime: number;
   firstRoundPrice: number;
   isActive: boolean;
+  isCompleted: boolean;
   maxUsdAmount: number;
   minUsdAmount: number;
+  refCurrencyRate: number;
+  refTokenRate: number;
   secondRoundPrice: number;
   startTime: number;
   tokensForSale: number;
   tokensSold: number;
+  usdRaised: number;
+  usdcRaised: number;
+  usdtRaised: number;
   whitelistDiscount: number;
 };
 

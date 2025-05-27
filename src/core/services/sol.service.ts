@@ -23,7 +23,7 @@ export const getSolSaleAccount = async ({
   const saleAccountData = await program.account.saleAccount.fetch(saleAccount);
   callBack({
     currentRound: saleAccountData.currentRound,
-    denominator: saleAccountData.denominator.toString(),
+    denominator: +saleAccountData.denominator.toString(),
     endTime: +saleAccountData.endTime.toString(),
     firstRoundPrice:
       saleAccountData.firstRoundPrice.toString() / baseNumbTokenValue,
@@ -38,6 +38,12 @@ export const getSolSaleAccount = async ({
     tokensSold: saleAccountData.tokensSold.toString() / baseNumbTokenValue,
     whitelistDiscount:
       saleAccountData.whitelistDiscount.toString() / baseNumbTokenValue,
+    isCompleted: saleAccountData.isCompleted,
+    refCurrencyRate: +saleAccountData.refCurrencyRate.toString(),
+    refTokenRate: +saleAccountData.refTokenRate.toString(),
+    usdRaised: +saleAccountData.usdRaised.toString() / baseNumbUsdValue,
+    usdcRaised: +saleAccountData.usdcRaised.toString() / baseNumbUsdValue,
+    usdtRaised: +saleAccountData.usdtRaised.toString() / baseNumbUsdValue,
   });
 };
 

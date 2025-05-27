@@ -75,7 +75,7 @@ export default function RewardClaimPanel() {
         icon: IconUSDT,
       },
     ];
-  }, [solUserAccountInfo, tokensPrice]);
+  }, [solUserAccountInfo, tokensPrice, publicKey]);
 
   const usdEarned = useMemo(() => {
     if (!solUserAccountInfo || !solSaleAccountInfo) return 0;

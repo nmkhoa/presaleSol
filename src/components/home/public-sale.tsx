@@ -34,9 +34,10 @@ import { useAuthStore } from "@/stores/auth.store";
 
 interface Props {
   fetchSaleAccount: () => Promise<void>;
+  fetchUserAccount: () => Promise<void>;
 }
 
-const PublicSale = ({ fetchSaleAccount }: Props) => {
+const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
   const { solSaleAccountInfo } = useTokenStore();
   const { connected, publicKey, wallet } = useWallet();
   const [method, setMethod] = useState(paymentMethods[0]);
@@ -133,6 +134,7 @@ const PublicSale = ({ fetchSaleAccount }: Props) => {
     } finally {
       setLoadingPurchase(false);
       fetchSaleAccount();
+      fetchUserAccount();
     }
   };
 
@@ -182,7 +184,7 @@ const PublicSale = ({ fetchSaleAccount }: Props) => {
         getNumberFixed(maxToken)
       )} ${method?.key?.toUpperCase()}.`;
     return "";
-  }, [inputAmount, solSaleAccountInfo]);
+  }, [inputAmount, solSaleAccountInfo, tokensPrice, method]);
 
   const receiveToken = useMemo(() => {
     if (!inputAmount) return "0";
@@ -191,7 +193,15 @@ const PublicSale = ({ fetchSaleAccount }: Props) => {
       (+inputAmount * priceByMethod) /
         (solSaleAccountInfo?.firstRoundPrice || 1)
     );
-  }, [inputAmount, solSaleAccountInfo?.firstRoundPrice]);
+  }, [inputAmount]);
+
+  const rewardRate = useMemo(() => {
+    if (!solSaleAccountInfo || !solSaleAccountInfo?.denominator) return 0;
+    return (
+      (solSaleAccountInfo.refCurrencyRate * 100) /
+      solSaleAccountInfo.denominator
+    );
+  }, []);
 
   return (
     <Box>
@@ -334,7 +344,7 @@ const PublicSale = ({ fetchSaleAccount }: Props) => {
         textAlign={"center"}
         fontWeight={700}
       >
-        Get rewards of 11%
+        Get rewards of ${rewardRate}%
       </Text>
     </Box>
   );

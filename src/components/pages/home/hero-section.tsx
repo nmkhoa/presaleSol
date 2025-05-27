@@ -11,7 +11,10 @@ import Whitelist from "../../home/whitelist";
 import InviteAndEarn from "../../home/invite-earn";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
-import { useUnichProgram } from "@/hooks/use-program";
+import {
+  useUnichProgram,
+  useUnichProgramWithoutConnect,
+} from "@/hooks/use-program";
 import {
   baseNumbSolValue,
   baseNumbUsdValue,
@@ -31,6 +34,7 @@ const HeroSection = () => {
   const { wallet, publicKey, connected } = useWallet();
   const { setSolUserAccountInfo, setSolSaleAccountInfo } = useTokenStore();
   const program = useUnichProgram();
+  const programPublic = useUnichProgramWithoutConnect();
   const { connection } = useConnection();
   const {
     setTokensPrice,
@@ -139,13 +143,15 @@ const HeroSection = () => {
   }, [program, publicKey, wallet]);
 
   const fetchSaleAccount = useCallback(async () => {
-    if (!wallet || !wallet.adapter.publicKey || !publicKey) return;
     try {
-      await getSolSaleAccount({ program, callBack: setSolSaleAccountInfo });
+      await getSolSaleAccount({
+        program: programPublic,
+        callBack: setSolSaleAccountInfo,
+      });
     } catch (err) {
       console.error("Error fetch userAccount:", err);
     }
-  }, [program, publicKey, wallet]);
+  }, [programPublic, publicKey, wallet]);
 
   useEffect(() => {
     fetchSaleAccount();
@@ -225,7 +231,12 @@ const HeroSection = () => {
             </Box>
             {connected ? (
               <div>
-                {!tab && <PublicSale fetchSaleAccount={fetchSaleAccount} />}
+                {!tab && (
+                  <PublicSale
+                    fetchSaleAccount={fetchSaleAccount}
+                    fetchUserAccount={fetchUserAccount}
+                  />
+                )}
                 {!!tab && <Whitelist fetchSaleAccount={fetchSaleAccount} />}
               </div>
             ) : (

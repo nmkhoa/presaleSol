@@ -15,7 +15,12 @@ import {
 import { useAnchorProvider } from "@/hooks/use-anchor-provider";
 import { baseNumbSolValue, baseNumbTokenValue } from "@/constants/contract";
 import { BN } from "@coral-xyz/anchor";
-import { formatAmount, getErrorToast, getNumberFixed, getTxHashLink } from "@/utils";
+import {
+  formatAmount,
+  getErrorToast,
+  getNumberFixed,
+  getTxHashLink,
+} from "@/utils";
 import { toaster } from "../ui/toaster";
 import { PythSolanaReceiver } from "@pythnetwork/pyth-solana-receiver";
 import { feedIdSolana } from "@/constants/environment";
@@ -175,6 +180,14 @@ const Whitelist = ({ fetchSaleAccount }: Props) => {
     );
   }, [inputAmount, solSaleAccountInfo?.firstRoundPrice]);
 
+  const rewardRate = useMemo(() => {
+    if (!solSaleAccountInfo || !solSaleAccountInfo?.denominator) return 0;
+    return (
+      (solSaleAccountInfo.refCurrencyRate * 100) /
+      solSaleAccountInfo.denominator
+    );
+  }, []);
+
   if (!nft) {
     return (
       <Box>
@@ -326,7 +339,7 @@ const Whitelist = ({ fetchSaleAccount }: Props) => {
         textAlign={"center"}
         fontWeight={700}
       >
-        Get rewards of 11%
+        Get rewards of ${rewardRate}%
       </Text>
     </Box>
   );

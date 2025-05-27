@@ -10,7 +10,9 @@ export class GlowWalletAdapter extends BaseMessageSignerWalletAdapter {
   name = "Glow" as WalletName<string>;
   url = "https://glow.app";
   icon = "https://glow.app/favicon.png"; // hoặc URL icon phù hợp
-  readyState: WalletReadyState = WalletReadyState.Installed;
+  readyState: WalletReadyState = (window as any).glow
+    ? WalletReadyState.Installed
+    : WalletReadyState.NotDetected;
 
   private _connecting = false;
   private _publicKey: PublicKey | null = null;

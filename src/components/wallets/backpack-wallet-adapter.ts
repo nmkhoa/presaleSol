@@ -10,7 +10,9 @@ export class BackpackWalletAdapter extends BaseMessageSignerWalletAdapter {
   name = "Backpack" as WalletName<string>;
   url = "https://backpack.app";
   icon = "https://backpack.app/favicon.ico";
-  readyState: WalletReadyState = WalletReadyState.Installed;
+  readyState: WalletReadyState = (window as any).backpack
+    ? WalletReadyState.Installed
+    : WalletReadyState.NotDetected;
 
   private _connecting = false;
   private _publicKey: PublicKey | null = null;
