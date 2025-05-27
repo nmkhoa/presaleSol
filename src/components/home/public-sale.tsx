@@ -64,10 +64,8 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         ],
         program.programId
       );
-      console.log("account", account);
       const accountData = await program.account.userAccount.fetch(account);
-      console.log("accountData", accountData);
-      return true;
+      return !!accountData;
     } catch (error: any) {
       console.error("Error fetching referral account:", error);
       return false;

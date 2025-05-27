@@ -159,25 +159,26 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
       +(solSaleAccountInfo?.minUsdAmount || 0) / (priceByMethod || 1);
     const maxToken =
       +(solSaleAccountInfo?.maxUsdAmount || 0) / (priceByMethod || 1);
-    if (
-      +inputUsdAmount < +(solSaleAccountInfo?.minUsdAmount || 0) ||
-      +inputUsdAmount > +(solSaleAccountInfo?.maxUsdAmount || 0)
-    )
-      return `Please enter a number between ${formatAmount(
+    if (+inputUsdAmount < +(solSaleAccountInfo?.minUsdAmount || 0)) {
+      return `The minimum amount should be ${formatAmount(
         getNumberFixed(minToken)
-      )} ${method?.key?.toUpperCase()} and ${formatAmount(
+      )}`;
+    }
+    if (+inputUsdAmount > +(solSaleAccountInfo?.maxUsdAmount || 0)) {
+      return `The maximum amount should be ${formatAmount(
         getNumberFixed(maxToken)
-      )} ${method?.key?.toUpperCase()}.`;
+      )}`;
+    }
     return "";
   }, [inputAmount, solSaleAccountInfo]);
 
   const receiveToken = useMemo(() => {
     if (!inputAmount) return "0";
     const priceByMethod = getPriceByMethod();
-    const receive =
-      (+inputAmount * priceByMethod) /
-      (solSaleAccountInfo?.firstRoundPrice || 1);
-    return getNumberFixed(receive + receive * 0.25);
+    const priceAfterDiscount =
+      (solSaleAccountInfo?.firstRoundPrice || 0) * 0.75;
+    const receive = (+inputAmount * priceByMethod) / (priceAfterDiscount || 1);
+    return getNumberFixed(receive);
   }, [inputAmount, solSaleAccountInfo?.firstRoundPrice]);
 
   const rewardRate = useMemo(() => {

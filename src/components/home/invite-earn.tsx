@@ -281,7 +281,7 @@ const InviteAndEarn = () => {
               )}
               {!isLoading && transaction.length === 0 && (
                 <Box textAlign="center" py="20px" color="gray.500">
-                  Not found data.
+                  No data found.
                 </Box>
               )}
               {transaction &&

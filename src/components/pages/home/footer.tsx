@@ -1,5 +1,5 @@
 import { Box, Flex, Image, Link, Text } from "@chakra-ui/react";
-import { footerLinks, footerSocialLinks } from "../../../constants/home";
+import { footerLinks, footerSocialLinks, landingPageLink } from "../../../constants/home";
 
 const FooterHome = () => {
   return (
@@ -28,7 +28,9 @@ const FooterHome = () => {
             alignItems={"center"}
             justifyContent={"space-between"}
           >
-            <Image src="/images/logo.svg" w={"140px"} h={"35px"} alt="logo" />
+            <a href={landingPageLink} target="_blank">
+              <Image src="/images/logo.svg" w={"140px"} h={"35px"} alt="logo" />
+            </a>
             <Flex gap={"27px"}>
               {footerLinks.map((item) => {
                 return (

@@ -130,7 +130,7 @@ export const footerSocialLinks = [
   {
     title: "x",
     icon: "/images/footer_x.svg",
-    link: "https://twitter.com/UnichFinance",
+    link: "https://x.com/unich_com",
   },
   {
     title: "telegram",
@@ -145,7 +145,7 @@ export const footerSocialLinks = [
   {
     title: "discord",
     icon: "/images/footer_discord.svg",
-    link: "https://discord.gg/UnichFinance",
+    link: "https://discord.com/invite/UnichFinance",
   },
   {
     title: "facebook",
@@ -170,7 +170,7 @@ export const footerSocialLinks = [
   {
     title: "gitbook",
     icon: "/images/footer_gitbook.svg",
-    link: "https://unich.gitbook.io/unich-finance/",
+    link: "https://docs.unich.com/unich-finance",
   },
   {
     title: "linktree",
