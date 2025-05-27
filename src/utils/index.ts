@@ -33,6 +33,31 @@ export function getNumberFixed(number: number, fix?: number) {
   return +number.toFixed(fix ? fix : 4);
 }
 
+export function formatTimeAgo(blocktime: string): string {
+  const timestampDate = new Date(blocktime);
+  const currentDate = new Date();
+
+  const timeDiff = currentDate.getTime() - timestampDate.getTime();
+
+  const secondsDiff = Math.floor(timeDiff / 1000);
+  const minutesDiff = Math.floor(secondsDiff / 60);
+  const hoursDiff = Math.floor(minutesDiff / 60);
+  const daysDiff = Math.floor(hoursDiff / 24);
+
+  let timeAgo;
+
+  if (daysDiff > 0) {
+    timeAgo = `${daysDiff} days ago`;
+  } else if (hoursDiff > 0) {
+    timeAgo = `${hoursDiff} hours ago`;
+  } else if (minutesDiff > 0) {
+    timeAgo = `${minutesDiff} minutes ago`;
+  } else {
+    timeAgo = `${secondsDiff} seconds ago`;
+  }
+
+  return timeAgo;
+}
 export function getTxHashLink(txHash: string) {
   const link = `https://solscan.io/tx/${txHash}`;
   return networkKey === "devnet" ? link + `?cluster=devnet` : link;

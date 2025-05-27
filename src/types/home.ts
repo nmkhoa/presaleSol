@@ -1,3 +1,5 @@
+import type { Pagination } from "./leaderboard/leaderboard.interface";
+
 export type UserAccountInfoType = {
   publicTokensPurchased: number;
   referrer: string;
@@ -41,4 +43,21 @@ export type TokenPriceType = {
   sol: number;
   usdc: number;
   usdt: number;
+};
+
+export interface Transaction {
+  signature: string;
+  tokenamount: number;
+  currency: string;
+  currencyprice: number;
+  blocktime: string;
+}
+
+export interface TransactionRequest {
+  page: number;
+  limit?: number;
+}
+export type TransactionResponse = {
+  data: Transaction[];
+  pagination: Pagination;
 };

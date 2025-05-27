@@ -78,7 +78,7 @@ const Products = () => {
               Download on
             </Text>
             <Flex gap={"7px"} mt={"12px"}>
-              <Link href="" target="_blank">
+              <Link href="https://play.google.com/store/apps/details?id=com.unichlabs.unich.prd.android&pli=1" target="_blank">
                 <Image
                   src="/images/google_play.svg"
                   w={"133px"}
@@ -86,7 +86,7 @@ const Products = () => {
                   alt="google play"
                 />
               </Link>
-              <Link href="" target="_blank">
+              <Link href="https://unich.com/en" target="_blank">
                 <Image
                   src="/images/app_store.svg"
                   w={"118px"}

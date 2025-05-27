@@ -11,9 +11,30 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import IconSOL from "@assets/icon/icon_SOL.svg";
-import { getAddressFormat } from "@/utils";
+import { formatTimeAgo, getAddressFormat } from "@/utils";
+import { useReferralInfo } from "@/core/hook/useUsers";
+import { useInView } from "react-intersection-observer";
+import { useEffect } from "react";
 export default function ReferralInfoPanel() {
   const { user } = useAuthStore();
+
+  const { ref, inView } = useInView();
+  const {
+    data: referralInfo,
+    isLoading,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useReferralInfo({
+    page: 1,
+    limit: 10,
+  });
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage]);
 
   return (
     <Box w={"full"} h={"full"} minH={"720px"}>
@@ -114,7 +135,7 @@ export default function ReferralInfoPanel() {
               </HStack>
             </Box>
           </Stack>
-          <Box maxW={"1240px"} mx={"auto"} mt={"24px"}  >
+          <Box maxW={"1240px"} mx={"auto"} mt={"24px"}>
             <HStack px={"20px"}>
               <Image src="/images/hand.svg" w={"36px"} h={"36px"} />
               <Text fontSize={"24px"} fontWeight={700} lineHeight={"24px"}>
@@ -156,38 +177,59 @@ export default function ReferralInfoPanel() {
                 overflowY="auto"
                 className="custom-scrollbar"
               >
-                {[...Array(10)].map((_, index) => {
-                  return (
-                    <Box
-                      key={index}
-                      py={"18px"}
-                      background={"#15171F"}
-                      borderRadius={"8px"}
-                      className="grid grid-cols-3"
-                    >
-                      <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
-                        {user ? getAddressFormat(user.walletAddress) : ""}
-                      </Text>
-                      <Flex
-                        gap={"2px"}
-                        px={"16px"}
-                        fontWeight={500}
-                        color={"#C7CCD9"}
+                {isLoading && (
+                  <Box textAlign="center" py="20px" color="gray.500">
+                    Loading...
+                  </Box>
+                )}
+                {!isLoading && referralInfo.length === 0 && (
+                  <Box textAlign="center" py="20px" color="gray.500">
+                    Not found data.
+                  </Box>
+                )}
+                {referralInfo &&
+                  referralInfo.map((data, index) => {
+                    return (
+                      <Box
+                        key={index}
+                        py={"18px"}
+                        background={"#15171F"}
+                        borderRadius={"8px"}
+                        className="grid grid-cols-3"
                       >
-                        $503.24
-                      </Flex>
+                        <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
+                          {getAddressFormat(data.referral)}
+                        </Text>
+                        <Flex
+                          gap={"2px"}
+                          px={"16px"}
+                          fontWeight={500}
+                          color={"#C7CCD9"}
+                        >
+                          ${data.totalreward.toFixed(2)}
+                        </Flex>
 
-                      <Text
-                        px={"16px"}
-                        fontWeight={500}
-                        color={"#C7CCD9"}
-                        textAlign={"right"}
-                      >
-                        2h ago
-                      </Text>
-                    </Box>
-                  );
-                })}
+                        <Text
+                          px={"16px"}
+                          fontWeight={500}
+                          color={"#C7CCD9"}
+                          textAlign={"right"}
+                        >
+                          {formatTimeAgo(data.blocktime)}
+                        </Text>
+                      </Box>
+                    );
+                  })}
+                {hasNextPage && (
+                  <div ref={ref} className="flex justify-center py-4">
+                    <div className="flex flex-col items-center">
+                      <div className="spinner-border animate-spin inline-block w-6 h-6 border-4 border-solid rounded-full border-blue-600 border-t-transparent" />
+                      <p className="mt-2 text-sm text-gray-600">
+                        Loading more...
+                      </p>
+                    </div>
+                  </div>
+                )}
               </Grid>
             </Box>
           </Box>

@@ -55,15 +55,40 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
   const { tokensPrice, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt } =
     useTokenStore();
 
+  const fetchReferralAccount = async (referrer: string | undefined) => {
+    try {
+      const [account] = PublicKey.findProgramAddressSync(
+        [
+          Buffer.from(USER_ACCOUNT_SEED),
+          new PublicKey(referrer || "").toBuffer(),
+        ],
+        program.programId
+      );
+      console.log("account", account);
+      const accountData = await program.account.userAccount.fetch(account);
+      console.log("accountData", accountData);
+      return true;
+    } catch (error: any) {
+      console.error("Error fetching referral account:", error);
+      return false;
+    }
+  };
+
   const getPurchaseToken = async () => {
-    const referrer = user?.referrer?.walletAddress;
+    const referrerAddress = user?.referrer?.walletAddress;
     let referralAccount = null;
-    if (referrer) {
+    let referrer = null;
+    const referralAccountExists = await fetchReferralAccount(referrerAddress);
+    if (referrerAddress && referralAccountExists) {
       const [referAccount] = PublicKey.findProgramAddressSync(
-        [Buffer.from(USER_ACCOUNT_SEED), new PublicKey(referrer).toBuffer()],
+        [
+          Buffer.from(USER_ACCOUNT_SEED),
+          new PublicKey(referrerAddress).toBuffer(),
+        ],
         program!.programId
       );
       referralAccount = referAccount || null;
+      referrer = new PublicKey(referrerAddress);
     }
     if (method.key === paymentMethods[0].key) {
       const solUsdPriceFeedAccount = pythSolanaReceiver
@@ -76,7 +101,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         .purchaseTokensWithSol(new BN(+inputAmount * baseNumbSolValue))
         .accounts({
           buyer: publicKey,
-          referrer: referrer ? new PublicKey(referrer) : null,
+          referrer: referrer,
           referrerAccount: referralAccount,
           priceUpdate: solUsdPriceFeedAccountPubkey,
         })
@@ -87,7 +112,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         .purchaseTokensWithUsdc(new BN(+inputAmount * baseNumbTokenValue))
         .accounts({
           buyer: publicKey,
-          referrer: referrer ? new PublicKey(referrer) : null,
+          referrer: referrer,
           referrerAccount: referralAccount,
         })
         .instruction();
@@ -97,7 +122,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         .purchaseTokensWithUsdt(new BN(+inputAmount * baseNumbTokenValue))
         .accounts({
           buyer: publicKey,
-          referrer: referrer ? new PublicKey(referrer) : null,
+          referrer: referrer,
           referrerAccount: referralAccount,
         })
         .instruction();
@@ -174,15 +199,16 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
       +(solSaleAccountInfo?.minUsdAmount || 0) / (priceByMethod || 1);
     const maxToken =
       +(solSaleAccountInfo?.maxUsdAmount || 0) / (priceByMethod || 1);
-    if (
-      +inputUsdAmount < +(solSaleAccountInfo?.minUsdAmount || 0) ||
-      +inputUsdAmount > +(solSaleAccountInfo?.maxUsdAmount || 0)
-    )
-      return `Please enter a number between ${formatAmount(
+    if (+inputUsdAmount < +(solSaleAccountInfo?.minUsdAmount || 0)) {
+      return `The minimum amount should be ${formatAmount(
         getNumberFixed(minToken)
-      )} ${method?.key?.toUpperCase()} and ${formatAmount(
+      )}`;
+    }
+    if (+inputUsdAmount > +(solSaleAccountInfo?.maxUsdAmount || 0)) {
+      return `The maximum amount should be ${formatAmount(
         getNumberFixed(maxToken)
-      )} ${method?.key?.toUpperCase()}.`;
+      )}`;
+    }
     return "";
   }, [inputAmount, solSaleAccountInfo, tokensPrice, method]);
 

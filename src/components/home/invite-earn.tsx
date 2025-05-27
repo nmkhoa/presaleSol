@@ -2,7 +2,12 @@ import { ROUTES } from "@/constants/router";
 import { ConnectWalletContext } from "@/contexts/connect-wallet-context";
 import { useAuthStore } from "@/stores/auth.store";
 import { useTokenStore } from "@/stores/token.store";
-import { formatAmount, getNumberFixed } from "@/utils";
+import {
+  formatAmount,
+  getNumberFixed,
+  formatTimeAgo,
+  getTxHashLink,
+} from "@/utils";
 import {
   Box,
   Button,
@@ -14,9 +19,11 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { toaster } from "../ui/toaster";
+import { useGetTransaction } from "@/core/hook/useUsers";
+import { useInView } from "react-intersection-observer";
 
 const InviteAndEarn = () => {
   const { connected } = useWallet();
@@ -34,6 +41,23 @@ const InviteAndEarn = () => {
     }
   };
 
+  const { ref, inView } = useInView();
+  const {
+    data: transaction,
+    isLoading,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  } = useGetTransaction({
+    page: 1,
+    limit: 10,
+  });
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage]);
   const usdEarned = useMemo(() => {
     if (!solUserAccountInfo || !solSaleAccountInfo) return 0;
     const earned =
@@ -204,18 +228,23 @@ const InviteAndEarn = () => {
           maxW={"1240px"}
           mx={"auto"}
           mt={"20px"}
-          p={"20px"}
+          py={"20px"}
           background={
             "linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"
           }
           borderRadius={"12px"}
         >
-          <Text fontSize={"24px"} fontWeight={700} lineHeight={"28px"}>
+          <Text
+            fontSize={"24px"}
+            fontWeight={700}
+            lineHeight={"28px"}
+            px={"20px"}
+          >
             Transaction History
           </Text>
           <Box h={"1px"} mt={"24px"} background={"white"} opacity={"0.1"} />
-          <Box>
-            <Box py={"24px"} className="grid grid-cols-6">
+          <Box pl={"20px"} pr={"3px"}>
+            <Box py={"24px"} className="grid grid-cols-6" pr={"10px"}>
               <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
                 Tx Hash
               </Text>
@@ -238,51 +267,90 @@ const InviteAndEarn = () => {
                 Time
               </Text>
             </Box>
-            <Grid gap={"8px"}>
-              {[...Array(5)].map((_, index) => {
-                return (
-                  <Box
-                    key={index}
-                    py={"18px"}
-                    background={"#15171F"}
-                    borderRadius={"8px"}
-                    className="grid grid-cols-6"
-                  >
-                    <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
-                      d28zsa38s
-                    </Text>
-                    <Flex
-                      gap={"2px"}
-                      px={"16px"}
-                      fontWeight={500}
-                      color={"#C7CCD9"}
+            <Grid
+              gap={"8px"}
+              maxH={"340px"}
+              h={"340px"}
+              overflowY="auto"
+              className="custom-scrollbar"
+            >
+              {isLoading && (
+                <Box textAlign="center" py="20px" color="gray.500">
+                  Loading...
+                </Box>
+              )}
+              {!isLoading && transaction.length === 0 && (
+                <Box textAlign="center" py="20px" color="gray.500">
+                  Not found data.
+                </Box>
+              )}
+              {transaction &&
+                transaction.map((data, index) => {
+                  return (
+                    <Box
+                      key={index}
+                      py={"18px"}
+                      background={"#15171F"}
+                      borderRadius={"8px"}
+                      className="grid grid-cols-6"
                     >
-                      <Image
-                        src="/images/token.svg"
-                        w={"20px"}
-                        h={"20px"}
-                        alt="token"
-                      />
-                      503.24
-                    </Flex>
-                    <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
-                      USDC
-                    </Text>
-                    <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
-                      $0.05
-                    </Text>
-                    <Text
-                      className="col-span-2"
-                      px={"16px"}
-                      fontWeight={500}
-                      color={"#C7CCD9"}
-                      textAlign={"right"}
-                    >
-                      2h ago
-                    </Text>
-                  </Box>
-                );
-              })}
+                      <a
+                        href={getTxHashLink(data.signature)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Text
+                          px="16px"
+                          fontWeight={500}
+                          color="#C7CCD9"
+                          _hover={{ textDecoration: "underline" }}
+                          cursor="pointer"
+                        >
+                          {data.signature.slice(0, 9)}
+                        </Text>
+                      </a>
+                      <Flex
+                        gap={"2px"}
+                        px={"16px"}
+                        fontWeight={500}
+                        color={"#C7CCD9"}
+                      >
+                        <Image
+                          src="/images/token.svg"
+                          w={"20px"}
+                          h={"20px"}
+                          alt="token"
+                        />
+                        {getNumberFixed(data.tokenamount, 2)}
+                      </Flex>
+                      <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
+                        {data.currency.toUpperCase()}
+                      </Text>
+                      <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
+                        ${getNumberFixed(data.currencyprice, 2)}
+                      </Text>
+                      <Text
+                        className="col-span-2"
+                        px={"16px"}
+                        fontWeight={500}
+                        color={"#C7CCD9"}
+                        textAlign={"right"}
+                      >
+                        {formatTimeAgo(data.blocktime)}
+                      </Text>
+                    </Box>
+                  );
+                })}
+              {hasNextPage && (
+                <div ref={ref} className="flex justify-center py-4">
+                  <div className="flex flex-col items-center">
+                    <div className="spinner-border animate-spin inline-block w-6 h-6 border-4 border-solid rounded-full border-blue-600 border-t-transparent" />
+                    <p className="mt-2 text-sm text-gray-600">
+                      Loading more...
+                    </p>
+                  </div>
+                </div>
+              )}
             </Grid>
           </Box>
         </Box>

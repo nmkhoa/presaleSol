@@ -1,6 +1,8 @@
 const BASE_PATHS = {
   AUTH: "/auth",
   Users: "/users",
+  TOKEN: "/token-purchased",
+  referral: "/referral",
 };
 export const ENDPOINTS = {
   AUTH: {
@@ -9,5 +11,12 @@ export const ENDPOINTS = {
   },
   Users: {
     GET_ME: `${BASE_PATHS.Users}/me`,
+    LEADERBOARD: `${BASE_PATHS.Users}/leaderboard`,
+  },
+  TOKEN: {
+    TRANSACTIONL: `${BASE_PATHS.TOKEN}/transactions`,
+  },
+  REFERRAL: {
+    REWARD_SUMMARY: `${BASE_PATHS.referral}/reward-summary`,
   },
 };

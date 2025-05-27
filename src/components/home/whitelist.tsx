@@ -74,7 +74,6 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         )
         .accounts({
           buyer: publicKey,
-          // priceUpdate: usdcUsdPriceFeedAccountPubkey,
         })
         .instruction();
     }
@@ -85,7 +84,6 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         )
         .accounts({
           buyer: publicKey,
-          // priceUpdate: usdtUsdPriceFeedAccountPubkey,
         })
         .instruction();
     }
@@ -176,10 +174,10 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
   const receiveToken = useMemo(() => {
     if (!inputAmount) return "0";
     const priceByMethod = getPriceByMethod();
-    return getNumberFixed(
+    const receive =
       (+inputAmount * priceByMethod) /
-        (solSaleAccountInfo?.firstRoundPrice || 1)
-    );
+      (solSaleAccountInfo?.firstRoundPrice || 1);
+    return getNumberFixed(receive + receive * 0.25);
   }, [inputAmount, solSaleAccountInfo?.firstRoundPrice]);
 
   const rewardRate = useMemo(() => {
