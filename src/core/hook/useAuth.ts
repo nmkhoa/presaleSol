@@ -9,6 +9,7 @@ import { AxiosError } from "axios";
 import { getNonce, login } from "../services";
 import { toaster } from "@/components/ui/toaster";
 import { useAuthStore } from "@/stores/auth.store";
+import { request } from "@/config/request";
 
 export const useLogin = () => {
   const { setAccessToken, setUser } = useAuthStore();
@@ -17,8 +18,10 @@ export const useLogin = () => {
     mutationKey: ["useLogin"],
     mutationFn: login,
     onSuccess: (res) => {
+      request.setAuthorizationToken(res.accessToken);
       setAccessToken(res.accessToken);
       setUser(res.user);
+
       toaster.create({
         description: "Login successfully!",
         type: "success",

@@ -77,6 +77,10 @@ button:disabled,
   width: 100%;
 }
 
+.btn-connect-wallet button:disabled {
+  pointer-events: none !important;
+}
+
 .hero-section {
   background-image: url("/images/hero_bg.svg");
   background-size: auto 100%;

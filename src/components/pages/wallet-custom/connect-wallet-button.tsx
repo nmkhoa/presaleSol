@@ -57,6 +57,7 @@ const ConnectWalletButton = () => {
                 background={
                   "linear-gradient(145.6deg, #14161B 40.65%, #15161C 95.33%)"
                 }
+                borderRadius={"8px"}
               >
                 <Text fontSize={"20px"} fontWeight={700}>
                   Your Wallet
@@ -119,7 +120,18 @@ const ConnectWalletButton = () => {
           cursor={"pointer"}
           onClick={() => setShowModal(true)}
         >
-          <div>Connect wallet</div>
+          <Box
+            px={"12px !important"}
+            py={"8px !important"}
+            fontSize={"12px !important"}
+            md={{
+              px: "20px !important",
+              py: "12px !important",
+              fontSize: "16px !important",
+            }}
+          >
+            Connect wallet
+          </Box>
         </Box>
       )}
     </Flex>

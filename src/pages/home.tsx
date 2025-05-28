@@ -27,13 +27,20 @@ const Home = () => {
         id={navKey.benefit}
         h={"610px"}
         mt={"64px"}
-        backgroundImage={"url(/images/token_utilities_tablet.svg)"}
+        backgroundImage={"url(/images/token_utilities_mobile.svg)"}
         backgroundSize={"auto 100%"}
         backgroundPosition={"center"}
         backgroundRepeat={"no-repeat"}
+        md={{
+          background: "url(/images/token_utilities_tablet.svg)",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
         xl={{
           h: "806px",
           backgroundImage: "url(/images/token_utilities.svg)",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
         }}
       />
       <Products />

@@ -25,6 +25,7 @@ export const useLeaderboard = (token: string) => {
     queryFn: getLeaderboard,
     enabled: !!token,
     retry: 3,
+    refetchInterval: 60 * 60 * 1000, // 1 hour
   });
 };
 
@@ -36,6 +37,7 @@ export const useGetTransaction = (
     queryKey: ["getTransaction", transactionRequest],
     enabled: !!token,
     retry: 3,
+    refetchInterval: 5000, // 5 seconds
 
     queryFn: async ({ pageParam }) =>
       await getTransaction({
@@ -76,6 +78,7 @@ export const useReferralInfo = (
     queryKey: ["getReferralInfo", referralRequest],
     enabled: !!token,
     retry: 3,
+    refetchInterval: 5000, // 5 seconds
 
     queryFn: async ({ pageParam }) =>
       await getReferralInfo({

@@ -165,7 +165,14 @@ const HeroSection = () => {
   }, [wallet, publicKey]);
 
   return (
-    <Box position={"relative"} id={navKey.buy}>
+    <Box
+      position={"relative"}
+      id={navKey.buy}
+      px={"12px"}
+      xl={{
+        px: 0,
+      }}
+    >
       <Box
         position={"absolute"}
         w={"100%"}
@@ -182,13 +189,14 @@ const HeroSection = () => {
           mx={"auto"}
           mt={"17px"}
           fontSize={"28px"}
-          fontWeight={500}
+          fontWeight={700}
           lineHeight={"28px"}
           className="text-primary"
           md={{
             mt: "68px",
             fontSize: "64px",
             lineHeight: "64px",
+            fontWeight: 500,
           }}
           xl={{
             mt: "74px",
@@ -242,31 +250,34 @@ const HeroSection = () => {
           w={"fit-content"}
           mt={"40px"}
           mx={"auto"}
-          p={"16px"}
-          gap={"12px"}
+          p={"12px"}
+          gap={"8px"}
           borderRadius={"28px"}
           background={
             "linear-gradient(180deg, rgba(255, 252, 252, 0.04) 0%, rgba(255, 255, 255, 0) 100%),radial-gradient(267.84% 97.01% at 58.6% 100%, rgba(65, 116, 186, 0.091) 12.68%, rgba(17, 104, 221, 0.154) 45.68%, rgba(0, 39, 93, 0.021) 82.57%, rgba(0, 8, 18, 0.035) 100%)"
           }
           backdropFilter={"blur(16.1px)"}
           border={"1px solid rgba(255, 255, 255, 0.15)"}
+          flexDirection={"column-reverse"}
           md={{
             mt: "28px",
+            p: "16px",
+            gap: "12px",
+            flexDirection: "row",
           }}
           xl={{
             mt: "40px",
           }}
         >
           <Box
-            w={"322px"}
-            p={"20px"}
+            w={"100%"}
+            p={"16px"}
             borderRadius={"20px"}
             background={
               "linear-gradient(152.22deg, #14161B 38.95%, #15161C 96.26%)"
             }
             md={{
               w: "276px",
-              p: "16px",
             }}
             xl={{
               w: "322px",
@@ -276,15 +287,14 @@ const HeroSection = () => {
             <TokenSold />
           </Box>
           <Box
-            w={"419px"}
-            p={"20px"}
+            w={"100%"}
+            p={"16px"}
             borderRadius={"20px"}
             background={
               "linear-gradient(152.22deg, #14161B 38.95%, #15161C 96.26%)"
             }
             md={{
               w: "360px",
-              p: "16px",
             }}
             xl={{
               w: "419px",
@@ -301,14 +311,19 @@ const HeroSection = () => {
               <Button
                 w={"100%"}
                 h={"36px"}
-                py={"8px"}
+                py={"6px"}
                 borderRadius={"120px"}
                 fontWeight={600}
+                fontSize={"14px"}
                 className={clsx(
                   !tab
                     ? "!text-[#FF9A0D] !bg-[#1A1001]"
                     : "!text-[#9EA5BA] !bg-transparent"
                 )}
+                md={{
+                  py: "8px",
+                  fontSize: "16px",
+                }}
                 onClick={() => setTab(0)}
               >
                 Public sale
@@ -316,14 +331,19 @@ const HeroSection = () => {
               <Button
                 w={"100%"}
                 h={"36px"}
-                py={"8px"}
+                py={"6px"}
                 borderRadius={"120px"}
                 fontWeight={600}
+                fontSize={"14px"}
                 className={clsx(
                   tab
                     ? "!text-[#FF9A0D] !bg-[#1A1001]"
                     : "!text-[#9EA5BA] !bg-transparent"
                 )}
+                md={{
+                  py: "8px",
+                  fontSize: "16px",
+                }}
                 onClick={() => setTab(1)}
               >
                 Whitelist

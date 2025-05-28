@@ -37,6 +37,10 @@ const TokenSold = () => {
           color={"white"}
           fontWeight={700}
           className="absolute top-1/2 -translate-y-1/2"
+          fontSize={"14px"}
+          md={{
+            fontSize: "16px",
+          }}
         >
           {totalSoldPerAll < 1 ? "<1" : getNumberFixed(totalSoldPerAll, 2)}%
           Sold
@@ -51,7 +55,12 @@ const TokenSold = () => {
       >
         Token Sold
       </Text>
-      <Flex mt={"4px"} gap={"4px"} alignItems={"end"}>
+      <Flex
+        mt={"4px"}
+        gap={"4px"}
+        alignItems={"center"}
+        md={{ alignItems: "end" }}
+      >
         <Image
           src="/images/token.svg"
           w={"24px"}
@@ -60,9 +69,13 @@ const TokenSold = () => {
           alt="token"
         />
         <Text
-          fontSize={"24px"}
-          lineHeight={"24px"}
+          fontSize={"16px"}
+          lineHeight={"16px"}
           fontWeight={700}
+          md={{
+            fontSize: "20px",
+            lineHeight: "20px",
+          }}
           xl={{ fontSize: "24px", lineHeight: "28px" }}
         >
           {formatAmount(Math.floor(solSaleAccountInfo?.tokensSold || 0))}
@@ -98,9 +111,13 @@ const TokenSold = () => {
       </Text>
       <Flex mt={"4px"} gap={"4px"} alignItems={"end"}>
         <Text
-          fontSize={"24px"}
-          lineHeight={"24px"}
+          fontSize={"16px"}
+          lineHeight={"16px"}
           fontWeight={700}
+          md={{
+            fontSize: "20px",
+            lineHeight: "20px",
+          }}
           xl={{ fontSize: "24px", lineHeight: "28px" }}
         >
           $
@@ -158,10 +175,13 @@ const TokenSold = () => {
             alt="token"
           />
           <Text
-            fontSize={"16px"}
-            lineHeight={"20px"}
+            fontSize={"14px"}
             color={"#FF9A0D"}
             fontWeight={700}
+            md={{
+              fontSize: "16px",
+              lineHeight: "20px",
+            }}
             xl={{
               fontSize: "18px",
               lineHeight: "18px",
@@ -211,7 +231,7 @@ const TokenSold = () => {
                 }
                 borderRadius={"8px"}
               >
-                <Box className="!p-3 bg-[#202127]">
+                <Box p={"8px"} bg={"#202127"} md={{ p: "12px" }}>
                   <Image
                     src={item.icon}
                     w={"18px"}

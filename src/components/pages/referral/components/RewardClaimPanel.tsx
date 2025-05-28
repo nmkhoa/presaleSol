@@ -28,8 +28,11 @@ import { toaster } from "@/components/ui/toaster";
 import { useUnichProgram } from "@/hooks/use-program";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useAnchorProvider } from "@/hooks/use-anchor-provider";
-import { Transaction } from "@solana/web3.js";
+import { clusterApiUrl, Connection, Transaction } from "@solana/web3.js";
 import { useSolUser } from "@/core/hook/useSolUser";
+import { tokenUsdc, tokenUsdt } from "@/constants/environment";
+import { network } from "@/components/providers/solana-provider";
+import { createATAInstruction } from "@/utils/wallet";
 
 export default function RewardClaimPanel() {
   const { solUserAccountInfo, tokensPrice, setSolUserAccountInfo } =
@@ -39,6 +42,8 @@ export default function RewardClaimPanel() {
   const provider = useAnchorProvider();
   const [loadingClaim, setLoadingClaim] = useState(false);
   const { mutateAsync: getSolUserAccount } = useSolUser();
+  const endpoint = clusterApiUrl(network);
+  const connection = new Connection(endpoint);
 
   const myRewards = useMemo(() => {
     const availableSol =
@@ -77,6 +82,8 @@ export default function RewardClaimPanel() {
     try {
       if (!publicKey || !program) return;
       setLoadingClaim(true);
+      await createATAInstruction(tokenUsdc, publicKey, connection, provider);
+      await createATAInstruction(tokenUsdt, publicKey, connection, provider);
       const transaction = new Transaction();
       const purchaseIx = await program!.methods
         .claimReward()

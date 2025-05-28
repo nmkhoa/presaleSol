@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Image } from "@chakra-ui/react";
 import ConnectWalletButton from "../wallet-custom/connect-wallet-button";
 import { landingPageLink, navbarItems } from "../../../constants/home";
 
@@ -24,7 +24,25 @@ const Header = () => {
       }}
     >
       <a href={landingPageLink} target="_blank">
-        <img src="/images/logo.svg" className="w-[140px] h-[35px]" alt="logo" />
+        <Image
+          src="/images/logo.svg"
+          w={"140px"}
+          h={"35px"}
+          display={"none"}
+          md={{
+            display: "block",
+          }}
+          alt="logo"
+        />
+        <Image
+          src="/images/logo_only_icon.svg"
+          w={"28px"}
+          h={"35px"}
+          md={{
+            display: "none",
+          }}
+          alt="logo"
+        />
       </a>
       <Flex
         gap={"28px"}

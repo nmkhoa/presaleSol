@@ -82,10 +82,13 @@ const InviteAndEarn = () => {
         w={"fit-content"}
         gap={"16px"}
         mx={"auto"}
-        mt={"110px"}
-        px={"44px"}
+        mt={"70px"}
         alignItems={"center"}
         flexDirection={"column"}
+        md={{
+          px: "44px",
+          mt: "110px",
+        }}
         xl={{
           gap: "20px",
           flexDirection: "row",
@@ -94,34 +97,40 @@ const InviteAndEarn = () => {
         }}
       >
         <Box
-          w={"680px"}
-          p={"20px"}
+          w={"100%"}
+          p={"8px"}
           background={"url(/images/invite_bg.svg)"}
           backgroundSize={"cover"}
           backgroundRepeat={"no-repeat"}
           borderRadius={"12px"}
           display={"flex"}
           alignItems={"end"}
+          md={{
+            w: "680px",
+            p: "20px",
+          }}
           xl={{
             display: "block",
             w: "505px",
           }}
         >
           <Box w={"100%"}>
-            <Flex gap={"40px"}>
+            <Flex gap={"4px"} alignItems={"center"} md={{ gap: "40px" }}>
               <Text
-                fontSize={"20px"}
+                fontSize={"16px"}
                 fontWeight={700}
                 color={"#FFFFFF"}
+                md={{ fontSize: "20px" }}
                 xl={{ fontSize: "28px" }}
               >
                 Invite friends & earn up to
               </Text>
               <Text
-                fontSize={"64px"}
+                fontSize={"16px"}
                 fontWeight={700}
                 color={"#FFFFFF"}
-                display={"none"}
+                display={"block"}
+                md={{ display: "none", fontSize: "64px" }}
                 xl={{ display: "block" }}
               >
                 {rewardRate}%
@@ -159,10 +168,11 @@ const InviteAndEarn = () => {
                       rounded={"8px"}
                       color={"#1A1001"}
                       fontWeight={700}
-                      fontSize={"14px"}
+                      fontSize={"12px"}
                       xl={{
                         h: "58px",
                       }}
+                      md={{ fontSize: "14px" }}
                       _hover={{ filter: "brightness(1.3)" }}
                     >
                       <Clipboard.CopyText />
@@ -172,11 +182,14 @@ const InviteAndEarn = () => {
               ) : (
                 <Button
                   h={"42px"}
+                  px={"8px"}
                   fontWeight={700}
                   borderRadius={"8px"}
                   xl={{
                     h: "58px",
                   }}
+                  fontSize={"12px"}
+                  md={{ px: "16px", fontSize: "16px" }}
                   onClick={() => setShowModal(true)}
                 >
                   Connect wallet
@@ -190,21 +203,28 @@ const InviteAndEarn = () => {
             lineHeight={"84px"}
             fontWeight={700}
             color={"#FFFFFF"}
-            display={"block"}
+            display={"none"}
             textAlign={"right"}
+            md={{
+              display: "block",
+            }}
             xl={{ display: "none" }}
           >
             {rewardRate}%
           </Text>
         </Box>
         <Box
-          w={"680px"}
+          w={"100%"}
           minH={"100%"}
-          p={"20px"}
+          p={"12px"}
           background={
             "linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"
           }
           borderRadius={"12px"}
+          md={{
+            w: "680px",
+            p: "20px",
+          }}
           xl={{
             w: "715px",
           }}
@@ -214,20 +234,30 @@ const InviteAndEarn = () => {
             alignItems={"end"}
             justifyContent={"space-between"}
           >
-            <Text fontSize={"20px"} fontWeight={700} xl={{ fontSize: "24px" }}>
+            <Text
+              fontSize={"16px"}
+              fontWeight={700}
+              md={{ fontSize: "20px" }}
+              xl={{ fontSize: "24px" }}
+            >
               Total Balance
             </Text>
             <Flex gap={"12px"} alignItems={"center"}>
               <Image
                 src="/images/token.svg"
-                w={"32px"}
-                h={"32px"}
+                w={"28px"}
+                h={"28px"}
+                md={{
+                  w: "32px",
+                  h: "32px",
+                }}
                 alt="token"
               />
               <Text
-                fontSize={"28px"}
+                fontSize={"20px"}
                 lineHeight={"42px"}
                 fontWeight={700}
+                md={{ fontSize: "28px" }}
                 xl={{ fontSize: "36px" }}
               >
                 {solUserAccountInfo
@@ -251,7 +281,9 @@ const InviteAndEarn = () => {
           />
           <Box
             mt={"16px"}
-            className="grid grid-cols-3 gap-[12px]"
+            className="grid gap-[12px]"
+            gridTemplateColumns={"repeat(2, minmax(0, 1fr))"}
+            md={{ gridTemplateColumns: "repeat(3, minmax(0, 1fr))" }}
             xl={{ mt: "67px" }}
           >
             <Box>
@@ -301,147 +333,155 @@ const InviteAndEarn = () => {
               onClick={checkConnected}
               className="btn-gradient-secondary"
             >
-              <div>Go to dashboard</div>
+              <Box p={"10px"}>Go to dashboard</Box>
             </Link>
           </Box>
         </Box>
       </Flex>
       {connected && (
-        <Box
-          maxW={"680px"}
-          mx={"auto"}
-          mt={"20px"}
-          py={"20px"}
-          h={"500px"}
-          background={
-            "linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"
-          }
-          overflow={"auto"}
-          borderRadius={"12px"}
-          xl={{ maxW: "1240px" }}
-        >
-          <Text
-            fontSize={"24px"}
-            fontWeight={700}
-            lineHeight={"28px"}
-            px={"20px"}
-          >
-            Transaction History
-          </Text>
-          <Box h={"1px"} mt={"24px"} background={"white"} opacity={"0.1"} />
-          <Box pl={"20px"} pr={"3px"}>
-            <Grid
-              py={"24px"}
-              pr={"10px"}
-              gridTemplateColumns={"repeat(5, minmax(0, 1fr))"}
-              xl={{ gridTemplateColumns: "repeat(6, minmax(0, 1fr))" }}
+        <Box borderRadius={"12px"} overflow={"hidden"}>
+          <Box overflow={"auto"} borderRadius={"12px"}>
+            <Box
+              minW={"680px"}
+              mx={"auto"}
+              mt={"20px"}
+              py={"20px"}
+              h={"500px"}
+              background={
+                "linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"
+              }
+              borderRadius={"12px"}
+              xl={{ maxW: "1240px" }}
             >
-              <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
-                Tx Hash
-              </Text>
-              <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
-                Amount
-              </Text>
-              <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
-                Currrency
-              </Text>
-              <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
-                Price
-              </Text>
               <Text
-                px={"16px"}
-                fontWeight={500}
-                color={"#6E758A"}
-                textAlign={"right"}
-                xl={{ gridColumn: "span 2 / span 2" }}
+                fontSize={"24px"}
+                fontWeight={700}
+                lineHeight={"28px"}
+                px={"20px"}
               >
-                Time
+                Transaction History
               </Text>
-            </Grid>
-            <Grid
-              gap={"8px"}
-              maxH={"340px"}
-              overflowY="auto"
-              className="custom-scrollbar"
-            >
-              {isLoading && (
-                <Box textAlign="center" py="20px" color="gray.500">
-                  Loading...
-                </Box>
-              )}
-              {!isLoading && transaction && transaction.length === 0 && (
-                <Box textAlign="center" py="20px" color="gray.500">
-                  No data found.
-                </Box>
-              )}
-              {transaction &&
-                transaction.map((data, index) => {
-                  return (
-                    <Box
-                      key={index}
-                      py={"18px"}
-                      background={"#15171F"}
-                      borderRadius={"8px"}
-                      className="grid grid-cols-6"
-                    >
-                      <a
-                        href={getTxHashLink(data.signature)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Text
-                          px="16px"
-                          fontWeight={500}
-                          color="#C7CCD9"
-                          _hover={{ textDecoration: "underline" }}
-                          cursor="pointer"
-                        >
-                          {data.signature.slice(0, 9)}
-                        </Text>
-                      </a>
-                      <Flex
-                        gap={"2px"}
-                        px={"16px"}
-                        fontWeight={500}
-                        color={"#C7CCD9"}
-                      >
-                        <Image
-                          src="/images/token.svg"
-                          w={"20px"}
-                          h={"20px"}
-                          alt="token"
-                        />
-                        {getNumberFixed(data.tokenamount, 2)}
-                      </Flex>
-                      <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
-                        {data.currency.toUpperCase()}
-                      </Text>
-                      <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
-                        ${getNumberFixed(data.currencyprice, 2)}
-                      </Text>
-                      <Text
-                        className="col-span-2"
-                        px={"16px"}
-                        fontWeight={500}
-                        color={"#C7CCD9"}
-                        textAlign={"right"}
-                      >
-                        {formatTimeAgo(data.blocktime)}
-                      </Text>
+              <Box h={"1px"} mt={"24px"} background={"white"} opacity={"0.1"} />
+              <Box pl={"20px"} pr={"3px"}>
+                <Grid
+                  py={"24px"}
+                  pr={"10px"}
+                  gridTemplateColumns={"repeat(5, minmax(0, 1fr))"}
+                  xl={{ gridTemplateColumns: "repeat(6, minmax(0, 1fr))" }}
+                >
+                  <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
+                    Tx Hash
+                  </Text>
+                  <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
+                    Amount
+                  </Text>
+                  <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
+                    Currrency
+                  </Text>
+                  <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
+                    Price
+                  </Text>
+                  <Text
+                    px={"16px"}
+                    fontWeight={500}
+                    color={"#6E758A"}
+                    textAlign={"right"}
+                    xl={{ gridColumn: "span 2 / span 2" }}
+                  >
+                    Time
+                  </Text>
+                </Grid>
+                <Grid
+                  gap={"8px"}
+                  maxH={"340px"}
+                  overflowY="auto"
+                  className="custom-scrollbar"
+                >
+                  {isLoading && (
+                    <Box textAlign="center" py="20px" color="gray.500">
+                      Loading...
                     </Box>
-                  );
-                })}
-              {hasNextPage && (
-                <div ref={ref} className="flex justify-center py-4">
-                  <div className="flex flex-col items-center">
-                    <div className="spinner-border animate-spin inline-block w-6 h-6 border-4 border-solid rounded-full border-blue-600 border-t-transparent" />
-                    <p className="mt-2 text-sm text-gray-600">
-                      Loading more...
-                    </p>
-                  </div>
-                </div>
-              )}
-            </Grid>
+                  )}
+                  {!isLoading && transaction && transaction.length === 0 && (
+                    <Box textAlign="center" py="20px" color="gray.500">
+                      No data found.
+                    </Box>
+                  )}
+                  {transaction &&
+                    transaction.map((data, index) => {
+                      return (
+                        <Box
+                          key={index}
+                          py={"18px"}
+                          display={"grid"}
+                          background={"#15171F"}
+                          borderRadius={"8px"}
+                          gridTemplateColumns={"repeat(5, minmax(0, 1fr))"}
+                          xl={{
+                            gridTemplateColumns: "repeat(6, minmax(0, 1fr))",
+                          }}
+                        >
+                          <a
+                            href={getTxHashLink(data.signature)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <Text
+                              px="16px"
+                              fontWeight={500}
+                              color="#C7CCD9"
+                              _hover={{ textDecoration: "underline" }}
+                              cursor="pointer"
+                              className="truncate"
+                            >
+                              {data.signature.slice(0, 9)}
+                            </Text>
+                          </a>
+                          <Flex
+                            gap={"2px"}
+                            px={"16px"}
+                            fontWeight={500}
+                            color={"#C7CCD9"}
+                          >
+                            <Image
+                              src="/images/token.svg"
+                              w={"20px"}
+                              h={"20px"}
+                              alt="token"
+                            />
+                            {getNumberFixed(data.tokenamount, 2)}
+                          </Flex>
+                          <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
+                            {data.currency.toUpperCase()}
+                          </Text>
+                          <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
+                            ${getNumberFixed(data.currencyprice, 2)}
+                          </Text>
+                          <Text
+                            xl={{ gridColumn: "span 2 / span 2" }}
+                            px={"16px"}
+                            fontWeight={500}
+                            color={"#C7CCD9"}
+                            textAlign={"right"}
+                          >
+                            {formatTimeAgo(data.blocktime)}
+                          </Text>
+                        </Box>
+                      );
+                    })}
+                  {hasNextPage && (
+                    <div ref={ref} className="flex justify-center py-4">
+                      <div className="flex flex-col items-center">
+                        <div className="spinner-border animate-spin inline-block w-6 h-6 border-4 border-solid rounded-full border-blue-600 border-t-transparent" />
+                        <p className="mt-2 text-sm text-gray-600">
+                          Loading more...
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </Grid>
+              </Box>
+            </Box>
           </Box>
         </Box>
       )}

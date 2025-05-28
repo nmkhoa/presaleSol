@@ -229,6 +229,15 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     if (method.key === paymentMethods[2].key) return tokenBalanceUsdt;
   }, [method.key, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt]);
 
+  const isBalanceDisable = useMemo(() => {
+    if (method.key === paymentMethods[0].key)
+      return tokenBalanceSol < +inputAmount;
+    if (method.key === paymentMethods[1].key)
+      return tokenBalanceUsdc < +inputAmount;
+    if (method.key === paymentMethods[2].key)
+      return tokenBalanceUsdt < +inputAmount;
+  }, [inputAmount, method]);
+
   return (
     <Box>
       <Text
@@ -240,7 +249,12 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
       >
         Payment method
       </Text>
-      <Grid gap={"16px"} mt={"12px"} className="grid-cols-3">
+      <Grid
+        gap={"12px"}
+        mt={"12px"}
+        className="grid-cols-3"
+        md={{ gap: "16px" }}
+      >
         {paymentMethods?.map((item) => {
           return (
             <Flex
@@ -258,12 +272,15 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
               lineHeight={"20px"}
               borderRadius={"8px"}
               fontWeight={700}
-              fontSize={"14px"}
+              fontSize={"12px"}
               cursor={"pointer"}
               color={method.key === item.key ? "#FFAF40" : "#FFFFFF"}
               onClick={() => {
                 setMethod(item);
                 setInputAmount("");
+              }}
+              md={{
+                fontSize: "14px",
               }}
               xl={{
                 p: "12px",
@@ -384,13 +401,19 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         className="btn-connect-wallet"
         height={"44px"}
         mt={"4px"}
-        cursor={"pointer"}
         xl={{
           h: "58px",
         }}
-        onClick={() => (connected ? handleBuyUn() : setShowModal(true))}
       >
-        <Button w={"100%"} height={"100%"} loading={loadingPurchase}>
+        <Button
+          w={"100%"}
+          height={"100%"}
+          loading={loadingPurchase}
+          disabled={connected && isBalanceDisable}
+          fontSize={"12px !important"}
+          md={{ fontSize: "16px !important" }}
+          onClick={() => (connected ? handleBuyUn() : setShowModal(true))}
+        >
           {connected ? "Buy $UN Now" : "Connect wallet & Buy"}
         </Button>
       </Box>
@@ -400,7 +423,10 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         color={"#FF9A0D"}
         textAlign={"center"}
         fontWeight={700}
-        fontSize={"14px"}
+        fontSize={"12px"}
+        md={{
+          fontSize: "14px",
+        }}
         xl={{
           mt: "20px",
           fontSize: "16px",

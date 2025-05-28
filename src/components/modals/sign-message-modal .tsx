@@ -16,10 +16,9 @@ export const SignMessageModal = ({ showModal }: Props) => {
             align="center"
             justify="center"
             gap={3}
+            py={"30px"}
             position="relative"
             bg="linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"
-            w="500px"
-            h="290px"
             borderRadius="2xl"
             boxShadow="xl"
             zIndex={1}

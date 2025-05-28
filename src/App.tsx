@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/home";
-import Dashboard from "./pages/dashboard";
 import Referral from "./pages/referral";
 import { ROUTES } from "./constants/router";
 import { Provider } from "./components/ui/provider";
@@ -10,6 +9,7 @@ import ReactQueryProvider from "./components/providers/react-query-provider";
 import AuthProvider from "./components/providers/auth-provider";
 import { Toaster } from "./components/ui/toaster";
 import ScrollToTop from "./components/pages/global/ScrollToTop";
+import AuthGuard from "./Guard/AuthGuardProps ";
 function App() {
   return (
     <ReactQueryProvider>
@@ -21,8 +21,14 @@ function App() {
                 <ScrollToTop />
                 <Routes>
                   <Route path={ROUTES.HOME} element={<Home />} />
-                  <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
-                  <Route path={ROUTES.REFERRAL} element={<Referral />} />
+                  <Route
+                    path={ROUTES.REFERRAL}
+                    element={
+                      <AuthGuard>
+                        <Referral />
+                      </AuthGuard>
+                    }
+                  />
                 </Routes>
               </BrowserRouter>
               <Toaster />

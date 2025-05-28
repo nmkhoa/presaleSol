@@ -1,40 +1,89 @@
 import { Box, Flex, Image, Link, Text } from "@chakra-ui/react";
-import { footerLinks, footerSocialLinks, landingPageLink } from "../../../constants/home";
+import { footerLinks, footerSocialLinks } from "../../../constants/home";
 
 const FooterHome = () => {
   return (
-    <Box pt={"180px"}>
+    <Box pt={"40px"} md={{ pt: "70px" }} xl={{ pt: "180px" }}>
       <Image
         src="/images/unich.svg"
-        w={"1229px"}
-        h={"269px"}
+        w={"90%"}
+        h={"auto"}
         mx={"auto"}
         alt="unich"
+        md={{
+          w: "768px",
+          h: "170px",
+        }}
+        xl={{
+          w: "1229px",
+          h: "269px",
+        }}
       />
       <Flex
-        h={"411px"}
-        pb={"24px"}
+        h={"auto"}
+        pb={"20px"}
         alignItems={"end"}
-        background={"url(/images/footer.svg)"}
+        background={"url(/images/footer_m.svg)"}
         backgroundSize={"cover"}
-        backgroundPosition={"center"}
+        backgroundPosition={"center top !important"}
         backgroundRepeat={"no-repeat"}
+        md={{
+          h: "306px",
+          backgroundSize: "cover",
+          backgroundPosition: "center !important",
+          background: "url(/images/footer.svg)",
+          backgroundRepeat: "no-repeat",
+        }}
+        xl={{ h: "411px", pb: "24px" }}
       >
         <Box w={"100%"}>
           <Flex
             maxW={"1240px"}
             mx={"auto"}
-            py={"24px"}
+            pt={"46px"}
+            px={"12px"}
             alignItems={"center"}
             justifyContent={"space-between"}
+            md={{ py: "16px" }}
+            xl={{ px: "0", pb: "24px" }}
           >
-            <a href={landingPageLink} target="_blank">
-              <Image src="/images/logo.svg" w={"140px"} h={"35px"} alt="logo" />
-            </a>
-            <Flex gap={"27px"}>
+            <Image
+              src="/images/logo.svg"
+              w={"140px"}
+              h={"35px"}
+              display={"none"}
+              md={{
+                display: "block",
+              }}
+              alt="logo"
+            />
+            <Image
+              src="/images/logo_only_icon.svg"
+              w={"28px"}
+              h={"35px"}
+              md={{
+                display: "none",
+              }}
+              alt="logo"
+            />
+            <Flex
+              gap={"4px"}
+              xl={{ gap: "27px" }}
+              display={"grid"}
+              textAlign={"right"}
+              gridTemplateColumns={"repeat(2, minmax(0, 1fr))"}
+              md={{ display: "flex", gap: "20px", textAlign: "left" }}
+            >
               {footerLinks.map((item) => {
                 return (
-                  <Text key={item.title} p={"8px"}>
+                  <Text
+                    key={item.title}
+                    p={"8px"}
+                    fontSize={"12px"}
+                    xl={{
+                      fontSize: "16px",
+                    }}
+                  >
                     {item.title}
                   </Text>
                 );
@@ -45,31 +94,57 @@ const FooterHome = () => {
           <Flex
             maxW={"1240px"}
             mx={"auto"}
-            py={"24px"}
+            py={"16px"}
+            px={"12px"}
+            gap={"16px"}
             alignItems={"center"}
-            justifyContent={"space-between"}
+            justifyContent={"center"}
+            flexDirection={"column"}
+            md={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+            xl={{ py: "24px", px: "0" }}
           >
-            <Flex gap={"16px"}>
-              <Text fontSize={"14px"} fontWeight={500}>
-                Privacy Policy
-              </Text>
-              <Text fontSize={"14px"} fontWeight={500}>
-                Terms and Conditions
-              </Text>
-              <Flex gap={"4px"} fontSize={"14px"} fontWeight={500}>
+            <Flex
+              gap={"16px"}
+              fontSize={"12px"}
+              flexWrap={"wrap"}
+              justifyContent={"center"}
+              xl={{ fontSize: "14px" }}
+            >
+              <Text fontWeight={500}>Privacy Policy</Text>
+              <Text fontWeight={500}>Terms and Conditions</Text>
+              <Flex gap={"4px"} fontWeight={500}>
                 Contact
                 <Text color={"#FF9A0D"}>hi@unich.com</Text>
               </Flex>
             </Flex>
-            <Image src="/images/build_solana.svg" w={"171px"} h={"36px"} />
+            <Image
+              src="/images/build_solana.svg"
+              w={"163px"}
+              h={"28px"}
+              mx={"auto"}
+              md={{ mx: "0" }}
+              xl={{ w: "171px", h: "36px" }}
+            />
           </Flex>
           <Box w={"100%"} h={"1px"} background={"#FAFAFA"} opacity={"10%"} />
           <Flex
             maxW={"1240px"}
             mx={"auto"}
             py={"16px"}
+            px={"12px"}
+            gap={"24px"}
             alignItems={"center"}
-            justifyContent={"space-between"}
+            justifyContent={"center"}
+            flexDirection={"column"}
+            md={{
+              justifyContent: "space-between",
+              flexDirection: "row",
+              gap: "12px",
+            }}
+            xl={{ px: 0 }}
           >
             <Text fontSize={"12px"} fontWeight={500}>
               © Copyright 2024 by Unich. All rights reserved
