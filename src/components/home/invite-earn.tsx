@@ -232,6 +232,7 @@ const InviteAndEarn = () => {
           mx={"auto"}
           mt={"20px"}
           py={"20px"}
+          h={"500px"}
           background={
             "linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"
           }
@@ -273,7 +274,6 @@ const InviteAndEarn = () => {
             <Grid
               gap={"8px"}
               maxH={"340px"}
-              h={"340px"}
               overflowY="auto"
               className="custom-scrollbar"
             >
@@ -282,7 +282,7 @@ const InviteAndEarn = () => {
                   Loading...
                 </Box>
               )}
-              {!isLoading && transaction.length === 0 && (
+              {!isLoading && transaction && transaction.length === 0 && (
                 <Box textAlign="center" py="20px" color="gray.500">
                   No data found.
                 </Box>

@@ -32,12 +32,8 @@ import { Transaction } from "@solana/web3.js";
 import { useSolUser } from "@/core/hook/useSolUser";
 
 export default function RewardClaimPanel() {
-  const {
-    solUserAccountInfo,
-    solSaleAccountInfo,
-    tokensPrice,
-    setSolUserAccountInfo,
-  } = useTokenStore();
+  const { solUserAccountInfo, tokensPrice, setSolUserAccountInfo } =
+    useTokenStore();
   const program = useUnichProgram();
   const { publicKey } = useWallet();
   const provider = useAnchorProvider();
