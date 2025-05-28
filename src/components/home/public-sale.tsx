@@ -52,7 +52,8 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     wallet: wallet as any,
   });
   const { user } = useAuthStore();
-  const { tokensPrice } = useTokenStore();
+  const { tokensPrice, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt } =
+    useTokenStore();
 
   const fetchReferralAccount = async (referrer: string | undefined) => {
     try {
@@ -222,6 +223,12 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     );
   }, []);
 
+  const balanceByMethod = useMemo(() => {
+    if (method.key === paymentMethods[0].key) return tokenBalanceSol;
+    if (method.key === paymentMethods[1].key) return tokenBalanceUsdc;
+    if (method.key === paymentMethods[2].key) return tokenBalanceUsdt;
+  }, [method.key, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt]);
+
   return (
     <Box>
       <Text
@@ -304,6 +311,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
               lineHeight={"20px"}
               border={"none"}
               outline={"none"}
+              disabled={!balanceByMethod || !connected}
               value={inputAmount}
               onChange={onHandleInput}
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"

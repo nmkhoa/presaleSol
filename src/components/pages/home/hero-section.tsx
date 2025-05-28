@@ -19,7 +19,6 @@ import {
 } from "@/constants/contract";
 import { navKey, paymentMethods } from "@/constants/home";
 import { getAccount, getAssociatedTokenAddress } from "@solana/spl-token";
-import SaleWithoutConnectWallet from "@/components/home/sale-connect";
 import { useTokenStore } from "@/stores/token.store";
 import { request } from "@/config/request";
 import { feedIdSolana, nftAddress } from "@/constants/environment";
@@ -170,8 +169,11 @@ const HeroSection = () => {
       <Box
         position={"absolute"}
         w={"100%"}
-        h={"1450px"}
+        h={"1280px"}
         className="hero-section"
+        xl={{
+          h: "1450px",
+        }}
       />
       <Box position={"relative"}>
         <Header />
@@ -327,40 +329,45 @@ const HeroSection = () => {
                 Whitelist
               </Button>
             </Grid>
-            {connected ? (
-              <div>
-                {!tab && (
-                  <PublicSale
-                    fetchSaleAccount={fetchSaleAccount}
-                    fetchUserAccount={fetchUserAccount}
-                  />
-                )}
-                {!!tab && (
-                  <Whitelist
-                    fetchSaleAccount={fetchSaleAccount}
-                    fetchUserAccount={fetchUserAccount}
-                  />
-                )}
-              </div>
-            ) : (
-              <SaleWithoutConnectWallet />
-            )}
+            <div>
+              {!tab && (
+                <PublicSale
+                  fetchSaleAccount={fetchSaleAccount}
+                  fetchUserAccount={fetchUserAccount}
+                />
+              )}
+              {!!tab && (
+                <Whitelist
+                  fetchSaleAccount={fetchSaleAccount}
+                  fetchUserAccount={fetchUserAccount}
+                />
+              )}
+            </div>
           </Box>
         </Flex>
         <Box
-          mt={"47px"}
+          mt={"16px"}
           textAlign={"center"}
-          fontSize={"14px"}
+          fontSize={"12px"}
           fontWeight={500}
+          xl={{
+            mt: "47px",
+            fontSize: "14px",
+          }}
         >
           Audited by
         </Box>
         <Image
           src="/images/logo_softstack.svg"
-          w={"170px"}
-          height={"28px"}
+          w={"121px"}
+          h={"20px"}
           mx={"auto"}
-          mt={"7px"}
+          mt={"4px"}
+          xl={{
+            w: "170px",
+            h: "28px",
+            mt: "7px",
+          }}
           align="logo"
         />
         <InviteAndEarn />

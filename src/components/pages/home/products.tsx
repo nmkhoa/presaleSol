@@ -8,26 +8,40 @@ const Products = () => {
         w={"fit-content"}
         gap={"20px"}
         mx={"auto"}
-        mt={"130px"}
+        mt={"96px"}
         alignItems={"center"}
+        flexDirection={"column"}
+        xl={{
+          mt: "130px",
+          flexDirection: "row",
+        }}
       >
-        <Box w={"395px"}>
-          <Text
-            className="text-secondary"
-            fontSize={"64px"}
-            fontWeight={300}
-            lineHeight={"56px"}
-          >
-            UNICH'S
-          </Text>
-          <Text
-            className="text-secondary"
-            fontSize={"64px"}
-            fontWeight={700}
-            lineHeight={"56px"}
-          >
-            PRODUCTS
-          </Text>
+        <Box
+          w={"100%"}
+          textAlign={"center"}
+          xl={{
+            w: "395px",
+            textAlign: "left",
+          }}
+        >
+          <Flex>
+            <Text
+              className="text-secondary"
+              fontSize={"64px"}
+              fontWeight={300}
+              lineHeight={"56px"}
+            >
+              UNICH'S
+            </Text>
+            <Text
+              className="text-secondary"
+              fontSize={"64px"}
+              fontWeight={700}
+              lineHeight={"56px"}
+            >
+              PRODUCTS
+            </Text>
+          </Flex>
           <Text mt={"20px"} color={"#C7CCD9"} fontWeight={500}>
             Earn, Grow, and Lead! Secure $UN Before Launch, Unlock +148% APY
             Staking, and Shape the Future of the Metaverse!
@@ -78,7 +92,10 @@ const Products = () => {
               Download on
             </Text>
             <Flex gap={"7px"} mt={"12px"}>
-              <Link href="https://play.google.com/store/apps/details?id=com.unichlabs.unich.prd.android&pli=1" target="_blank">
+              <Link
+                href="https://play.google.com/store/apps/details?id=com.unichlabs.unich.prd.android&pli=1"
+                target="_blank"
+              >
                 <Image
                   src="/images/google_play.svg"
                   w={"133px"}

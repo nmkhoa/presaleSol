@@ -52,7 +52,12 @@ const ConnectWalletButton = () => {
           <Dialog.Backdrop />
           <Dialog.Positioner>
             <Dialog.Content>
-              <Box p={"20px"}>
+              <Box
+                p={"20px"}
+                background={
+                  "linear-gradient(145.6deg, #14161B 40.65%, #15161C 95.33%)"
+                }
+              >
                 <Text fontSize={"20px"} fontWeight={700}>
                   Your Wallet
                 </Text>

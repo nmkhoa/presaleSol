@@ -25,11 +25,16 @@ const Home = () => {
       <HeroSection />
       <Box
         id={navKey.benefit}
-        h={"806px"}
+        h={"610px"}
         mt={"64px"}
-        backgroundImage={"url(/images/token_utilities.svg)"}
+        backgroundImage={"url(/images/token_utilities_tablet.svg)"}
         backgroundSize={"auto 100%"}
         backgroundPosition={"center"}
+        backgroundRepeat={"no-repeat"}
+        xl={{
+          h: "806px",
+          backgroundImage: "url(/images/token_utilities.svg)",
+        }}
       />
       <Products />
       <CryptoAlliance />

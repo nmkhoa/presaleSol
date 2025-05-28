@@ -7,7 +7,13 @@ const SaleWithoutConnectWallet = () => {
 
   return (
     <Box>
-      <Text mt={"56px"} textAlign={"center"} fontWeight={500}>
+      <Text
+        mt={"36px"}
+        textAlign={"center"}
+        fontSize={"14px"}
+        fontWeight={500}
+        xl={{ mt: "56px", fontSize: "16px" }}
+      >
         Whitelist round is only eligible for users who own special UNICH NFT.
         Please connect your wallet, or{" "}
         <Link href="" target="_blank" color={"#FF9A0D"}>

@@ -27,6 +27,7 @@ import { feedIdSolana } from "@/constants/environment";
 import { network } from "../providers/solana-provider";
 import { useTokenStore } from "@/stores/token.store";
 import { useNftStore } from "@/stores/whitelist.store";
+import SaleWithoutConnectWallet from "./sale-connect";
 
 interface Props {
   fetchSaleAccount: () => Promise<void>;
@@ -48,7 +49,8 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     connection: new Connection(endpoint),
     wallet: wallet as any,
   });
-  const { tokensPrice } = useTokenStore();
+  const { tokensPrice, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt } =
+    useTokenStore();
 
   const getPurchaseToken = async () => {
     if (method.key === paymentMethods[0].key) {
@@ -182,6 +184,16 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     );
   }, []);
 
+  const balanceByMethod = useMemo(() => {
+    if (method.key === paymentMethods[0].key) return tokenBalanceSol;
+    if (method.key === paymentMethods[1].key) return tokenBalanceUsdc;
+    if (method.key === paymentMethods[2].key) return tokenBalanceUsdt;
+  }, [method.key, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt]);
+
+  if (!connected) {
+    return <SaleWithoutConnectWallet />;
+  }
+
   if (!nft) {
     return (
       <Box>
@@ -260,6 +272,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
               border={"none"}
               outline={"none"}
               value={inputAmount}
+              disabled={!balanceByMethod}
               onChange={onHandleInput}
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />

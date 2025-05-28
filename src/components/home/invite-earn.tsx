@@ -68,94 +68,153 @@ const InviteAndEarn = () => {
     return getNumberFixed(earned);
   }, [solSaleAccountInfo, solUserAccountInfo]);
 
+  const rewardRate = useMemo(() => {
+    if (!solSaleAccountInfo || !solSaleAccountInfo?.denominator) return 0;
+    return (
+      (solSaleAccountInfo.refCurrencyRate * 100) /
+      solSaleAccountInfo.denominator
+    );
+  }, []);
+
   return (
     <Box>
       <Flex
         w={"fit-content"}
-        gap={"20px"}
+        gap={"16px"}
         mx={"auto"}
-        mt={"160px"}
+        mt={"110px"}
+        px={"44px"}
         alignItems={"center"}
+        flexDirection={"column"}
+        xl={{
+          gap: "20px",
+          flexDirection: "row",
+          mt: "160px",
+          px: "0",
+        }}
       >
         <Box
-          w={"505px"}
+          w={"680px"}
           p={"20px"}
           background={"url(/images/invite_bg.svg)"}
           backgroundSize={"cover"}
           backgroundRepeat={"no-repeat"}
           borderRadius={"12px"}
+          display={"flex"}
+          alignItems={"end"}
+          xl={{
+            display: "block",
+            w: "505px",
+          }}
         >
-          <Flex gap={"40px"}>
-            <Text fontSize={"28px"} fontWeight={700} color={"#FFFFFF"}>
-              Invite friends & earn up to
-            </Text>
-            <Text fontSize={"64px"} fontWeight={700} color={"#FFFFFF"}>
-              11%
-            </Text>
-          </Flex>
-          <Flex gap={"10px"} mt={"38px"}>
-            <Input
-              h={"58px"}
-              background={"rgba(0, 0, 0, 0.95)"}
-              color={"#FFEED6"}
-              borderRadius={"8px"}
-              disabled
-              opacity={1}
-              value={user ? `${user.affiliateCode}` : ""}
-              placeholder="Connect wallet to see your code"
-            />
-            {connected ? (
-              <Clipboard.Root
-                value={
-                  user
-                    ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}`
-                    : ""
-                }
-                timeout={1000}
-              >
-                <Clipboard.Trigger asChild>
-                  <Button
-                    w={"80px"}
-                    h={"58px"}
-                    p={"12px"}
-                    background="#FFFFFF"
-                    rounded={"8px"}
-                    color={"#1A1001"}
-                    fontWeight={700}
-                    fontSize={"14px"}
-                    _hover={{ filter: "brightness(1.3)" }}
-                  >
-                    <Clipboard.CopyText />
-                  </Button>
-                </Clipboard.Trigger>
-              </Clipboard.Root>
-            ) : (
-              <Button
-                h={"58px"}
+          <Box w={"100%"}>
+            <Flex gap={"40px"}>
+              <Text
+                fontSize={"20px"}
                 fontWeight={700}
-                borderRadius={"8px"}
-                onClick={() => setShowModal(true)}
+                color={"#FFFFFF"}
+                xl={{ fontSize: "28px" }}
               >
-                Connect wallet
-              </Button>
-            )}
-          </Flex>
+                Invite friends & earn up to
+              </Text>
+              <Text
+                fontSize={"64px"}
+                fontWeight={700}
+                color={"#FFFFFF"}
+                display={"none"}
+                xl={{ display: "block" }}
+              >
+                {rewardRate}%
+              </Text>
+            </Flex>
+            <Flex gap={"10px"} mt={"12px"} xl={{ mt: "38px" }}>
+              <Input
+                h={"40px"}
+                background={"rgba(0, 0, 0, 0.95)"}
+                color={"#FFEED6"}
+                borderRadius={"8px"}
+                disabled
+                opacity={1}
+                value={user ? `${user.affiliateCode}` : ""}
+                xl={{
+                  h: "58px",
+                }}
+                placeholder="Connect wallet to see your code"
+              />
+              {connected ? (
+                <Clipboard.Root
+                  value={
+                    user
+                      ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}`
+                      : ""
+                  }
+                  timeout={1000}
+                >
+                  <Clipboard.Trigger asChild>
+                    <Button
+                      w={"80px"}
+                      h={"42px"}
+                      p={"12px"}
+                      background="#FFFFFF"
+                      rounded={"8px"}
+                      color={"#1A1001"}
+                      fontWeight={700}
+                      fontSize={"14px"}
+                      xl={{
+                        h: "58px",
+                      }}
+                      _hover={{ filter: "brightness(1.3)" }}
+                    >
+                      <Clipboard.CopyText />
+                    </Button>
+                  </Clipboard.Trigger>
+                </Clipboard.Root>
+              ) : (
+                <Button
+                  h={"42px"}
+                  fontWeight={700}
+                  borderRadius={"8px"}
+                  xl={{
+                    h: "58px",
+                  }}
+                  onClick={() => setShowModal(true)}
+                >
+                  Connect wallet
+                </Button>
+              )}
+            </Flex>
+          </Box>
+          <Text
+            minW={"200px"}
+            fontSize={"84px"}
+            lineHeight={"84px"}
+            fontWeight={700}
+            color={"#FFFFFF"}
+            display={"block"}
+            textAlign={"right"}
+            xl={{ display: "none" }}
+          >
+            {rewardRate}%
+          </Text>
         </Box>
         <Box
-          w={"715px"}
+          w={"680px"}
           minH={"100%"}
           p={"20px"}
           background={
             "linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"
           }
           borderRadius={"12px"}
+          xl={{
+            w: "715px",
+          }}
         >
           <Flex
             gap={"12px"}
             alignItems={"end"}
             justifyContent={"space-between"}
           >
-            <Text fontSize={"24px"} fontWeight={700}>
+            <Text fontSize={"20px"} fontWeight={700} xl={{ fontSize: "24px" }}>
               Total Balance
             </Text>
             <Flex gap={"12px"} alignItems={"center"}>
@@ -165,7 +224,12 @@ const InviteAndEarn = () => {
                 h={"32px"}
                 alt="token"
               />
-              <Text fontSize={"36px"} lineHeight={"42px"} fontWeight={700}>
+              <Text
+                fontSize={"28px"}
+                lineHeight={"42px"}
+                fontWeight={700}
+                xl={{ fontSize: "36px" }}
+              >
                 {solUserAccountInfo
                   ? formatAmount(
                       getNumberFixed(
@@ -178,8 +242,18 @@ const InviteAndEarn = () => {
               </Text>
             </Flex>
           </Flex>
-          <Box h={"1px"} mt={"24px"} background={"white"} opacity={"0.1"} />
-          <Box mt={"67px"} className="grid grid-cols-3 gap-[12px]">
+          <Box
+            h={"1px"}
+            mt={"16px"}
+            background={"white"}
+            opacity={"0.1"}
+            xl={{ mt: "24px" }}
+          />
+          <Box
+            mt={"16px"}
+            className="grid grid-cols-3 gap-[12px]"
+            xl={{ mt: "67px" }}
+          >
             <Box>
               <Text fontSize={"14px"} fontWeight={500} color={"#C7CCD9"}>
                 $UN Earned
@@ -191,7 +265,12 @@ const InviteAndEarn = () => {
                   h={"24px"}
                   alt="token"
                 />
-                <Text fontSize={"24px"} fontWeight={700} lineHeight={"28px"}>
+                <Text
+                  fontSize={"20px"}
+                  fontWeight={700}
+                  lineHeight={"28px"}
+                  xl={{ fontSize: "24px" }}
+                >
                   {solUserAccountInfo?.tokenRefEarned
                     ? formatAmount(
                         getNumberFixed(solUserAccountInfo?.tokenRefEarned, 2)
@@ -206,9 +285,10 @@ const InviteAndEarn = () => {
               </Text>
               <Text
                 mt={"4px"}
-                fontSize={"24px"}
+                fontSize={"20px"}
                 fontWeight={700}
                 lineHeight={"28px"}
+                xl={{ fontSize: "24px" }}
               >
                 $
                 {usdEarned
@@ -228,7 +308,7 @@ const InviteAndEarn = () => {
       </Flex>
       {connected && (
         <Box
-          maxW={"1240px"}
+          maxW={"680px"}
           mx={"auto"}
           mt={"20px"}
           py={"20px"}
@@ -236,7 +316,9 @@ const InviteAndEarn = () => {
           background={
             "linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"
           }
+          overflow={"auto"}
           borderRadius={"12px"}
+          xl={{ maxW: "1240px" }}
         >
           <Text
             fontSize={"24px"}
@@ -248,7 +330,12 @@ const InviteAndEarn = () => {
           </Text>
           <Box h={"1px"} mt={"24px"} background={"white"} opacity={"0.1"} />
           <Box pl={"20px"} pr={"3px"}>
-            <Box py={"24px"} className="grid grid-cols-6" pr={"10px"}>
+            <Grid
+              py={"24px"}
+              pr={"10px"}
+              gridTemplateColumns={"repeat(5, minmax(0, 1fr))"}
+              xl={{ gridTemplateColumns: "repeat(6, minmax(0, 1fr))" }}
+            >
               <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
                 Tx Hash
               </Text>
@@ -262,15 +349,15 @@ const InviteAndEarn = () => {
                 Price
               </Text>
               <Text
-                className="col-span-2"
                 px={"16px"}
                 fontWeight={500}
                 color={"#6E758A"}
                 textAlign={"right"}
+                xl={{ gridColumn: "span 2 / span 2" }}
               >
                 Time
               </Text>
-            </Box>
+            </Grid>
             <Grid
               gap={"8px"}
               maxH={"340px"}
