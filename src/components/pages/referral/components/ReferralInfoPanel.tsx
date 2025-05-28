@@ -16,7 +16,7 @@ import { useReferralInfo } from "@/core/hook/useUsers";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 export default function ReferralInfoPanel() {
-  const { user } = useAuthStore();
+  const { user, accessToken } = useAuthStore();
 
   const { ref, inView } = useInView();
   const {
@@ -25,10 +25,13 @@ export default function ReferralInfoPanel() {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-  } = useReferralInfo({
-    page: 1,
-    limit: 10,
-  });
+  } = useReferralInfo(
+    {
+      page: 1,
+      limit: 10,
+    },
+    accessToken
+  );
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {

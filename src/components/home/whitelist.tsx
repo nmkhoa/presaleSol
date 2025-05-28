@@ -48,8 +48,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     connection: new Connection(endpoint),
     wallet: wallet as any,
   });
-  const { tokensPrice, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt } =
-    useTokenStore();
+  const { tokensPrice } = useTokenStore();
 
   const getPurchaseToken = async () => {
     if (method.key === paymentMethods[0].key) {
@@ -138,12 +137,6 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     setInputAmount(value);
   };
 
-  const balanceByMethod = useMemo(() => {
-    if (method.key === paymentMethods[0].key) return tokenBalanceSol;
-    if (method.key === paymentMethods[1].key) return tokenBalanceUsdc;
-    if (method.key === paymentMethods[2].key) return tokenBalanceUsdt;
-  }, [method.key, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt]);
-
   const getPriceByMethod = () => {
     if (method.key === paymentMethods[0].key) return tokensPrice?.sol || 0;
     if (method.key === paymentMethods[1].key) return tokensPrice?.usdc || 0;
@@ -178,7 +171,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     const priceAfterDiscount =
       (solSaleAccountInfo?.firstRoundPrice || 0) * 0.75;
     const receive = (+inputAmount * priceByMethod) / (priceAfterDiscount || 1);
-    return getNumberFixed(receive);
+    return formatAmount(getNumberFixed(receive));
   }, [inputAmount, solSaleAccountInfo?.firstRoundPrice]);
 
   const rewardRate = useMemo(() => {
@@ -266,7 +259,6 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
               lineHeight={"20px"}
               border={"none"}
               outline={"none"}
-              disabled={!balanceByMethod}
               value={inputAmount}
               onChange={onHandleInput}
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
@@ -299,7 +291,6 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
             border={"1px solid var(--Color-Neutral-600, #40475C)"}
           >
             <Input
-              type="number"
               height={"20px"}
               p={0}
               lineHeight={"20px"}

@@ -10,10 +10,18 @@ const Header = () => {
 
   return (
     <Flex
-      px={"98px"}
-      py={"24px"}
+      px={"16px"}
+      py={"12px"}
       justifyContent={"space-between"}
       alignItems={"center"}
+      md={{
+        px: "36px",
+        py: "16px",
+      }}
+      xl={{
+        px: "98px",
+        py: "24px",
+      }}
     >
       <a href={landingPageLink} target="_blank">
         <img src="/images/logo.svg" className="w-[140px] h-[35px]" alt="logo" />
@@ -24,6 +32,10 @@ const Header = () => {
         py={"8px"}
         bg={"rgba(255, 255, 255, 0.06)"}
         borderRadius={"24px"}
+        display={"none"}
+        xl={{
+          display: "flex",
+        }}
       >
         {navbarItems?.map((item) => {
           return (

@@ -1,27 +1,11 @@
 import { useLeaderboard } from "@/core/hook/useUsers";
+import { useAuthStore } from "@/stores/auth.store";
 import { getAddressFormat, getNumberFixed } from "@/utils";
 import { Box, Flex, Grid, HStack, Image, Text } from "@chakra-ui/react";
-import { useEffect } from "react";
-import { useInView } from "react-intersection-observer";
 
 export default function ReferralLeaderboard() {
-  const { ref, inView } = useInView();
-  const {
-    data: leaderboard,
-    isLoading,
-    hasNextPage,
-    isFetchingNextPage,
-    fetchNextPage,
-  } = useLeaderboard({
-    page: 1,
-    limit: 10,
-  });
-
-  useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage]);
+  const { accessToken } = useAuthStore();
+  const { data: leaderboard, isLoading } = useLeaderboard(accessToken);
 
   return (
     <Box
@@ -89,7 +73,7 @@ export default function ReferralLeaderboard() {
                 Loading...
               </Box>
             )}
-            {!isLoading && leaderboard.length === 0 && (
+            {!isLoading && leaderboard && leaderboard.length === 0 && (
               <Box textAlign="center" py="20px" color="gray.500">
                 No data found.
               </Box>
@@ -142,14 +126,6 @@ export default function ReferralLeaderboard() {
                   </Box>
                 );
               })}
-            {hasNextPage && (
-              <div ref={ref} className="flex justify-center py-4">
-                <div className="flex flex-col items-center">
-                  <div className="spinner-border animate-spin inline-block w-6 h-6 border-4 border-solid rounded-full border-blue-600 border-t-transparent" />
-                  <p className="mt-2 text-sm text-gray-600">Loading more...</p>
-                </div>
-              </div>
-            )}
           </Grid>
         </Box>
       </Box>

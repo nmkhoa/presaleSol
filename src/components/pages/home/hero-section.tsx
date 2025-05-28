@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import { Box, Flex, Image } from "@chakra-ui/react";
+import { Box, Button, Flex, Grid, Image, Text } from "@chakra-ui/react";
 import Header from "../global/header";
 import TokenSold from "../../home/token-sold";
 import { useCallback, useEffect, useState } from "react";
@@ -41,6 +41,12 @@ const HeroSection = () => {
   const { setNft } = useNftStore();
   const { mutateAsync: getSolSaleAccount } = useSolSale();
   const { mutateAsync: getSolUserAccount } = useSolUser();
+
+  useEffect(() => {
+    if (!connected && !!tab) {
+      setTab(0);
+    }
+  }, [connected]);
 
   const getPriceData = useCallback(async () => {
     const results = await Promise.all([
@@ -160,21 +166,76 @@ const HeroSection = () => {
   }, [wallet, publicKey]);
 
   return (
-    <div id={navKey.buy} className="relative">
-      <div className="absolute hero-section !h-[1450px] w-full" />
-      <section className="relative">
+    <Box position={"relative"} id={navKey.buy}>
+      <Box
+        position={"absolute"}
+        w={"100%"}
+        h={"1450px"}
+        className="hero-section"
+      />
+      <Box position={"relative"}>
         <Header />
-        <div className="text-primary w-fit !mx-auto !mt-[74px] !text-[84px] !font-medium !leading-[84px]">
+        <Text
+          w={"fit-content"}
+          mx={"auto"}
+          mt={"17px"}
+          fontSize={"28px"}
+          fontWeight={500}
+          lineHeight={"28px"}
+          className="text-primary"
+          md={{
+            mt: "68px",
+            fontSize: "64px",
+            lineHeight: "64px",
+          }}
+          xl={{
+            mt: "74px",
+            fontSize: "84px",
+            lineHeight: "84px",
+          }}
+        >
           FREEDOM
-        </div>
-        <div className="text-secondary w-fit !mx-auto !text-[84px] !font-extrabold !leading-[84px]">
+        </Text>
+        <Text
+          w={"fit-content"}
+          mx={"auto"}
+          fontSize={"28px"}
+          fontWeight={900}
+          lineHeight={"28px"}
+          className="text-secondary"
+          md={{
+            fontSize: "64px",
+            lineHeight: "64px",
+          }}
+          xl={{
+            fontSize: "84px",
+            lineHeight: "84px",
+          }}
+        >
           STARTS WITH $UN
-        </div>
-        <div className="max-w-[800px] !mt-10 !mx-auto text-center !text-lg text-[#B4C1D1] !font-medium">
+        </Text>
+        <Text
+          mt={"16px"}
+          mx={"auto"}
+          textAlign={"center"}
+          fontSize={"14px"}
+          color={"#B4C1D1"}
+          fontWeight={500}
+          md={{
+            maxW: "582px",
+            mt: "28px",
+            fontSize: "16px",
+          }}
+          xl={{
+            maxW: "800px",
+            mt: "40px",
+            fontSize: "18px",
+          }}
+        >
           Be early, be empowered. Secure Unich's token before launch to unlock
           your investment journey, access low-cost OTC trading, and shape the
           future of Pre-TGE Finance.
-        </div>
+        </Text>
         <Flex
           w={"fit-content"}
           mt={"40px"}
@@ -187,6 +248,12 @@ const HeroSection = () => {
           }
           backdropFilter={"blur(16.1px)"}
           border={"1px solid rgba(255, 255, 255, 0.15)"}
+          md={{
+            mt: "28px",
+          }}
+          xl={{
+            mt: "40px",
+          }}
         >
           <Box
             w={"322px"}
@@ -195,6 +262,14 @@ const HeroSection = () => {
             background={
               "linear-gradient(152.22deg, #14161B 38.95%, #15161C 96.26%)"
             }
+            md={{
+              w: "276px",
+              p: "16px",
+            }}
+            xl={{
+              w: "322px",
+              p: "20px",
+            }}
           >
             <TokenSold />
           </Box>
@@ -205,31 +280,53 @@ const HeroSection = () => {
             background={
               "linear-gradient(152.22deg, #14161B 38.95%, #15161C 96.26%)"
             }
+            md={{
+              w: "360px",
+              p: "16px",
+            }}
+            xl={{
+              w: "419px",
+              p: "20px",
+            }}
           >
-            <Box
-              className="grid grid-cols-2 gap-1 !p-[2px]"
+            <Grid
+              className="grid-cols-2"
+              gap={"4px"}
+              p={"2px"}
               background={"rgba(0, 0, 0, 0.7)"}
               borderRadius={"24px"}
             >
-              <button
+              <Button
+                w={"100%"}
+                h={"36px"}
+                py={"8px"}
+                borderRadius={"120px"}
+                fontWeight={600}
                 className={clsx(
-                  "w-full !py-2 h-[36px] !rounded-[120px] !font-semibold",
-                  !tab ? "!text-[#FF9A0D] !bg-[#1A1001]" : "!text-[#9EA5BA]"
+                  !tab
+                    ? "!text-[#FF9A0D] !bg-[#1A1001]"
+                    : "!text-[#9EA5BA] !bg-transparent"
                 )}
                 onClick={() => setTab(0)}
               >
                 Public sale
-              </button>
-              <button
+              </Button>
+              <Button
+                w={"100%"}
+                h={"36px"}
+                py={"8px"}
+                borderRadius={"120px"}
+                fontWeight={600}
                 className={clsx(
-                  "w-full !py-2 h-[36px] !rounded-[120px] !font-semibold",
-                  tab ? "!text-[#FF9A0D] !bg-[#1A1001]" : "!text-[#9EA5BA]"
+                  tab
+                    ? "!text-[#FF9A0D] !bg-[#1A1001]"
+                    : "!text-[#9EA5BA] !bg-transparent"
                 )}
                 onClick={() => setTab(1)}
               >
                 Whitelist
-              </button>
-            </Box>
+              </Button>
+            </Grid>
             {connected ? (
               <div>
                 {!tab && (
@@ -267,8 +364,8 @@ const HeroSection = () => {
           align="logo"
         />
         <InviteAndEarn />
-      </section>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

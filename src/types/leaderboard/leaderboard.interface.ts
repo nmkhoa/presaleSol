@@ -4,18 +4,8 @@ export type Pagination = {
   totalCount: number;
   totalPages: number;
 };
-type LeaderboardDataItem = {
+export type LeaderboardDataItem = {
   walletAddress: string;
   referralCount: string;
   totalReward: number;
-};
-
-export type LeaderboardRequest = {
-  page: number;
-  limit?: number;
-};
-
-export type LeaderboardResponse = {
-  data: LeaderboardDataItem[];
-  pagination: Pagination;
 };

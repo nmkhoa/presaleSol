@@ -24,7 +24,7 @@ const ConnectWalletButton = () => {
   }, [wallet?.adapter?.name]);
 
   return (
-    <div className="flex">
+    <Flex>
       {connected ? (
         <Dialog.Root placement={"center"} size={"xs"}>
           <Dialog.Trigger>
@@ -109,47 +109,6 @@ const ConnectWalletButton = () => {
           </Dialog.Positioner>
         </Dialog.Root>
       ) : (
-        // (
-        //   <Popover.Root>
-        //     <Popover.Trigger>
-        //       <Flex className="!border !border-neutral-600 !rounded-[8px]">
-        //         <div className="bg-neutral-700 !px-3 !py-2 !text-sm !font-medium rounded-l-[8px]">
-        //           {getAddressFormat(publicKey?.toBase58() ?? "")}
-        //         </div>
-        //         <Flex
-        //           gap={"4px"}
-        //           className="!px-2 !py-[10px] bg-neutral-900 rounded-r-[8px]"
-        //         >
-        //           <img
-        //             src="/images/solana.svg"
-        //             className="w-[16px] h-[16px]"
-        //             alt=""
-        //           />
-        //           <img
-        //             src="/images/arrow_down.svg"
-        //             className="w-[16px] h-[16px]"
-        //             alt=""
-        //           />
-        //         </Flex>
-        //       </Flex>
-        //     </Popover.Trigger>
-        //     <Popover.Positioner>
-        //       <Popover.Content w={"fit-content"}>
-        //         <Popover.Body
-        //           background={"black"}
-        //           w={"fit-content"}
-        //           p={"12px 20px"}
-        //           cursor={"pointer"}
-        //           onClick={() => onDisconnectWallet()}
-        //           rounded={"8px"}
-        //           border={"1px solid #ccc "}
-        //         >
-        //           Disconnect
-        //         </Popover.Body>
-        //       </Popover.Content>
-        //     </Popover.Positioner>
-        //   </Popover.Root>
-        // )
         <Box
           className="btn-connect-wallet"
           cursor={"pointer"}
@@ -158,7 +117,7 @@ const ConnectWalletButton = () => {
           <div>Connect wallet</div>
         </Box>
       )}
-    </div>
+    </Flex>
   );
 };
 

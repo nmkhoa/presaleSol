@@ -77,13 +77,6 @@ export default function RewardClaimPanel() {
     ];
   }, [solUserAccountInfo, tokensPrice, publicKey]);
 
-  const usdEarned = useMemo(() => {
-    if (!solUserAccountInfo || !solSaleAccountInfo) return 0;
-    const earned =
-      solUserAccountInfo.tokenRefEarned * solSaleAccountInfo.firstRoundPrice;
-    return getNumberFixed(earned);
-  }, [solSaleAccountInfo, solUserAccountInfo]);
-
   const handleClaim = async () => {
     try {
       if (!publicKey || !program) return;
@@ -128,6 +121,16 @@ export default function RewardClaimPanel() {
     return myRewards?.some((item) => !!item.value);
   }, [myRewards]);
 
+  const earnedValues = useMemo(() => {
+    let totalUNEarned = 0;
+    let totalUSDEarned = 0;
+    myRewards?.forEach((reward) => {
+      totalUNEarned += reward.value;
+      totalUSDEarned += reward.price;
+    });
+    return { totalUNEarned, totalUSDEarned };
+  }, [myRewards]);
+
   return (
     <Box
       background={"linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"}
@@ -146,10 +149,8 @@ export default function RewardClaimPanel() {
           <HStack gap="12px" mt="2">
             <Image src="/logo_token.svg" w="32px" h="32px" alt="logo" />
             <Text fontWeight="bold" fontSize="36px" color="#FFFFFF">
-              {solUserAccountInfo?.tokenRefEarned
-                ? formatAmount(
-                    getNumberFixed(solUserAccountInfo?.tokenRefEarned, 2)
-                  )
+              {earnedValues?.totalUNEarned
+                ? formatAmount(getNumberFixed(earnedValues?.totalUNEarned, 2))
                 : "-.--"}
             </Text>
           </HStack>
@@ -163,7 +164,10 @@ export default function RewardClaimPanel() {
           </Text>
           <HStack gap="12px" mt="2">
             <Text fontWeight="bold" fontSize="36px" color="#FFFFFF">
-              ${usdEarned ? formatAmount(getNumberFixed(usdEarned, 2)) : "-.--"}
+              $
+              {earnedValues?.totalUSDEarned
+                ? formatAmount(getNumberFixed(earnedValues?.totalUSDEarned, 2))
+                : "-.--"}
             </Text>
           </HStack>
         </Box>

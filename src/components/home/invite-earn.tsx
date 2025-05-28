@@ -48,10 +48,13 @@ const InviteAndEarn = () => {
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,
-  } = useGetTransaction({
-    page: 1,
-    limit: 10,
-  });
+  } = useGetTransaction(
+    {
+      page: 1,
+      limit: 10,
+    },
+    accessToken
+  );
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {

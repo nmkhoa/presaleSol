@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { socialLinks } from "../../constants/home";
 import { formatAmount, getNumberFixed } from "@/utils";
 import { useMemo } from "react";
@@ -15,8 +15,13 @@ const TokenSold = () => {
   }, [solSaleAccountInfo]);
 
   return (
-    <div>
-      <div className="relative !bg-[#06070A] !p-1 rounded-2xl">
+    <Box>
+      <Box
+        position={"relative"}
+        p={"4px"}
+        backgroundColor={"#06070A"}
+        borderRadius={"16px"}
+      >
         <Box
           w={totalSoldPerAll + "%"}
           maxW={"100%"}
@@ -27,36 +32,77 @@ const TokenSold = () => {
           borderRadius={"14px"}
         />
         <Text
+          position={"absolute"}
+          left={"16px"}
           color={"white"}
           fontWeight={700}
-          className="absolute top-1/2 left-4 -translate-y-1/2"
+          className="absolute top-1/2 -translate-y-1/2"
         >
           {totalSoldPerAll < 1 ? "<1" : getNumberFixed(totalSoldPerAll, 2)}%
           Sold
         </Text>
-      </div>
-      <div className="!mt-[36px] !text-sm !text-[#C7CCD9] !font-medium">
+      </Box>
+      <Text
+        mt={"36px"}
+        fontSize={"12px"}
+        color={"#C7CCD9"}
+        fontWeight={500}
+        xl={{ fontSize: "14px" }}
+      >
         Token Sold
-      </div>
-      <div className="!mt-1 flex gap-1 !items-end">
-        <img
+      </Text>
+      <Flex mt={"4px"} gap={"4px"} alignItems={"end"}>
+        <Image
           src="/images/token.svg"
-          className="w-[24px] h-[24px] !mb-1"
+          w={"24px"}
+          h={"24px"}
+          mb={"4px"}
           alt="token"
         />
-        <span className="!text-2xl !leading-[28px] !font-bold">
+        <Text
+          fontSize={"24px"}
+          lineHeight={"24px"}
+          fontWeight={700}
+          xl={{ fontSize: "24px", lineHeight: "28px" }}
+        >
           {formatAmount(Math.floor(solSaleAccountInfo?.tokensSold || 0))}
-        </span>
-        <span className="!text-sm text-[#6E758A] !font-medium">
+        </Text>
+        <Text
+          fontSize={"12px"}
+          lineHeight={"16px"}
+          color={"#6E758A"}
+          fontWeight={500}
+          xl={{
+            fontSize: "14px",
+            lineHeight: "18px",
+          }}
+        >
           /{formatAmount(solSaleAccountInfo?.tokensForSale || 0)}
-        </span>
-      </div>
-      <div className="h-[1px] !mt-5 bg-white opacity-10" />
-      <div className="!mt-5 !text-sm !text-[#C7CCD9] !font-medium">
+        </Text>
+      </Flex>
+      <Box
+        h={"1px"}
+        mt={"16px"}
+        bg={"white"}
+        opacity={"0.1"}
+        xl={{ mt: "20px" }}
+      />
+      <Text
+        mt={"16px"}
+        fontSize={"12px"}
+        color={"#C7CCD9"}
+        fontWeight={500}
+        xl={{ mt: "20px", fontSize: "14px" }}
+      >
         Total Raised
-      </div>
-      <div className="!mt-1 flex gap-1 !items-end">
-        <span className="!text-2xl !leading-[28px] !font-bold">
+      </Text>
+      <Flex mt={"4px"} gap={"4px"} alignItems={"end"}>
+        <Text
+          fontSize={"24px"}
+          lineHeight={"24px"}
+          fontWeight={700}
+          xl={{ fontSize: "24px", lineHeight: "28px" }}
+        >
           $
           {formatAmount(
             Math.floor(
@@ -64,38 +110,97 @@ const TokenSold = () => {
                 (solSaleAccountInfo?.firstRoundPrice || 0)
             )
           )}
-        </span>
-        <span className="!text-sm text-[#6E758A] !font-medium">
+        </Text>
+        <Text
+          fontSize={"12px"}
+          lineHeight={"16px"}
+          color={"#6E758A"}
+          fontWeight={500}
+          xl={{
+            fontSize: "14px",
+            lineHeight: "18px",
+          }}
+        >
           /
           {formatAmount(
             (solSaleAccountInfo?.tokensForSale || 0) *
               (solSaleAccountInfo?.firstRoundPrice || 0)
           )}
-        </span>
-      </div>
-      <div className="h-[1px] !mt-5 bg-white opacity-10" />
-      <div className="!mt-7 !text-sm !text-[#C7CCD9] !font-medium">Price</div>
-      <div className="!mt-1 flex gap-1 !items-center justify-between flex-wrap">
-        <div className="flex gap-1 items-center">
-          <img
+        </Text>
+      </Flex>
+      <Box
+        h={"1px"}
+        mt={"16px"}
+        bg={"white"}
+        opacity={"0.1"}
+        xl={{ mt: "20px" }}
+      />
+      <Text
+        mt={"20px"}
+        fontSize={"12px"}
+        color={"#C7CCD9"}
+        fontWeight={500}
+        xl={{ mt: "28px", fontSize: "14px" }}
+      >
+        Price
+      </Text>
+      <Flex
+        mt={"4px"}
+        gap={"4px"}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+        flexWrap={"wrap"}
+      >
+        <Flex gap={"4px"} alignItems={"center"}>
+          <Image
             src="/images/token.svg"
             className="w-[24px] h-[24px]"
             alt="token"
           />
-          <span className="!text-lg !leading-[28px] text-[#FF9A0D] !font-bold">
+          <Text
+            fontSize={"16px"}
+            lineHeight={"20px"}
+            color={"#FF9A0D"}
+            fontWeight={700}
+            xl={{
+              fontSize: "18px",
+              lineHeight: "18px",
+            }}
+          >
             1 $UN = ${solSaleAccountInfo?.firstRoundPrice || 0}
-          </span>
-        </div>
-        <div>
-          <span className="!text-sm text-[#C7CCD9] !font-medium">
+          </Text>
+        </Flex>
+        <Flex gap={"4px"} alignItems={"center"}>
+          <Text
+            fontSize={"12px"}
+            color={"#C7CCD9"}
+            fontWeight={500}
+            xl={{
+              fontSize: "14px",
+            }}
+          >
             Next Price:
-          </span>
-          <span className="!text-sm !font-bold !ml-1">
+          </Text>
+          <Text
+            fontSize={"12px"}
+            color={"#FFFFFF"}
+            fontWeight={700}
+            xl={{
+              fontSize: "14px",
+            }}
+          >
             ${solSaleAccountInfo?.secondRoundPrice || 0}
-          </span>
-        </div>
-      </div>
-      <div className="flex gap-2 !pt-4 items-center">
+          </Text>
+        </Flex>
+      </Flex>
+      <Flex
+        gap={"8px"}
+        pt={"12px"}
+        alignItems={"center"}
+        xl={{
+          pt: "16px",
+        }}
+      >
         {socialLinks?.map((item) => {
           return (
             <a key={item.title} href={item.link} target="_blank">
@@ -107,9 +212,14 @@ const TokenSold = () => {
                 borderRadius={"8px"}
               >
                 <Box className="!p-3 bg-[#202127]">
-                  <img
+                  <Image
                     src={item.icon}
-                    className="!w-[24px] !h-[24px]"
+                    w={"18px"}
+                    h={"18px"}
+                    xl={{
+                      w: "24px",
+                      h: "24px",
+                    }}
                     alt={item.title}
                   />
                 </Box>
@@ -117,8 +227,8 @@ const TokenSold = () => {
             </a>
           );
         })}
-      </div>
-    </div>
+      </Flex>
+    </Box>
   );
 };
 

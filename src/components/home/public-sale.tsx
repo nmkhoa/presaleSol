@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Button, Flex, Image, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Grid, Image, Input, Text } from "@chakra-ui/react";
 import { paymentMethods } from "../../constants/home";
 import { useContext, useMemo, useState } from "react";
 import { ConnectWalletContext } from "../../contexts/connect-wallet-context";
@@ -52,8 +52,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     wallet: wallet as any,
   });
   const { user } = useAuthStore();
-  const { tokensPrice, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt } =
-    useTokenStore();
+  const { tokensPrice } = useTokenStore();
 
   const fetchReferralAccount = async (referrer: string | undefined) => {
     try {
@@ -176,12 +175,6 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     setInputAmount(value);
   };
 
-  const balanceByMethod = useMemo(() => {
-    if (method.key === paymentMethods[0].key) return tokenBalanceSol;
-    if (method.key === paymentMethods[1].key) return tokenBalanceUsdc;
-    if (method.key === paymentMethods[2].key) return tokenBalanceUsdt;
-  }, [method.key, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt]);
-
   const getPriceByMethod = () => {
     if (method.key === paymentMethods[0].key) return tokensPrice?.sol || 0;
     if (method.key === paymentMethods[1].key) return tokensPrice?.usdc || 0;
@@ -213,9 +206,11 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
   const receiveToken = useMemo(() => {
     if (!inputAmount) return "0";
     const priceByMethod = getPriceByMethod();
-    return getNumberFixed(
-      (+inputAmount * priceByMethod) /
-        (solSaleAccountInfo?.firstRoundPrice || 1)
+    return formatAmount(
+      getNumberFixed(
+        (+inputAmount * priceByMethod) /
+          (solSaleAccountInfo?.firstRoundPrice || 1)
+      )
     );
   }, [inputAmount]);
 
@@ -229,16 +224,22 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
 
   return (
     <Box>
-      <Text mt={"36px"} fontSize={"14px"} color={"#C7CCD9"} fontWeight={500}>
+      <Text
+        mt={"16px"}
+        fontSize={"12px"}
+        color={"#C7CCD9"}
+        fontWeight={500}
+        xl={{ mt: "36px", fontSize: "14px" }}
+      >
         Payment method
       </Text>
-      <Box mt={"12px"} className="grid grid-cols-3 gap-4">
+      <Grid gap={"16px"} mt={"12px"} className="grid-cols-3">
         {paymentMethods?.map((item) => {
           return (
             <Flex
               key={item.key}
               gap={"6px"}
-              p={"12px"}
+              p={"8px"}
               border={
                 method.key === item.key
                   ? "1px solid #FFAF40"
@@ -250,41 +251,50 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
               lineHeight={"20px"}
               borderRadius={"8px"}
               fontWeight={700}
+              fontSize={"14px"}
               cursor={"pointer"}
               color={method.key === item.key ? "#FFAF40" : "#FFFFFF"}
               onClick={() => {
                 setMethod(item);
                 setInputAmount("");
               }}
+              xl={{
+                p: "12px",
+                fontSize: "16px",
+              }}
             >
-              <img
-                src={item.icon}
-                className="w-[20px] h-[20px]"
-                alt={item.title}
-              />
+              <Image src={item.icon} w={"20px"} h={"20px"} alt={item.title} />
               <Text>{item.title}</Text>
             </Flex>
           );
         })}
-      </Box>
+      </Grid>
       <Box className="grid grid-cols-2 gap-[10px]">
         <Box>
           <Text
             mt={"24px"}
-            fontSize={"14px"}
+            fontSize={"12px"}
             color={"#C7CCD9"}
             fontWeight={500}
+            xl={{
+              fontSize: "14px",
+            }}
           >
             You pay
           </Text>
           <Flex
             gap={"8px"}
             mt={"8px"}
-            p={"16px"}
+            p={"12px"}
+            fontSize={"12px"}
             alignItems={"center"}
             borderRadius={"8px"}
             background={"rgba(0, 0, 0, 0.35)"}
             border={"1px solid var(--Color-Neutral-600, #40475C)"}
+            xl={{
+              p: "16px",
+              fontSize: "16px",
+            }}
           >
             <Input
               type="number"
@@ -294,7 +304,6 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
               lineHeight={"20px"}
               border={"none"}
               outline={"none"}
-              disabled={!balanceByMethod}
               value={inputAmount}
               onChange={onHandleInput}
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
@@ -311,23 +320,30 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         <Box>
           <Text
             mt={"24px"}
-            fontSize={"14px"}
+            fontSize={"12px"}
             color={"#C7CCD9"}
             fontWeight={500}
+            xl={{
+              fontSize: "14px",
+            }}
           >
             You Receive
           </Text>
           <Flex
             gap={"8px"}
             mt={"8px"}
-            p={"16px"}
+            p={"12px"}
+            fontSize={"12px"}
             alignItems={"center"}
             borderRadius={"8px"}
             background={"rgba(0, 0, 0, 0.35)"}
             border={"1px solid var(--Color-Neutral-600, #40475C)"}
+            xl={{
+              p: "16px",
+              fontSize: "16px",
+            }}
           >
             <Input
-              type="number"
               height={"20px"}
               p={0}
               lineHeight={"20px"}
@@ -347,14 +363,23 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
           </Flex>
         </Box>
       </Box>
-      <Text mt={"2px"} fontSize={"10px"} color={"red.400"}>
+      <Text
+        h={"16px"}
+        mt={"8px"}
+        fontSize={"12px"}
+        fontWeight={"16px"}
+        color={"#F04438"}
+      >
         {errorMessage}
       </Text>
       <Box
         className="btn-connect-wallet"
-        height={"58px"}
-        mt={"20px"}
+        height={"44px"}
+        mt={"4px"}
         cursor={"pointer"}
+        xl={{
+          h: "58px",
+        }}
         onClick={() => (connected ? handleBuyUn() : setShowModal(true))}
       >
         <Button w={"100%"} height={"100%"} loading={loadingPurchase}>
@@ -362,11 +387,16 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         </Button>
       </Box>
       <Text
-        mt={"20px"}
+        mt={"18px"}
         pb={"10px"}
         color={"#FF9A0D"}
         textAlign={"center"}
         fontWeight={700}
+        fontSize={"14px"}
+        xl={{
+          mt: "20px",
+          fontSize: "16px",
+        }}
       >
         Get rewards of ${rewardRate}%
       </Text>

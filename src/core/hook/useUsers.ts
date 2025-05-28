@@ -5,12 +5,12 @@ import {
   getTransaction,
 } from "../services/user.service";
 
-import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import type { User } from "@/types/user/user.interface";
 import type { AxiosError } from "axios";
-import type { LeaderboardRequest } from "@/types/leaderboard/leaderboard.interface";
 import type { TransactionRequest } from "@/types/home";
 import type { ReferralRequest } from "@/types/Referral/referral.interface";
+import type { LeaderboardDataItem } from "@/types/leaderboard/leaderboard.interface";
 
 export const useGetMe = () => {
   return useMutation<User, AxiosError>({
@@ -19,44 +19,23 @@ export const useGetMe = () => {
   });
 };
 
-export const useLeaderboard = (leaderboardRequest: LeaderboardRequest) => {
-  const query = useInfiniteQuery({
-    queryKey: ["leaderboard", leaderboardRequest],
-
-    queryFn: async ({ pageParam }) =>
-      await getLeaderboard({
-        page: pageParam.page,
-        limit: leaderboardRequest.limit,
-      }),
-    initialPageParam: { page: 1 },
-
-    getNextPageParam: (lastPage) => {
-      if (!lastPage) return undefined;
-      const { page, totalPages } = lastPage.pagination;
-      if (page >= totalPages) return undefined;
-      return { page: page + 1 };
-    },
+export const useLeaderboard = (token: string) => {
+  return useQuery<LeaderboardDataItem[], AxiosError>({
+    queryKey: ["leaderboard"],
+    queryFn: getLeaderboard,
+    enabled: !!token,
+    retry: 3,
   });
-
-  const allData = query.data?.pages.flatMap((page) => page.data) || [];
-  const pagination = query.data?.pages[query.data.pages.length - 1]
-    ?.pagination || {
-    page: 1,
-    limit: 10,
-    totalCount: 0,
-    totalPages: 1,
-  };
-
-  return {
-    ...query,
-    data: allData,
-    pagination,
-  };
 };
 
-export const useGetTransaction = (transactionRequest: TransactionRequest) => {
+export const useGetTransaction = (
+  transactionRequest: TransactionRequest,
+  token: string
+) => {
   const query = useInfiniteQuery({
     queryKey: ["getTransaction", transactionRequest],
+    enabled: !!token,
+    retry: 3,
 
     queryFn: async ({ pageParam }) =>
       await getTransaction({
@@ -89,9 +68,14 @@ export const useGetTransaction = (transactionRequest: TransactionRequest) => {
   };
 };
 
-export const useReferralInfo = (referralRequest: ReferralRequest) => {
+export const useReferralInfo = (
+  referralRequest: ReferralRequest,
+  token: string
+) => {
   const query = useInfiniteQuery({
     queryKey: ["getReferralInfo", referralRequest],
+    enabled: !!token,
+    retry: 3,
 
     queryFn: async ({ pageParam }) =>
       await getReferralInfo({

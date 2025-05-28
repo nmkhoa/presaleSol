@@ -1,10 +1,8 @@
 import { request } from "@/config/request";
 import { ENDPOINTS } from "@/constants/apiEndpoints";
 import type { TransactionRequest, TransactionResponse } from "@/types/home";
-import type {
-  LeaderboardRequest,
-  LeaderboardResponse,
-} from "@/types/leaderboard/leaderboard.interface";
+import type { LeaderboardDataItem } from "@/types/leaderboard/leaderboard.interface";
+
 import type {
   ReferralRequest,
   ReferralResponse,
@@ -21,16 +19,9 @@ export const getMe = async (): Promise<User> => {
     });
 };
 
-export const getLeaderboard = async (
-  leaderboardRequest: LeaderboardRequest
-): Promise<LeaderboardResponse> => {
+export const getLeaderboard = async (): Promise<LeaderboardDataItem[]> => {
   return await request
-    .get<LeaderboardResponse>(ENDPOINTS.Users.LEADERBOARD, {
-      params: {
-        page: leaderboardRequest.page || 1,
-        limit: leaderboardRequest.limit || 10,
-      },
-    })
+    .get<LeaderboardDataItem[]>(ENDPOINTS.Users.LEADERBOARD)
     .then((response) => response.data)
     .catch((error: AxiosError) => {
       throw error.response?.data || error;
