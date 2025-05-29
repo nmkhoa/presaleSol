@@ -103,7 +103,7 @@ export default function AuthProvider({
   };
   return (
     <>
-      <SignMessageModal showModal={isSigned} />
+      <SignMessageModal showModal={isSigned} setShowModal={setIsSigned} />
       {children}
     </>
   );

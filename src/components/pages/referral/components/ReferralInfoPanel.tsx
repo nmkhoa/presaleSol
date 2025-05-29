@@ -40,33 +40,47 @@ export default function ReferralInfoPanel() {
   }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage]);
 
   return (
-    <Box w={"full"} h={"full"} minH={"720px"}>
+    <Box w={"full"} h={"full"} minH={{ base: "0", md: "720px" }}>
       <Stack gap={"12px"}>
         <Box
           w={"full"}
-          h={"136px"}
+          minH={"136px"}
           p={"20px"}
           background={"url(/images/invite_bg2.svg)"}
           backgroundSize={"cover"}
           backgroundRepeat={"no-repeat"}
           borderRadius={"12px"}
+          display={{ base: "none", md: "block" }}
         >
           <Stack>
-            <Text fontSize={"24px"} fontWeight={700} color={"#FFFFFF"}>
+            <Text
+              fontSize={{ base: "18px", md: "20px", "2xl": "24px" }}
+              fontWeight={700}
+              color={"#FFFFFF"}
+            >
               Your Network = Your Reward!
             </Text>
 
-            <HStack>
+            <Flex
+              gap={"12px"}
+              flexDirection={{ base: "column", xl: "row" }}
+              justifyContent={"start"}
+            >
               <Box flex={"1 1 50%"}>
-                <Text fontSize={"16px"} color={"#06070A"} fontWeight={500}>
+                <Text
+                  fontSize={{ base: "12px", md: "14px", "2xl": "16px" }}
+                  color={"#06070A"}
+                  fontWeight={500}
+                  textAlign={"left"}
+                >
                   Earn 3% in $UN + 8% in USD based on total purchases of your
                   invitees.
                 </Text>
               </Box>
               <Box flex={"1 1 50%"}>
-                <HStack gap={"10px"}>
+                <Flex gap={"10px"}>
                   <Box
-                    w={"317px"}
+                    w={{ base: "100%", xl: "317px" }}
                     h={"40px"}
                     background={"#000000"}
                     rounded={"8px"}
@@ -76,7 +90,9 @@ export default function ReferralInfoPanel() {
                     alignItems="center"
                   >
                     <Text fontSize={"12px"} color={"#FFEED6"} fontWeight={500}>
-                      {user ? `${user.affiliateCode}` : ""}
+                      {user
+                        ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}`
+                        : ""}
                     </Text>
                   </Box>
                   <Clipboard.Root
@@ -95,16 +111,16 @@ export default function ReferralInfoPanel() {
                         rounded={"8px"}
                         color={"#1A1001"}
                         fontWeight={700}
-                        fontSize={"14px"}
+                        fontSize={{ base: "12px", xl: "14px" }}
                         _hover={{ filter: "brightness(1.3)" }}
                       >
                         <Clipboard.CopyText />
                       </Button>
                     </Clipboard.Trigger>
                   </Clipboard.Root>
-                </HStack>
+                </Flex>
               </Box>
-            </HStack>
+            </Flex>
           </Stack>
         </Box>
         <Box
@@ -115,10 +131,14 @@ export default function ReferralInfoPanel() {
           h="600px"
           borderRadius="12px"
           color="white"
-          py={"20px"}
+          p={{ base: "16px", md: "20px" }}
         >
-          <Stack gap={"18px"} px={"20px"}>
-            <Text fontWeight={700} fontSize={"18px"} color={"#FFFFFF"}>
+          <Stack gap={"18px"}>
+            <Text
+              fontWeight={700}
+              fontSize={{ base: "14px", md: "18px" }}
+              color={"#FFFFFF"}
+            >
               Your wallet for claiming rewards
             </Text>
             <Box
@@ -131,8 +151,16 @@ export default function ReferralInfoPanel() {
               px={"16px"}
             >
               <HStack gap={"8px"}>
-                <Image src={IconSOL} w={"28px"} h={"28px"} />
-                <Text fontWeight={500} fontSize={"18px"} color={"#6E758A"}>
+                <Image
+                  src={IconSOL}
+                  w={{ base: "20px", md: "28px" }}
+                  h={{ base: "20px", md: "28px" }}
+                />
+                <Text
+                  fontWeight={500}
+                  fontSize={{ base: "14px", md: "16px", xl: "18px" }}
+                  color={"#6E758A"}
+                >
                   {user ? getAddressFormat(user.walletAddress) : ""}
                 </Text>
               </HStack>
@@ -140,7 +168,11 @@ export default function ReferralInfoPanel() {
           </Stack>
           <Box maxW={"1240px"} mx={"auto"} mt={"24px"}>
             <HStack px={"20px"}>
-              <Image src="/images/hand.svg" w={"36px"} h={"36px"} />
+              <Image
+                src="/images/hand.svg"
+                w={{ base: "28px", md: "36px" }}
+                h={{ base: "28px", md: "36px" }}
+              />
               <Text fontSize={"24px"} fontWeight={700} lineHeight={"24px"}>
                 My Referral
               </Text>
@@ -148,28 +180,29 @@ export default function ReferralInfoPanel() {
             <Box pl={"20px"} pr={"3px"}>
               <Box py={"24px"} className="grid grid-cols-3" pr={"17px"}>
                 <Text
-                  px={"16px"}
+                  px={"12px"}
                   fontWeight={500}
-                  fontSize={"16px"}
+                  fontSize={{ base: "12px", md: "14px", xl: "16px" }}
                   color={"#6E758A"}
                 >
                   Address
                 </Text>
 
                 <Text
-                  px={"16px"}
+                  px={"12px"}
                   fontWeight={500}
                   color={"#6E758A"}
+                  fontSize={{ base: "12px", md: "14px", xl: "16px" }}
                   textAlign={"left"}
                 >
                   Earning
                 </Text>
                 <Text
-                  px={"16px"}
+                  px={"12px"}
                   fontWeight={500}
                   color={"#6E758A"}
                   textAlign={"right"}
-                  fontSize={"16px"}
+                  fontSize={{ base: "12px", md: "14px", xl: "16px" }}
                 >
                   Time
                 </Text>
@@ -181,12 +214,22 @@ export default function ReferralInfoPanel() {
                 className="custom-scrollbar"
               >
                 {isLoading && (
-                  <Box textAlign="center" py="20px" color="gray.500">
+                  <Box
+                    textAlign="center"
+                    py="20px"
+                    color="gray.500"
+                    fontSize={{ base: "12px", md: "14px", xl: "16px" }}
+                  >
                     Loading...
                   </Box>
                 )}
                 {!isLoading && referralInfo.length === 0 && (
-                  <Box textAlign="center" py="20px" color="gray.500">
+                  <Box
+                    textAlign="center"
+                    py="20px"
+                    color="gray.500"
+                    fontSize={{ base: "12px", md: "14px", xl: "16px" }}
+                  >
                     No data found.
                   </Box>
                 )}
@@ -198,6 +241,7 @@ export default function ReferralInfoPanel() {
                         py={"18px"}
                         background={"#15171F"}
                         borderRadius={"8px"}
+                        fontSize={{ base: "12px", md: "14px", xl: "16px" }}
                         className="grid grid-cols-3"
                       >
                         <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>

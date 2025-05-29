@@ -13,8 +13,16 @@ export default function ReferralLayout({ children }: { children: ReactNode }) {
       minH="100vh"
     >
       <ReferralHeader />
-      <Box as="main" px="98px">
-        {children}
+      <Box
+        as="main"
+        pt={{ base: "62px", xl: "100px" }}
+        px="12px"
+        lg={{ px: "24px" }}
+        xl={{ px: "77px" }}
+      >
+        <Box maxW={"1280px"} mx={"auto"}>
+          {children}
+        </Box>
       </Box>
     </Box>
   );

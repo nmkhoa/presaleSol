@@ -26,8 +26,9 @@ import { useGetTransaction } from "@/core/hook/useUsers";
 import { useInView } from "react-intersection-observer";
 
 const InviteAndEarn = () => {
-  const { connected } = useWallet();
-  const { solUserAccountInfo, solSaleAccountInfo } = useTokenStore();
+  const { connected, publicKey } = useWallet();
+  const { solUserAccountInfo, solSaleAccountInfo, tokensPrice } =
+    useTokenStore();
   const { user, accessToken } = useAuthStore();
   const { setShowModal } = useContext(ConnectWalletContext);
 
@@ -61,12 +62,6 @@ const InviteAndEarn = () => {
       fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage]);
-  const usdEarned = useMemo(() => {
-    if (!solUserAccountInfo || !solSaleAccountInfo) return 0;
-    const earned =
-      solUserAccountInfo.tokenRefEarned * solSaleAccountInfo.firstRoundPrice;
-    return getNumberFixed(earned);
-  }, [solSaleAccountInfo, solUserAccountInfo]);
 
   const rewardRate = useMemo(() => {
     if (!solSaleAccountInfo || !solSaleAccountInfo?.denominator) return 0;
@@ -74,7 +69,57 @@ const InviteAndEarn = () => {
       (solSaleAccountInfo.refCurrencyRate * 100) /
       solSaleAccountInfo.denominator
     );
-  }, []);
+  }, [solSaleAccountInfo]);
+
+  const myRewards = useMemo(() => {
+    const availableSol =
+      (solUserAccountInfo?.solRefEarned || 0) -
+      (solUserAccountInfo?.solRefClaimed || 0);
+    const availableUsdc =
+      (solUserAccountInfo?.usdcRefEarned || 0) -
+      (solUserAccountInfo?.usdcRefClaimed || 0);
+    const availableUsdt =
+      (solUserAccountInfo?.usdtRefEarned || 0) -
+      (solUserAccountInfo?.usdtRefClaimed || 0);
+
+    return [
+      {
+        value: availableSol,
+        price: availableSol * (tokensPrice?.sol || 0),
+      },
+      {
+        value: availableUsdc,
+        price: availableUsdc * (tokensPrice?.usdc || 0),
+      },
+      {
+        value: availableUsdt,
+        price: availableUsdt * (tokensPrice?.usdt || 0),
+      },
+    ];
+  }, [solUserAccountInfo, tokensPrice, publicKey]);
+
+  const earnedValues = useMemo(() => {
+    let totalUNEarned = 0;
+    let totalUSDEarned = 0;
+    myRewards?.forEach((reward) => {
+      totalUNEarned += reward.value;
+      totalUSDEarned += reward.price;
+    });
+    return { totalUNEarned, totalUSDEarned };
+  }, [myRewards]);
+
+  const totalBalance = useMemo(() => {
+    return solUserAccountInfo
+      ? formatAmount(
+          getNumberFixed(
+            solUserAccountInfo?.publicTokensPurchased +
+              solUserAccountInfo?.whitelistTokensPurchased +
+              earnedValues?.totalUNEarned || 0,
+            2
+          )
+        )
+      : "-.--";
+  }, [earnedValues?.totalUNEarned, solUserAccountInfo]);
 
   return (
     <Box>
@@ -144,7 +189,11 @@ const InviteAndEarn = () => {
                 borderRadius={"8px"}
                 disabled
                 opacity={1}
-                value={user ? `${user.affiliateCode}` : ""}
+                value={
+                  user
+                    ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}`
+                    : ""
+                }
                 xl={{
                   h: "58px",
                 }}
@@ -260,15 +309,7 @@ const InviteAndEarn = () => {
                 md={{ fontSize: "28px" }}
                 xl={{ fontSize: "36px" }}
               >
-                {solUserAccountInfo
-                  ? formatAmount(
-                      getNumberFixed(
-                        solUserAccountInfo?.publicTokensPurchased +
-                          solUserAccountInfo?.whitelistTokensPurchased,
-                        2
-                      )
-                    )
-                  : "-.--"}
+                {totalBalance}
               </Text>
             </Flex>
           </Flex>
@@ -303,9 +344,9 @@ const InviteAndEarn = () => {
                   lineHeight={"28px"}
                   xl={{ fontSize: "24px" }}
                 >
-                  {solUserAccountInfo?.tokenRefEarned
+                  {earnedValues?.totalUNEarned
                     ? formatAmount(
-                        getNumberFixed(solUserAccountInfo?.tokenRefEarned, 2)
+                        getNumberFixed(earnedValues?.totalUNEarned, 2)
                       )
                     : "-.--"}
                 </Text>
@@ -323,8 +364,10 @@ const InviteAndEarn = () => {
                 xl={{ fontSize: "24px" }}
               >
                 $
-                {usdEarned
-                  ? formatAmount(getNumberFixed(usdEarned, 2))
+                {earnedValues?.totalUSDEarned
+                  ? formatAmount(
+                      getNumberFixed(earnedValues?.totalUSDEarned, 2)
+                    )
                   : "-.--"}
               </Text>
             </Box>

@@ -28,10 +28,21 @@ const ConnectWalletButton = () => {
       {connected ? (
         <Dialog.Root placement={"center"} size={"xs"}>
           <Dialog.Trigger>
-            <Flex className="!border !border-neutral-600 !rounded-[8px]">
-              <div className="bg-neutral-700 !px-3 !py-2 !text-sm !font-medium rounded-l-[8px]">
+            <Flex
+              overflow={"hidden"}
+              border={"1px solid #40475C"}
+              borderRadius={"6px"}
+            >
+              <Box
+                display={{ base: "none", xl: "block" }}
+                px={"12px"}
+                py={"8px"}
+                fontSize={"14px"}
+                fontWeight={500}
+                className="bg-neutral-700 rounded-l-[5px]"
+              >
                 {getAddressFormat(publicKey?.toBase58() ?? "")}
-              </div>
+              </Box>
               <Flex
                 gap={"4px"}
                 className="!px-2 !py-[10px] bg-neutral-900 rounded-r-[8px]"

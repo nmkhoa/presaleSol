@@ -154,6 +154,7 @@ const CryptoAlliance = () => {
                     pb={0}
                     fontWeight={500}
                     fontSize={"14px"}
+                    whiteSpace={"break-spaces"}
                     xl={{
                       px: "28px",
                       fontSize: "16px",

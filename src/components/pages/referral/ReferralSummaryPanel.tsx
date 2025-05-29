@@ -4,7 +4,7 @@ import ReferralInfoPanel from "./components/ReferralInfoPanel";
 
 const ReferralSummaryPanel = () => {
   return (
-    <Flex gap="12px" mt="26px">
+    <Flex gap="12px" mt="26px" flexDirection={{ base: "column", md: "row" }}>
       <Box flex="1 1 35%">
         <RewardClaimPanel />
       </Box>

@@ -1,19 +1,83 @@
 import { Box, Flex, Image } from "@chakra-ui/react";
 import ConnectWalletButton from "../wallet-custom/connect-wallet-button";
 import { landingPageLink, navbarItems } from "../../../constants/home";
+import { useTokenStore } from "@/stores/token.store";
+import { useMemo } from "react";
+import { formatAmount, getNumberFixed } from "@/utils";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 const Header = () => {
+  const { publicKey } = useWallet();
+  const { solUserAccountInfo, tokensPrice } = useTokenStore();
+
   const onScrollIntoView = (key: string) => {
     const element = document.getElementById(key);
     element?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const myRewards = useMemo(() => {
+    const availableSol =
+      (solUserAccountInfo?.solRefEarned || 0) -
+      (solUserAccountInfo?.solRefClaimed || 0);
+    const availableUsdc =
+      (solUserAccountInfo?.usdcRefEarned || 0) -
+      (solUserAccountInfo?.usdcRefClaimed || 0);
+    const availableUsdt =
+      (solUserAccountInfo?.usdtRefEarned || 0) -
+      (solUserAccountInfo?.usdtRefClaimed || 0);
+
+    return [
+      {
+        value: availableSol,
+        price: availableSol * (tokensPrice?.sol || 0),
+      },
+      {
+        value: availableUsdc,
+        price: availableUsdc * (tokensPrice?.usdc || 0),
+      },
+      {
+        value: availableUsdt,
+        price: availableUsdt * (tokensPrice?.usdt || 0),
+      },
+    ];
+  }, [solUserAccountInfo, tokensPrice, publicKey]);
+
+  const earnedValues = useMemo(() => {
+    let totalUNEarned = 0;
+    let totalUSDEarned = 0;
+    myRewards?.forEach((reward) => {
+      totalUNEarned += reward.value;
+      totalUSDEarned += reward.price;
+    });
+    return { totalUNEarned, totalUSDEarned };
+  }, [myRewards]);
+
+  const totalBalance = useMemo(() => {
+    return solUserAccountInfo
+      ? formatAmount(
+          getNumberFixed(
+            solUserAccountInfo?.publicTokensPurchased +
+              solUserAccountInfo?.whitelistTokensPurchased +
+              earnedValues?.totalUNEarned || 0,
+            2
+          )
+        )
+      : "-.--";
+  }, [earnedValues?.totalUNEarned, solUserAccountInfo]);
+
   return (
     <Flex
+      position={"fixed"}
+      w={"100%"}
       px={"16px"}
       py={"12px"}
+      top={0}
+      left={0}
       justifyContent={"space-between"}
       alignItems={"center"}
+      background={"rgba(0, 0, 0, 0.7)"}
+      backdropFilter={"blur(18.5px)"}
+      zIndex={100}
       md={{
         px: "36px",
         py: "16px",
@@ -67,7 +131,24 @@ const Header = () => {
           );
         })}
       </Flex>
-      <ConnectWalletButton />
+      <Flex gap={"4px"}>
+        <Flex
+          gap={"6px"}
+          p={"8px 12px"}
+          bg={"#15171F"}
+          border={"1px solid #40475C"}
+          borderRadius={"4px"}
+          fontSize={"16px"}
+          lineHeight={"20px"}
+          fontWeight={700}
+          cursor={"pointer"}
+          onClick={() => onScrollIntoView("total-balance")}
+        >
+          <Image src="/images/token.svg" w={"20px"} h={"20px"} alt="token" />
+          {totalBalance}
+        </Flex>
+        <ConnectWalletButton />
+      </Flex>
     </Flex>
   );
 };

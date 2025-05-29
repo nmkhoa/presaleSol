@@ -189,45 +189,60 @@ const Products = () => {
               alignItems={"start"}
               md={{ display: "block" }}
             >
-              <Text
-                mt={"10px"}
-                fontSize={"10px"}
-                md={{ fontSize: "12px" }}
-                xl={{
-                  mt: "90px",
-                  fontSize: "14px",
-                }}
-              >
-                Download on
-              </Text>
-              <Flex gap={"7px"} mt={"12px"}>
-                <Link
-                  href="https://play.google.com/store/apps/details?id=com.unichlabs.unich.prd.android&pli=1"
-                  target="_blank"
-                >
-                  <Image
-                    src="/images/google_play.svg"
-                    w={"122px"}
-                    h={"36px       "}
-                    alt="google play"
-                    md={{
-                      w: "133px",
-                      h: "39px",
+              <Flex gap={{ base: "7px", xl: "20px" }} mt={"12px"}>
+                <Box>
+                  <Text
+                    mt={"10px"}
+                    fontSize={"10px"}
+                    md={{ fontSize: "12px" }}
+                    xl={{
+                      mt: "90px",
+                      fontSize: "14px",
                     }}
-                  />
-                </Link>
-                <Link href="https://unich.com/en" target="_blank">
-                  <Image
-                    src="/images/app_store.svg"
-                    w={"108px"}
-                    h={"36px"}
-                    alt="google play"
-                    md={{
-                      w: "118px",
-                      h: "39px",
+                  >
+                    Available on
+                  </Text>
+                  <Link
+                    href="https://play.google.com/store/apps/details?id=com.unichlabs.unich.prd.android&pli=1"
+                    target="_blank"
+                  >
+                    <Image
+                      src="/images/google_play.svg"
+                      w={"122px"}
+                      h={"36px       "}
+                      alt="google play"
+                      md={{
+                        w: "133px",
+                        h: "39px",
+                      }}
+                    />
+                  </Link>
+                </Box>
+                <Box>
+                  <Text
+                    mt={"10px"}
+                    fontSize={"10px"}
+                    md={{ fontSize: "12px" }}
+                    xl={{
+                      mt: "90px",
+                      fontSize: "14px",
                     }}
-                  />
-                </Link>
+                  >
+                    Coming soon
+                  </Text>
+                  <Link href="#" target="_blank">
+                    <Image
+                      src="/images/app_store.svg"
+                      w={"108px"}
+                      h={"36px"}
+                      alt="google play"
+                      md={{
+                        w: "118px",
+                        h: "39px",
+                      }}
+                    />
+                  </Link>
+                </Box>
               </Flex>
             </Box>
           </Box>

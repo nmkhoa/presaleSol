@@ -199,18 +199,8 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
       return tokenBalanceUsdt < +inputAmount;
   }, [inputAmount, method]);
 
-  if (!connected) {
+  if (!connected || !nft) {
     return <SaleWithoutConnectWallet />;
-  }
-
-  if (!nft) {
-    return (
-      <Box>
-        <Text mt={"84px"} textAlign={"center"} fontWeight={500} color={"white"}>
-          Special Unich NFT is required for whitelist purchase.
-        </Text>
-      </Box>
-    );
   }
 
   return (

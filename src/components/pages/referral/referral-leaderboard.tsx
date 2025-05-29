@@ -20,8 +20,16 @@ export default function ReferralLeaderboard() {
     >
       <Box>
         <HStack px={"20px"}>
-          <Image src="/images/icon_leaderboard.svg" w={"36px"} h={"36px"} />
-          <Text fontSize={"20px"} fontWeight={700} lineHeight={"24px"}>
+          <Image
+            src="/images/icon_leaderboard.svg"
+            w={{ base: "28px", md: "36px" }}
+            h={{ base: "28px", md: "36px" }}
+          />
+          <Text
+            fontSize={{ base: "16px", md: "20px" }}
+            fontWeight={700}
+            lineHeight={"24px"}
+          >
             Leaderboard
           </Text>
         </HStack>
@@ -30,7 +38,7 @@ export default function ReferralLeaderboard() {
             <Text
               px={"16px"}
               fontWeight={500}
-              fontSize={"16px"}
+              fontSize={{ base: "12px", md: "14px", xl: "16px" }}
               color={"#6E758A"}
             >
               Rank
@@ -38,7 +46,7 @@ export default function ReferralLeaderboard() {
             <Text
               px={"16px"}
               fontWeight={500}
-              fontSize={"16px"}
+              fontSize={{ base: "12px", md: "14px", xl: "16px" }}
               color={"#6E758A"}
             >
               Address
@@ -49,6 +57,7 @@ export default function ReferralLeaderboard() {
               fontWeight={500}
               color={"#6E758A"}
               textAlign={"left"}
+              fontSize={{ base: "12px", md: "14px", xl: "16px" }}
             >
               Referrals
             </Text>
@@ -57,7 +66,7 @@ export default function ReferralLeaderboard() {
               fontWeight={500}
               color={"#6E758A"}
               textAlign={"right"}
-              fontSize={"16px"}
+              fontSize={{ base: "12px", md: "14px", xl: "16px" }}
             >
               Reward
             </Text>
@@ -69,12 +78,22 @@ export default function ReferralLeaderboard() {
             className="custom-scrollbar"
           >
             {isLoading && (
-              <Box textAlign="center" py="20px" color="gray.500">
+              <Box
+                textAlign="center"
+                py="20px"
+                color="gray.500"
+                fontSize={{ base: "12px", md: "14px", xl: "16px" }}
+              >
                 Loading...
               </Box>
             )}
             {!isLoading && leaderboard && leaderboard.length === 0 && (
-              <Box textAlign="center" py="20px" color="gray.500">
+              <Box
+                textAlign="center"
+                py="20px"
+                color="gray.500"
+                fontSize={{ base: "12px", md: "14px", xl: "16px" }}
+              >
                 No data found.
               </Box>
             )}
@@ -98,6 +117,7 @@ export default function ReferralLeaderboard() {
                     backgroundColor={bgColor}
                     backgroundSize="cover"
                     borderRadius={"8px"}
+                    fontSize={{ base: "12px", md: "14px", xl: "16px" }}
                     className="grid grid-cols-4"
                   >
                     <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>

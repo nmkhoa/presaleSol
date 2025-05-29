@@ -16,7 +16,7 @@ const SaleWithoutConnectWallet = () => {
       >
         Whitelist round is only eligible for users who own special UNICH NFT.
         Please connect your wallet, or{" "}
-        <Link href="" target="_blank" color={"#FF9A0D"}>
+        <Link href="https://discord.com/invite/unich" target="_blank" color={"#FF9A0D"}>
           Learn more
         </Link>
       </Text>

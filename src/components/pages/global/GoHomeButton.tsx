@@ -8,7 +8,7 @@ export default function GoHomeButton() {
 
   return (
     <Button
-      size={"xl"}
+      p={"8px"}
       rounded={"8px"}
       background="linear-gradient(311.41deg, rgba(255, 255, 255, 0.19) 9.23%, rgba(255, 255, 255, 0.01) 102.79%)"
       _hover={{

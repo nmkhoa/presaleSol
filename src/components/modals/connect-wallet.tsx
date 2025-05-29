@@ -1,10 +1,11 @@
-import { Box, Dialog, Text } from "@chakra-ui/react";
+import { Box, Dialog, Flex, Grid, Image, Link, Text } from "@chakra-ui/react";
 import { useMemo } from "react";
 import {
   allWalletsSupported,
   walletDetectStatus,
 } from "../../constants/wallets";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { policyLink } from "@/constants/home";
 
 interface Props {
   showModal: boolean;
@@ -41,7 +42,7 @@ const ConnectWalletModal = ({ showModal, setShowModal }: Props) => {
   };
 
   return (
-    <Dialog.Root placement={"center"} size={"xs"} open={showModal}>
+    <Dialog.Root placement={"center"} size={"md"} open={showModal}>
       <Dialog.Backdrop
         pointerEvents={"all"}
         onClick={() => setShowModal(false)}
@@ -52,46 +53,85 @@ const ConnectWalletModal = ({ showModal, setShowModal }: Props) => {
           background={
             "linear-gradient(171.2deg, rgba(81, 88, 96, 0.07) 13.37%, #31353A 93.3%)"
           }
-          borderRadius={"30px"}
+          borderRadius={"12px"}
         >
           <Box
-            padding={"30px 0"}
+            p={"20px"}
             background={
               "linear-gradient(182.62deg, #151515 -11.16%, #1D1D1D 100%)"
             }
-            borderRadius={"29px"}
+            borderRadius={"11px"}
           >
-            <Text
-              textAlign={"center"}
-              fontSize={"24px"}
-              lineHeight={"24px"}
-              fontWeight={600}
-            >
-              Connect a wallet
+            <Flex gap={"4px"} justifyContent={"space-between"}>
+              <Box>
+                <Text fontSize={"18px"} color={"white"} fontWeight={700}>
+                  Connect wallet
+                </Text>
+                <Text mt={"4px"} fontWeight={500}>
+                  Start by connecting with one of the wallets below
+                </Text>
+              </Box>
+              <Image
+                src="/images/close.svg"
+                w={"28px"}
+                minW={"28px"}
+                h={"28px"}
+                cursor={"pointer"}
+                alt="close"
+                onClick={() => setShowModal(false)}
+              />
+            </Flex>
+            <Box h={"1px"} my={"20px"} bg={"white"} opacity={"0.1"} />
+            <Text fontSize={"14px"} fontWeight={700}>
+              Popular wallet
             </Text>
-            <Box pt={"12px"}>
+            <Grid gap={"8px"} maxH={"230px"} pt={"8px"} overflow={"auto"}>
               {allWallets?.map((w) => {
                 return (
-                  <div
-                    className="flex gap-2 items-center justify-start !py-[10px] !px-7 cursor-pointer hover:bg-gray-600"
+                  <Flex
+                    gap={"12px"}
+                    p={"4px"}
+                    bg={"#06070A"}
+                    borderRadius={"12px"}
+                    alignItems={"center"}
+                    cursor={"pointer"}
+                    _hover={{ color: "#FFA60C" }}
                     onClick={() => onConnectWallet(w.adapter.name)}
                   >
-                    <img
+                    <Image
                       src={w.adapter.icon}
-                      className="w-[24px] h-[24px]"
+                      w={"60px"}
+                      h={"60px"}
+                      objectFit={"contain"}
                       alt={w.adapter.name}
                     />
-                    <span className="!text-[16px] leading-[24px] !font-medium">
+                    <Text fontSize={"14px"} fontWeight={500}>
                       {w.adapter.name}
-                    </span>
-                    <span className="!ml-auto !text-xs !text-gray-400">
-                      {w.adapter.readyState === walletDetectStatus.installed &&
-                        "Detected"}
-                    </span>
-                  </div>
+                    </Text>
+                  </Flex>
                 );
               })}
-            </Box>
+            </Grid>
+            <Box h={"1px"} my={"20px"} bg={"white"} opacity={"0.1"} />
+            <Text fontSize={"14px"} fontWeight={500} letterSpacing={"0%"}>
+              By connecting your wallet, you agree to the{" "}
+              <Link
+                href={policyLink.termAndConditions}
+                textDecoration={"underline"}
+                target="_blank"
+              >
+                Terms of Service
+              </Link>
+              , and have read and aknowledge our
+              <Link
+                href={policyLink.privacyPolicy}
+                textDecoration={"underline"}
+                target="_blank"
+              >
+                Privacy Policy
+              </Link>
+              .
+            </Text>
           </Box>
         </Dialog.Content>
       </Dialog.Positioner>

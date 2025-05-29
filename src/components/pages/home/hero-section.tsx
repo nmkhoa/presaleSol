@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import { Box, Button, Flex, Grid, Image, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Grid, Image, Link, Text } from "@chakra-ui/react";
 import Header from "../global/header";
 import TokenSold from "../../home/token-sold";
 import { useCallback, useEffect, useState } from "react";
@@ -169,6 +169,7 @@ const HeroSection = () => {
       position={"relative"}
       id={navKey.buy}
       px={"12px"}
+      pt={{ base: "62px", xl: "100px" }}
       xl={{
         px: 0,
       }}
@@ -365,19 +366,25 @@ const HeroSection = () => {
             </div>
           </Box>
         </Flex>
-        <Box
-          mt={"16px"}
-          textAlign={"center"}
-          fontSize={"12px"}
-          fontWeight={500}
-          xl={{
-            mt: "47px",
-            fontSize: "14px",
-          }}
-        >
-          Audited by
-        </Box>
+        <Flex justifyContent={"center"}>
+          <Link
+            href="https://github.com/softstack/Smart-Contract-Security-Audits/blob/master/Unich/Softstack_EVM_Smart_Contract_Solana_Program_Audit_Unich_OTC_11032025.pdf"
+            mt={"16px"}
+            mx={"auto"}
+            textAlign={"center"}
+            fontSize={"12px"}
+            fontWeight={500}
+            xl={{
+              mt: "47px",
+              fontSize: "14px",
+            }}
+            target="_blank"
+          >
+            Audited by
+          </Link>
+        </Flex>
         <Image
+          id="total-balance"
           src="/images/logo_softstack.svg"
           w={"121px"}
           h={"20px"}

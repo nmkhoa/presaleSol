@@ -1,5 +1,9 @@
 import { Box, Flex, Image, Link, Text } from "@chakra-ui/react";
-import { footerLinks, footerSocialLinks } from "../../../constants/home";
+import {
+  footerLinks,
+  footerSocialLinks,
+  policyLink,
+} from "../../../constants/home";
 
 const FooterHome = () => {
   return (
@@ -76,16 +80,19 @@ const FooterHome = () => {
             >
               {footerLinks.map((item) => {
                 return (
-                  <Text
+                  <Link
+                    href={item.url}
                     key={item.title}
                     p={"8px"}
                     fontSize={"12px"}
                     xl={{
                       fontSize: "16px",
                     }}
+                    outline={"none"}
+                    target="_blank"
                   >
                     {item.title}
-                  </Text>
+                  </Link>
                 );
               })}
             </Flex>
@@ -113,12 +120,32 @@ const FooterHome = () => {
               justifyContent={"center"}
               xl={{ fontSize: "14px" }}
             >
-              <Text fontWeight={500}>Privacy Policy</Text>
-              <Text fontWeight={500}>Terms and Conditions</Text>
-              <Flex gap={"4px"} fontWeight={500}>
-                Contact
-                <Text color={"#FF9A0D"}>hi@unich.com</Text>
-              </Flex>
+              <Link
+                href={policyLink.privacyPolicy}
+                fontWeight={500}
+                target="_blank"
+                outline={"none"}
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href={policyLink.termAndConditions}
+                fontWeight={500}
+                target="_blank"
+                outline={"none"}
+              >
+                Terms and Conditions
+              </Link>
+              <Link
+                href={`mailto:${policyLink.privacyPolicy}`}
+                fontWeight={500}
+                outline={"none"}
+              >
+                <Flex gap={"4px"} fontWeight={500}>
+                  Contact
+                  <Text color={"#FF9A0D"}>hi@unich.com</Text>
+                </Flex>
+              </Link>
             </Flex>
             <Image
               src="/images/build_solana.svg"
