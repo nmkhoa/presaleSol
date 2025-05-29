@@ -493,13 +493,13 @@ const InviteAndEarn = () => {
                               h={"20px"}
                               alt="token"
                             />
-                            {getNumberFixed(data.tokenamount, 2)}
+                            {getNumberFixed(data.tokenAmount, 2)}
                           </Flex>
                           <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
                             {data.currency.toUpperCase()}
                           </Text>
                           <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
-                            ${getNumberFixed(data.currencyprice, 2)}
+                            ${getNumberFixed(data.currencyPrice, 2)}
                           </Text>
                           <Text
                             xl={{ gridColumn: "span 2 / span 2" }}
@@ -508,7 +508,7 @@ const InviteAndEarn = () => {
                             color={"#C7CCD9"}
                             textAlign={"right"}
                           >
-                            {formatTimeAgo(data.blocktime)}
+                            {formatTimeAgo(data.blockTime) || "N/A"}
                           </Text>
                         </Box>
                       );

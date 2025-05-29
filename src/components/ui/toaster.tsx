@@ -107,6 +107,7 @@ export const Toaster = () => {
                     {toast.description}
                     {toast.meta?.url && toast?.meta?.urlTile && (
                       <Link
+                        color={"white"}
                         href={toast.meta?.url}
                         target="_blank"
                         pl={"4px"}

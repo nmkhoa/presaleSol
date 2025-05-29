@@ -124,7 +124,7 @@ export default function ReferralLeaderboard() {
                       {index + 1}
                     </Text>
                     <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
-                      {getAddressFormat(data.walletAddress)}
+                      {getAddressFormat(data.walletAddress) || "-"}
                     </Text>
                     <Flex
                       gap={"2px"}
@@ -132,7 +132,7 @@ export default function ReferralLeaderboard() {
                       fontWeight={500}
                       color={"#C7CCD9"}
                     >
-                      {data.referralCount}
+                      {data.referralCount || "-"}
                     </Flex>
 
                     <Text

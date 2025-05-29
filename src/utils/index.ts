@@ -33,8 +33,9 @@ export function getNumberFixed(number: number, fix?: number) {
   return +number.toFixed(fix ? fix : 4);
 }
 
-export function formatTimeAgo(blocktime: string): string {
-  const timestampDate = new Date(blocktime);
+export function formatTimeAgo(blockTime: string): string {
+  if (!blockTime) return "";
+  const timestampDate = new Date(blockTime);
   const currentDate = new Date();
 
   const timeDiff = currentDate.getTime() - timestampDate.getTime();

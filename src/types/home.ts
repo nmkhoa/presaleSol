@@ -47,10 +47,10 @@ export type TokenPriceType = {
 
 export interface Transaction {
   signature: string;
-  tokenamount: number;
+  tokenAmount: number;
   currency: string;
-  currencyprice: number;
-  blocktime: string;
+  currencyPrice: number;
+  blockTime: string;
 }
 
 export interface TransactionRequest {

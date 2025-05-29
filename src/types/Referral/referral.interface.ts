@@ -2,8 +2,9 @@ import type { Pagination } from "../leaderboard/leaderboard.interface";
 
 export interface referralInfo {
   referral: string;
-  totalreward: number;
-  blocktime: string;
+  currency: string;
+  totalTokenReward: number;
+  blockTime: string;
 }
 
 export interface ReferralRequest {
