@@ -179,10 +179,11 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
   const rewardRate = useMemo(() => {
     if (!solSaleAccountInfo || !solSaleAccountInfo?.denominator) return 0;
     return (
-      (solSaleAccountInfo.refCurrencyRate * 100) /
+      ((solSaleAccountInfo.refCurrencyRate + solSaleAccountInfo.refTokenRate) *
+        100) /
       solSaleAccountInfo.denominator
     );
-  }, []);
+  }, [solSaleAccountInfo]);
 
   const balanceByMethod = useMemo(() => {
     if (method.key === paymentMethods[0].key) return tokenBalanceSol;

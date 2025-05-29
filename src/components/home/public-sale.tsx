@@ -183,6 +183,15 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     return 0;
   };
 
+  const isBalanceDisable = useMemo(() => {
+    if (method.key === paymentMethods[0].key)
+      return tokenBalanceSol < +inputAmount;
+    if (method.key === paymentMethods[1].key)
+      return tokenBalanceUsdc < +inputAmount;
+    if (method.key === paymentMethods[2].key)
+      return tokenBalanceUsdt < +inputAmount;
+  }, [inputAmount, method]);
+
   const errorMessage = useMemo(() => {
     if (!inputAmount) return "";
     const priceByMethod = getPriceByMethod();
@@ -201,8 +210,9 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         getNumberFixed(maxToken)
       )}`;
     }
+    if (isBalanceDisable) return "Insufficient balance";
     return "";
-  }, [inputAmount, solSaleAccountInfo, tokensPrice, method]);
+  }, [inputAmount, solSaleAccountInfo, tokensPrice, method, isBalanceDisable]);
 
   const receiveToken = useMemo(() => {
     if (!inputAmount) return "0";
@@ -218,25 +228,17 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
   const rewardRate = useMemo(() => {
     if (!solSaleAccountInfo || !solSaleAccountInfo?.denominator) return 0;
     return (
-      (solSaleAccountInfo.refCurrencyRate * 100) /
+      ((solSaleAccountInfo.refCurrencyRate + solSaleAccountInfo.refTokenRate) *
+        100) /
       solSaleAccountInfo.denominator
     );
-  }, []);
+  }, [solSaleAccountInfo]);
 
   const balanceByMethod = useMemo(() => {
     if (method.key === paymentMethods[0].key) return tokenBalanceSol;
     if (method.key === paymentMethods[1].key) return tokenBalanceUsdc;
     if (method.key === paymentMethods[2].key) return tokenBalanceUsdt;
   }, [method.key, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt]);
-
-  const isBalanceDisable = useMemo(() => {
-    if (method.key === paymentMethods[0].key)
-      return tokenBalanceSol < +inputAmount;
-    if (method.key === paymentMethods[1].key)
-      return tokenBalanceUsdc < +inputAmount;
-    if (method.key === paymentMethods[2].key)
-      return tokenBalanceUsdt < +inputAmount;
-  }, [inputAmount, method]);
 
   return (
     <Box>
