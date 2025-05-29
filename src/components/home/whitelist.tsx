@@ -28,6 +28,7 @@ import { network } from "../providers/solana-provider";
 import { useTokenStore } from "@/stores/token.store";
 import { useNftStore } from "@/stores/whitelist.store";
 import SaleWithoutConnectWallet from "./sale-connect";
+import SaleWithoutNFT from "./sale-nft";
 
 interface Props {
   fetchSaleAccount: () => Promise<void>;
@@ -200,8 +201,11 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
       return tokenBalanceUsdt < +inputAmount;
   }, [inputAmount, method]);
 
-  if (!connected || !nft) {
+  if (!connected) {
     return <SaleWithoutConnectWallet />;
+  }
+  if (connected && !nft) {
+    return <SaleWithoutNFT />;
   }
 
   return (

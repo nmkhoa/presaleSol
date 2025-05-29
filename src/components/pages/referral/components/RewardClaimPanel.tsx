@@ -234,13 +234,16 @@ export default function RewardClaimPanel() {
       >
         <Stack direction="column" gap={{ base: "12px", xl: "24px" }}>
           <Box>
-            <Text
-              fontWeight="bold"
-              fontSize={{ base: "12px", md: "14px", xl: "18px" }}
-              color="#FFFFFF"
-            >
-              $UN Earned
-            </Text>
+            <HStack gap={"8px"}>
+              <Text
+                fontWeight="bold"
+                fontSize={{ base: "12px", md: "14px", xl: "18px" }}
+                color="#FFFFFF"
+              >
+                $UN Earned
+              </Text>
+              <Image src="/images/tag-3%.svg" />
+            </HStack>
             <HStack gap="12px" mt="2">
               <Image
                 src="/logo_token.svg"
@@ -265,13 +268,16 @@ export default function RewardClaimPanel() {
           <Box w="full" h="1px" bg="#FFFFFF1A" />
 
           <Box>
-            <Text
-              fontWeight="bold"
-              fontSize={{ base: "12px", md: "14px", xl: "18px" }}
-              color="#FFFFFF"
-            >
-              USD Earned
-            </Text>
+            <HStack gap={"8px"}>
+              <Text
+                fontWeight="bold"
+                fontSize={{ base: "12px", md: "14px", xl: "18px" }}
+                color="#FFFFFF"
+              >
+                USD Earned
+              </Text>
+              <Image src="/images/tag-8%.svg" />
+            </HStack>
             <HStack gap="12px" mt="2">
               <Text
                 fontWeight="bold"

@@ -1,5 +1,5 @@
 import { landingPageLink, navKey } from "@/constants/home";
-import { Box, Flex, Image, Link, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Link, Stack, Text } from "@chakra-ui/react";
 
 const Products = () => {
   return (
@@ -23,7 +23,7 @@ const Products = () => {
             textAlign: "center",
           }}
           xl={{
-            w: "395px",
+            w: "410px",
             textAlign: "left",
           }}
         >
@@ -53,7 +53,7 @@ const Products = () => {
                 fontSize: "64px",
               }}
             >
-              UNICH'S
+              UNICH
             </Text>
             <Text
               className="text-secondary"
@@ -68,7 +68,7 @@ const Products = () => {
                 fontSize: "64px",
               }}
             >
-              PRODUCTS
+              ECOSYSTEM
             </Text>
           </Flex>
           <Text
@@ -86,8 +86,8 @@ const Products = () => {
               mt: "20px",
             }}
           >
-            Earn, Grow, and Lead! Secure $UN Before Launch, Unlock +148% APY
-            Staking, and Shape the Future of the Metaverse!
+            More than a trading platform, Unich pioneers new paths in
+            decentralized finance and empowers you to Catch Your Freedom!
           </Text>
           <Flex
             mt={"20px"}
@@ -108,7 +108,7 @@ const Products = () => {
               color={"#FFA915"}
               lineHeight={"28px"}
             >
-              954.900
+              4,000,000+
             </Text>
             <Text
               fontSize={"18px"}
@@ -116,15 +116,14 @@ const Products = () => {
               color={"#C7CCD9"}
               lineHeight={"24px"}
             >
-              Total User
+              User
             </Text>
           </Flex>
         </Box>
+
         <Flex
           w={"100%"}
-          background={
-            "linear-gradient(143.45deg, #111423 10.97%, #0A0C15 56.87%)"
-          }
+          background={"linear-gradient(143.45deg, #111423 100%, #0A0C15 100%)"}
           borderRadius={"16px"}
           flexDirection={"column"}
           md={{
@@ -152,22 +151,22 @@ const Products = () => {
               md={{ mt: "12px" }}
             >
               <Text
-                fontSize={"12px"}
-                fontWeight={700}
-                color={"#C7CCD9"}
-                md={{ fontSize: "16px" }}
-                xl={{ fontSize: "18px" }}
-              >
-                Total downloads:
-              </Text>
-              <Text
                 fontSize={"16px"}
                 fontWeight={"700"}
                 color={"#FFAF40"}
                 md={{ fontSize: "20px" }}
                 xl={{ fontSize: "24px" }}
               >
-                944.900
+                200,000+
+              </Text>
+              <Text
+                fontSize={"12px"}
+                fontWeight={700}
+                color={"#C7CCD9"}
+                md={{ fontSize: "16px" }}
+                xl={{ fontSize: "18px" }}
+              >
+                Total Downloads
               </Text>
             </Flex>
             <Text
@@ -180,8 +179,8 @@ const Products = () => {
                 fontSize: "16px",
               }}
             >
-              Secure your assets and offer Airdrop Program with appealing
-              rewards
+              Your secured gateway to trading early, earning more, and unlocking
+              real Web3 utilities.
             </Text>
             <Box
               display={"flex"}
@@ -190,9 +189,9 @@ const Products = () => {
               md={{ display: "block" }}
             >
               <Flex gap={{ base: "7px", xl: "20px" }} mt={"12px"}>
-                <Box>
+                <Stack>
                   <Text
-                    mt={"10px"}
+                    mt={"12px"}
                     fontSize={"10px"}
                     md={{ fontSize: "12px" }}
                     xl={{
@@ -217,10 +216,10 @@ const Products = () => {
                       }}
                     />
                   </Link>
-                </Box>
-                <Box>
+                </Stack>
+                <Stack>
                   <Text
-                    mt={"10px"}
+                    mt={"12px"}
                     fontSize={"10px"}
                     md={{ fontSize: "12px" }}
                     xl={{
@@ -242,7 +241,7 @@ const Products = () => {
                       }}
                     />
                   </Link>
-                </Box>
+                </Stack>
               </Flex>
             </Box>
           </Box>
@@ -262,9 +261,7 @@ const Products = () => {
         mx={"auto"}
         mt={"20px"}
         pt={"44px"}
-        background={
-          "linear-gradient(143.45deg, #111423 10.97%, #0A0C15 56.87%)"
-        }
+        background={"linear-gradient(143.45deg, #111423 100%, #0A0C15 100%)"}
         borderRadius={"16px"}
         md={{ h: "346px" }}
         xl={{
@@ -349,8 +346,7 @@ const Products = () => {
                   fontSize: "16px",
                 }}
               >
-                Secure your assets and offer Airdrop Program with appealing
-                rewards
+                Trade tokens from high-quality projects even before TGE!
               </Text>
             </Box>
             <Flex
@@ -394,9 +390,7 @@ const Products = () => {
         mx={"auto"}
         mt={"20px"}
         pt={"44px"}
-        background={
-          "linear-gradient(143.45deg, #111423 10.97%, #0A0C15 56.87%)"
-        }
+        background={"linear-gradient(143.45deg, #111423 100%, #0A0C15 100%)"}
         borderRadius={"16px"}
         md={{ h: "346px" }}
         xl={{

@@ -188,17 +188,17 @@ const InviteAndEarn = () => {
                 background={"rgba(0, 0, 0, 0.95)"}
                 color={"#FFEED6"}
                 borderRadius={"8px"}
+                border={"none"}
                 disabled
                 opacity={1}
                 value={
                   user
                     ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}`
-                    : ""
+                    : "Connect wallet to see your code"
                 }
                 xl={{
                   h: "58px",
                 }}
-                placeholder="Connect wallet to see your code"
               />
               {connected ? (
                 <Clipboard.Root
@@ -231,6 +231,8 @@ const InviteAndEarn = () => {
                 </Clipboard.Root>
               ) : (
                 <Button
+                  background={"white"}
+                  color={"#1A1001"}
                   h={"42px"}
                   px={"8px"}
                   fontWeight={700}

@@ -90,6 +90,7 @@ const FooterHome = () => {
                     }}
                     outline={"none"}
                     target="_blank"
+                    color={"#FAFAFA"}
                   >
                     {item.title}
                   </Link>
@@ -125,6 +126,7 @@ const FooterHome = () => {
                 fontWeight={500}
                 target="_blank"
                 outline={"none"}
+                color={"#FAFAFA"}
               >
                 Privacy Policy
               </Link>
@@ -133,6 +135,7 @@ const FooterHome = () => {
                 fontWeight={500}
                 target="_blank"
                 outline={"none"}
+                color={"#FAFAFA"}
               >
                 Terms and Conditions
               </Link>
@@ -140,6 +143,7 @@ const FooterHome = () => {
                 href={`mailto:${policyLink.privacyPolicy}`}
                 fontWeight={500}
                 outline={"none"}
+                color={"#FAFAFA"}
               >
                 <Flex gap={"4px"} fontWeight={500}>
                   Contact
