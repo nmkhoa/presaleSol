@@ -3,8 +3,23 @@ import GoHomeButton from "../components/pages/global/GoHomeButton";
 import ReferralLayout from "../components/pages/referral/layout/ReferralLayout";
 import ReferralSummaryPanel from "../components/pages/referral/ReferralSummaryPanel";
 import { Stack } from "@chakra-ui/react";
+import { useEffect } from "react";
 
 const Referral = () => {
+  useEffect(() => {
+    document.title = "More invites - more $UN!";
+
+    // Tạo hoặc cập nhật thẻ meta description
+    const description = "More invites - more $UN!";
+    let metaDesc = document.querySelector("meta[name='description']");
+    if (!metaDesc) {
+      metaDesc = document.createElement("meta");
+      (metaDesc as HTMLMetaElement).name = "description";
+      document.head.appendChild(metaDesc);
+    }
+    (metaDesc as HTMLMetaElement).content = description;
+  }, []);
+
   return (
     <ReferralLayout>
       <GoHomeButton />

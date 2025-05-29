@@ -205,3 +205,66 @@ export const footerLinks = [
     url: marketingLinks.preOrder,
   },
 ];
+
+export const partners = [
+  {
+    img: "/images/partners/kima.jpg",
+    url: "https://x.com/KimaNetwork",
+    width: "228px"
+  },
+  {
+    img: "/images/partners/gt.jpg",
+    url: "https://x.com/GT_Protocol",
+    width: "197px"
+  },
+  {
+    img: "/images/partners/ice.jpg",
+    url: "https://x.com/ice_blockchain",
+    width: "258px"
+  },
+  {
+    img: "/images/partners/wagmi.jpg",
+    url: "https://x.com/WagmiHub",
+    width: "206px"
+  },
+  {
+    img: "/images/partners/hyperGPT.jpg",
+    url: "https://x.com/hypergpt",
+    width: "182px"
+  },
+  {
+    img: "/images/partners/b2.jpg",
+    url: "https://x.com/BSquaredNetwork",
+    width: "204px"
+  },
+  {
+    img: "/images/partners/script.jpg",
+    url: "https://x.com/script_network",
+    width: "143px"
+  },
+  {
+    img: "/images/partners/dexcheck.jpg",
+    url: "https://x.com/DexCheck_io",
+    width: "208px"
+  },
+  {
+    img: "/images/partners/eMoney.jpg",
+    url: "https://x.com/emoney_network",
+    width: "255px"
+  },
+  {
+    img: "/images/partners/everreach.jpg",
+    url: "https://x.com/EverreachLabs",
+    width: "231px"
+  },
+  {
+    img: "/images/partners/kibble.jpg",
+    url: "https://x.com/KibbleExchange",
+    width: "148px"
+  },
+  {
+    img: "/images/partners/redot.jpg",
+    url: "https://x.com/RedotPay",
+    width: "179px"
+  },
+];

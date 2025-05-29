@@ -7,6 +7,7 @@ import type {
   NonceRequest,
   NonceResponse,
 } from "@/types/auth/auth.interface";
+import type { CurrentRankResponse } from "@/types/Referral/referral.interface";
 import type { AxiosError } from "axios";
 
 export const login = async (
@@ -25,13 +26,20 @@ export const logout = () => {
   return;
 };
 
-
-
 export const getNonce = async (
   nonceRequest: NonceRequest
 ): Promise<NonceResponse> => {
   return await request
     .get<NonceResponse>(ENDPOINTS.AUTH.NONCE, { params: nonceRequest })
+    .then((response) => response.data)
+    .catch((error: AxiosError) => {
+      throw error.response?.data || error;
+    });
+};
+
+export const getCurrentRank = async (): Promise<CurrentRankResponse> => {
+  return await request
+    .get<CurrentRankResponse>(ENDPOINTS.REFERRAL.CURRENT_RANK)
     .then((response) => response.data)
     .catch((error: AxiosError) => {
       throw error.response?.data || error;

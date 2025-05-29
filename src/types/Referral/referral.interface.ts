@@ -16,3 +16,10 @@ export interface ReferralResponse {
   data: referralInfo[];
   pagination: Pagination;
 }
+
+export interface CurrentRankResponse {
+  currentRank: number;
+  walletAddress: string;
+  referralCount: number;
+  totalReward: number;
+}

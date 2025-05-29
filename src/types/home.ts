@@ -49,6 +49,7 @@ export interface Transaction {
   signature: string;
   tokenAmount: number;
   currency: string;
+  currencyAmount: string;
   currencyPrice: number;
   blockTime: string;
 }

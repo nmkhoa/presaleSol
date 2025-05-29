@@ -17,6 +17,7 @@ export const ENDPOINTS = {
     TRANSACTIONL: `${BASE_PATHS.TOKEN}/transactions`,
   },
   REFERRAL: {
-    REWARD_SUMMARY: `${BASE_PATHS.referral}/reward-summary`,
+    REWARD_SUMMARY: `${BASE_PATHS.referral}/referrer-reward-summary`,
+    CURRENT_RANK: `${BASE_PATHS.referral}/referrer-reward-rank`,
   },
 };

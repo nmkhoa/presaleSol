@@ -15,6 +15,21 @@ const Home = () => {
   const { setReferrerCode } = useAuthStore();
 
   useEffect(() => {
+    document.title = "Unich Token: Freedom starts with $UN | Pre-sale now LIVE";
+
+    // Tạo hoặc cập nhật thẻ meta description
+    const description =
+      "Unich Token: Freedom starts with $UN | Pre-sale now LIVE";
+    let metaDesc = document.querySelector("meta[name='description']");
+    if (!metaDesc) {
+      metaDesc = document.createElement("meta");
+      (metaDesc as HTMLMetaElement).name = "description";
+      document.head.appendChild(metaDesc);
+    }
+    (metaDesc as HTMLMetaElement).content = description;
+  }, []);
+
+  useEffect(() => {
     if (affiliateCode) {
       setReferrerCode(affiliateCode);
     }

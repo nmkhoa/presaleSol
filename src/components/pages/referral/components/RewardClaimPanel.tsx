@@ -253,8 +253,10 @@ export default function RewardClaimPanel() {
                 fontSize={{ base: "20px", md: "28px", xl: "36px" }}
                 color="#FFFFFF"
               >
-                {earnedValues?.totalUNEarned
-                  ? formatAmount(getNumberFixed(earnedValues?.totalUNEarned, 2))
+                {solUserAccountInfo?.tokenRefEarned
+                  ? formatAmount(
+                      getNumberFixed(solUserAccountInfo?.tokenRefEarned, 2)
+                    )
                   : "-.--"}
               </Text>
             </HStack>

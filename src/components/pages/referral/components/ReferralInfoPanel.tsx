@@ -11,7 +11,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import IconSOL from "@assets/icon/icon_SOL.svg";
-import { formatTimeAgo, getAddressFormat } from "@/utils";
+import { formatTimeAgo, getAddressFormat, getNumberFixed } from "@/utils";
 import { useReferralInfo } from "@/core/hook/useUsers";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
@@ -263,7 +263,7 @@ export default function ReferralInfoPanel() {
                           fontWeight={500}
                           color={"#C7CCD9"}
                         >
-                          {data.totalTokenReward || "-"}
+                          {getNumberFixed(data.totalTokenReward, 3) || "-"}
                         </Flex>
                         <Flex
                           gap={"2px"}

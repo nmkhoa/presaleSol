@@ -1,4 +1,4 @@
-import { useLeaderboard } from "@/core/hook/useUsers";
+import { useCurrentRank, useLeaderboard } from "@/core/hook/useUsers";
 import { useAuthStore } from "@/stores/auth.store";
 import { getAddressFormat, getNumberFixed } from "@/utils";
 import { Box, Flex, Grid, HStack, Image, Text } from "@chakra-ui/react";
@@ -6,6 +6,7 @@ import { Box, Flex, Grid, HStack, Image, Text } from "@chakra-ui/react";
 export default function ReferralLeaderboard() {
   const { accessToken } = useAuthStore();
   const { data: leaderboard, isLoading } = useLeaderboard(accessToken);
+  const { data: currentRank } = useCurrentRank(accessToken);
 
   return (
     <Box
@@ -16,9 +17,8 @@ export default function ReferralLeaderboard() {
       borderRadius="12px"
       color="white"
       mb={"40px"}
-      py={"20px"}
     >
-      <Box>
+      <Box mt={"20px"}>
         <HStack px={"20px"}>
           <Image
             src="/images/icon_leaderboard.svg"
@@ -148,6 +148,41 @@ export default function ReferralLeaderboard() {
               })}
           </Grid>
         </Box>
+        {currentRank && (
+          <Box
+            py={{
+              base: "16px",
+              md: "15px",
+              xl: "24px",
+              "2xl": "24px",
+            }}
+            px={"32px"}
+            mt={"8px"}
+            background="linear-gradient(89.88deg, #19FFAC -40.26%, #1A1F27 97.08%)"
+            borderBottomRadius={"8px"}
+            fontSize={{ base: "12px", md: "14px", xl: "16px" }}
+            className="grid grid-cols-4"
+          >
+            <Text fontWeight={500} color={"#C7CCD9"}>
+              {currentRank.currentRank || "-"}
+            </Text>
+            <Text px={"10px"} fontWeight={500} color={"#C7CCD9"}>
+              You
+            </Text>
+            <Flex gap={"2px"} px={"16px"} fontWeight={500} color={"#C7CCD9"}>
+              {currentRank.referralCount || "-"}
+            </Flex>
+
+            <Text
+              px={"5px"}
+              fontWeight={500}
+              color={"#C7CCD9"}
+              textAlign={"right"}
+            >
+              ${getNumberFixed(currentRank.totalReward, 2)}
+            </Text>
+          </Box>
+        )}
       </Box>
     </Box>
   );

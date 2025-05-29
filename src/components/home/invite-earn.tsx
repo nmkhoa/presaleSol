@@ -345,9 +345,9 @@ const InviteAndEarn = () => {
                   lineHeight={"28px"}
                   xl={{ fontSize: "24px" }}
                 >
-                  {earnedValues?.totalUNEarned
+                  {solUserAccountInfo?.tokenRefEarned
                     ? formatAmount(
-                        getNumberFixed(earnedValues?.totalUNEarned, 2)
+                        getNumberFixed(solUserAccountInfo?.tokenRefEarned, 2)
                       )
                     : "-.--"}
                 </Text>
@@ -390,7 +390,6 @@ const InviteAndEarn = () => {
               mx={"auto"}
               mt={"20px"}
               py={"20px"}
-              h={"500px"}
               background={
                 "linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"
               }
@@ -420,7 +419,7 @@ const InviteAndEarn = () => {
                     Amount
                   </Text>
                   <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
-                    Currrency
+                    Total Spent
                   </Text>
                   <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
                     Price
@@ -496,7 +495,7 @@ const InviteAndEarn = () => {
                             {getNumberFixed(data.tokenAmount, 2)}
                           </Flex>
                           <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
-                            {data.currency.toUpperCase()}
+                            {data.currencyAmount} {data.currency.toUpperCase()}
                           </Text>
                           <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
                             ${getNumberFixed(data.currencyPrice, 2)}

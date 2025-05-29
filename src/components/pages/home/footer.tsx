@@ -174,7 +174,7 @@ const FooterHome = () => {
             xl={{ px: 0 }}
           >
             <Text fontSize={"12px"} fontWeight={500}>
-              © Copyright 2024 by Unich. All rights reserved
+              © Copyright 2025 by Unich. All rights reserved
             </Text>
             <Flex gap={"12px"} alignItems={"center"}>
               {footerSocialLinks?.map((item) => {

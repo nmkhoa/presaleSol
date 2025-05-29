@@ -50,7 +50,7 @@ const ReferralHeader = () => {
           fontWeight="bold"
           color={"#FFFFFF"}
         >
-          Referral Dashboard
+          FREEDOM REFERRAL HUB
         </Heading>
 
         <ConnectWalletButton />

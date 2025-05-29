@@ -7,7 +7,7 @@ import {
   Span,
   Text,
 } from "@chakra-ui/react";
-import { askedQuestions, navKey } from "../../../constants/home";
+import { askedQuestions, navKey, partners } from "../../../constants/home";
 
 const CryptoAlliance = () => {
   return (
@@ -53,21 +53,33 @@ const CryptoAlliance = () => {
             mt: "42px",
           }}
         >
-          <Flex w={"fit-content"} className="animation-alliance">
-            <Image
-              src="/images/alliance.svg"
-              w={"1500px"}
-              minW={"1500px"}
-              h={"auto"}
-              md={{ w: "2281px", minW: "2281px" }}
-            />
-            <Image
-              src="/images/alliance.svg"
-              w={"1500px"}
-              minW={"1500px"}
-              h={"auto"}
-              md={{ w: "2281px", minW: "2281px" }}
-            />
+          <Flex w={"fit-content"} gap={"24px"} className="animation-alliance">
+            {[...partners, ...partners]?.map((partner) => {
+              return (
+                <Link
+                  key={partner.img}
+                  w={"fit-content"}
+                  href={partner.url}
+                  outline={"none"}
+                  target="_blank"
+                >
+                  <Image
+                    src={partner.img}
+                    w={{
+                      base: `calc(${partner.width} / 1.2)`,
+                      md: partner.width,
+                    }}
+                    minW={{
+                      base: `calc(${partner.width} / 1.2)`,
+                      md: partner.width,
+                    }}
+                    h={"auto"}
+                    borderRadius={{ base: "14px", md: "17px" }}
+                    alt="partner"
+                  />
+                </Link>
+              );
+            })}
           </Flex>
         </Box>
         <Box

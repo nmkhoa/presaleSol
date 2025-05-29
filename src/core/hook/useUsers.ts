@@ -9,13 +9,27 @@ import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import type { User } from "@/types/user/user.interface";
 import type { AxiosError } from "axios";
 import type { TransactionRequest } from "@/types/home";
-import type { ReferralRequest } from "@/types/Referral/referral.interface";
+import type {
+  CurrentRankResponse,
+  ReferralRequest,
+} from "@/types/Referral/referral.interface";
 import type { LeaderboardDataItem } from "@/types/leaderboard/leaderboard.interface";
+import { getCurrentRank } from "../services";
 
 export const useGetMe = () => {
   return useMutation<User, AxiosError>({
     mutationKey: ["useGetMe"],
     mutationFn: getMe,
+  });
+};
+
+export const useCurrentRank = (token: string) => {
+  return useQuery<CurrentRankResponse, AxiosError>({
+    queryKey: ["useCurrentRank"],
+    queryFn: getCurrentRank,
+    enabled: !!token,
+    retry: 3,
+    refetchInterval: 60 * 60 * 1000, // 1 hour
   });
 };
 
