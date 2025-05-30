@@ -8,3 +8,4 @@ export const feedIdUsdt = import.meta.env.VITE_USDT_PRICE_FEED_ID;
 export const heliusApiKey = import.meta.env.VITE_API_HELIUS_KEY;
 export const networkKey = import.meta.env.VITE_API_NETWORK_KEY;
 export const nftAddress = import.meta.env.VITE_NFT_ADDRESS;
+export const networkEnpoint = import.meta.env.VITE_NETWORK_ENPOINT;

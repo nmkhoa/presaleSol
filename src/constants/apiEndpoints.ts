@@ -11,7 +11,6 @@ export const ENDPOINTS = {
   },
   Users: {
     GET_ME: `${BASE_PATHS.Users}/me`,
-    LEADERBOARD: `${BASE_PATHS.Users}/leaderboard`,
   },
   TOKEN: {
     TRANSACTIONL: `${BASE_PATHS.TOKEN}/transactions`,
@@ -19,5 +18,6 @@ export const ENDPOINTS = {
   REFERRAL: {
     REWARD_SUMMARY: `${BASE_PATHS.referral}/referrer-reward-summary`,
     CURRENT_RANK: `${BASE_PATHS.referral}/referrer-reward-rank`,
+    LEADERBOARD: `${BASE_PATHS.referral}/referrer-reward-leaderboard`,
   },
 };

@@ -8,4 +8,5 @@ export type LeaderboardDataItem = {
   walletAddress: string;
   referralCount: string;
   totalReward: number;
+  currentRank: number;
 };

@@ -7,7 +7,7 @@ import { formatAmount, getNumberFixed } from "@/utils";
 import { useWallet } from "@solana/wallet-adapter-react";
 
 const Header = () => {
-  const { publicKey } = useWallet();
+  const { publicKey, connected } = useWallet();
   const { solUserAccountInfo, tokensPrice } = useTokenStore();
 
   const onScrollIntoView = (key: string) => {
@@ -132,21 +132,23 @@ const Header = () => {
         })}
       </Flex>
       <Flex gap={"4px"}>
-        <Flex
-          gap={"6px"}
-          p={"8px 12px"}
-          bg={"#15171F"}
-          border={"1px solid #40475C"}
-          borderRadius={"4px"}
-          fontSize={"16px"}
-          lineHeight={"20px"}
-          fontWeight={700}
-          cursor={"pointer"}
-          onClick={() => onScrollIntoView("total-balance")}
-        >
-          <Image src="/images/token.svg" w={"20px"} h={"20px"} alt="token" />
-          {totalBalance}
-        </Flex>
+        {connected && (
+          <Flex
+            gap={"6px"}
+            p={"8px 12px"}
+            bg={"#15171F"}
+            border={"1px solid #40475C"}
+            borderRadius={"4px"}
+            fontSize={"16px"}
+            lineHeight={"20px"}
+            fontWeight={700}
+            cursor={"pointer"}
+            onClick={() => onScrollIntoView("total-balance")}
+          >
+            <Image src="/images/token.svg" w={"20px"} h={"20px"} alt="token" />
+            {totalBalance}
+          </Flex>
+        )}
         <ConnectWalletButton />
       </Flex>
     </Flex>

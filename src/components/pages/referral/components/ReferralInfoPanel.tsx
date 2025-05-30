@@ -263,7 +263,10 @@ export default function ReferralInfoPanel() {
                           fontWeight={500}
                           color={"#C7CCD9"}
                         >
-                          {getNumberFixed(data.totalTokenReward, 3) || "-"}
+                          {getNumberFixed(
+                            data.totalTokenReward,
+                            data.currency === "SOL" ? 4 : 2
+                          ) || "-"}
                         </Flex>
                         <Flex
                           gap={"2px"}

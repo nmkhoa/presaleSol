@@ -242,7 +242,7 @@ export default function RewardClaimPanel() {
               >
                 $UN Earned
               </Text>
-              <Image src="/images/tag-3%.svg" />
+              <Image src="/images/tag_3.svg" alt="tag 3" />
             </HStack>
             <HStack gap="12px" mt="2">
               <Image
@@ -276,7 +276,7 @@ export default function RewardClaimPanel() {
               >
                 USD Earned
               </Text>
-              <Image src="/images/tag-8%.svg" />
+              <Image src="/images/tag_8.svg" alt="tag 8" />
             </HStack>
             <HStack gap="12px" mt="2">
               <Text

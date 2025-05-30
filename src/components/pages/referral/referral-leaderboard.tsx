@@ -25,11 +25,7 @@ export default function ReferralLeaderboard() {
             w={{ base: "28px", md: "36px" }}
             h={{ base: "28px", md: "36px" }}
           />
-          <Text
-            fontSize={{ base: "16px", md: "20px" }}
-            fontWeight={700}
-            lineHeight={"24px"}
-          >
+          <Text fontSize={{ base: "16px", md: "20px" }} fontWeight={700} lineHeight={"24px"}>
             Leaderboard
           </Text>
         </HStack>
@@ -71,12 +67,7 @@ export default function ReferralLeaderboard() {
               Reward
             </Text>
           </Box>
-          <Grid
-            gap={"8px"}
-            maxH={"340px"}
-            overflowY="auto"
-            className="custom-scrollbar"
-          >
+          <Grid gap={"8px"} maxH={"340px"} overflowY="auto" className="custom-scrollbar">
             {isLoading && (
               <Box
                 textAlign="center"
@@ -99,16 +90,17 @@ export default function ReferralLeaderboard() {
             )}
             {leaderboard &&
               leaderboard.map((data, index) => {
+                const currentRank = Number(data.currentRank);
                 const bgImage =
-                  index === 0
+                  currentRank === 1
                     ? "url('/images/bg_rank1.svg')"
-                    : index === 1
+                    : currentRank === 2
                     ? "url('/images/bg_rank2.svg')"
-                    : index === 2
+                    : currentRank === 3
                     ? "url('/images/bg_rank3.svg')"
                     : undefined;
 
-                const bgColor = index > 2 ? "#15171F" : undefined;
+                const bgColor = currentRank > 2 ? "#15171F" : undefined;
                 return (
                   <Box
                     key={index}
@@ -121,26 +113,16 @@ export default function ReferralLeaderboard() {
                     className="grid grid-cols-4"
                   >
                     <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
-                      {index + 1}
+                      {currentRank || "-"}
                     </Text>
                     <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
                       {getAddressFormat(data.walletAddress) || "-"}
                     </Text>
-                    <Flex
-                      gap={"2px"}
-                      px={"16px"}
-                      fontWeight={500}
-                      color={"#C7CCD9"}
-                    >
+                    <Flex gap={"2px"} px={"16px"} fontWeight={500} color={"#C7CCD9"}>
                       {data.referralCount || "-"}
                     </Flex>
 
-                    <Text
-                      px={"16px"}
-                      fontWeight={500}
-                      color={"#C7CCD9"}
-                      textAlign={"right"}
-                    >
+                    <Text px={"16px"} fontWeight={500} color={"#C7CCD9"} textAlign={"right"}>
                       ${getNumberFixed(data.totalReward, 2)}
                     </Text>
                   </Box>
@@ -173,12 +155,7 @@ export default function ReferralLeaderboard() {
               {currentRank.referralCount || "-"}
             </Flex>
 
-            <Text
-              px={"5px"}
-              fontWeight={500}
-              color={"#C7CCD9"}
-              textAlign={"right"}
-            >
+            <Text px={"5px"} fontWeight={500} color={"#C7CCD9"} textAlign={"right"}>
               ${getNumberFixed(currentRank.totalReward, 2)}
             </Text>
           </Box>

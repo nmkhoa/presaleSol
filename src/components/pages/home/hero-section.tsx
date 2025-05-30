@@ -168,7 +168,6 @@ const HeroSection = () => {
     <Box
       position={"relative"}
       id={navKey.buy}
-      px={"12px"}
       pt={{ base: "62px", xl: "100px" }}
       xl={{
         px: 0,
@@ -183,7 +182,7 @@ const HeroSection = () => {
           h: "1450px",
         }}
       />
-      <Box position={"relative"}>
+      <Box position={"relative"} px={"12px"}>
         <Header />
         <Text
           w={"fit-content"}

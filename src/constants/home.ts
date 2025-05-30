@@ -209,62 +209,62 @@ export const footerLinks = [
 export const partners = [
   {
     img: "/images/partners/kima.jpg",
-    url: "https://x.com/KimaNetwork",
+    url: "https://x.com/KimaNetwork/status/1816110571517026357",
     width: "228px"
   },
   {
     img: "/images/partners/gt.jpg",
-    url: "https://x.com/GT_Protocol",
+    url: "https://x.com/GT_Protocol/status/1852002652256899100",
     width: "197px"
   },
   {
     img: "/images/partners/ice.jpg",
-    url: "https://x.com/ice_blockchain",
+    url: "https://x.com/ice_blockchain/status/1914982609064505694",
     width: "258px"
   },
   {
     img: "/images/partners/wagmi.jpg",
-    url: "https://x.com/WagmiHub",
+    url: "https://x.com/unich_com/status/1847229630601994629",
     width: "206px"
   },
   {
     img: "/images/partners/hyperGPT.jpg",
-    url: "https://x.com/hypergpt",
+    url: "https://x.com/hypergpt/status/1872283808352833938",
     width: "182px"
   },
   {
     img: "/images/partners/b2.jpg",
-    url: "https://x.com/BSquaredNetwork",
+    url: "https://x.com/unich_com/status/1867506964928115001",
     width: "204px"
   },
   {
     img: "/images/partners/script.jpg",
-    url: "https://x.com/script_network",
+    url: "https://x.com/script_network/status/1842175418872242672",
     width: "143px"
   },
   {
     img: "/images/partners/dexcheck.jpg",
-    url: "https://x.com/DexCheck_io",
+    url: "https://x.com/DexCheck_io/status/1875147497380704466",
     width: "208px"
   },
   {
     img: "/images/partners/eMoney.jpg",
-    url: "https://x.com/emoney_network",
+    url: "https://x.com/emoney_network/status/1895857747754967530",
     width: "255px"
   },
   {
     img: "/images/partners/everreach.jpg",
-    url: "https://x.com/EverreachLabs",
+    url: "https://x.com/unich_com/status/1874041045123817867",
     width: "231px"
   },
   {
     img: "/images/partners/kibble.jpg",
-    url: "https://x.com/KibbleExchange",
+    url: "https://x.com/unich_com/status/1910296937619984789",
     width: "148px"
   },
   {
     img: "/images/partners/redot.jpg",
-    url: "https://x.com/RedotPay",
+    url: "https://x.com/unich_com/status/1916789102642626933",
     width: "179px"
   },
 ];

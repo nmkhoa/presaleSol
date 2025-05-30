@@ -27,10 +27,11 @@ export function hasDecimalPart(num: number | string) {
   return Math.floor(number) !== number;
 }
 
-export function getNumberFixed(number: number, fix?: number) {
-  if (!number) return 0;
-  if (!hasDecimalPart(number)) return number;
-  return +number.toFixed(fix ? fix : 4);
+export function getNumberFixed(number: number | string, fix?: number) {
+  const num = typeof number === "number" ? number : +number;
+  if (!num) return 0;
+  if (!hasDecimalPart(number)) return num;
+  return +num.toFixed(fix ? fix : 4);
 }
 
 export function formatTimeAgo(blockTime: string): string {

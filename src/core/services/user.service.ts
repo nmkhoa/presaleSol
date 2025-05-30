@@ -3,10 +3,7 @@ import { ENDPOINTS } from "@/constants/apiEndpoints";
 import type { TransactionRequest, TransactionResponse } from "@/types/home";
 import type { LeaderboardDataItem } from "@/types/leaderboard/leaderboard.interface";
 
-import type {
-  ReferralRequest,
-  ReferralResponse,
-} from "@/types/Referral/referral.interface";
+import type { ReferralRequest, ReferralResponse } from "@/types/Referral/referral.interface";
 import type { User } from "@/types/user/user.interface";
 import type { AxiosError } from "axios";
 
@@ -21,7 +18,7 @@ export const getMe = async (): Promise<User> => {
 
 export const getLeaderboard = async (): Promise<LeaderboardDataItem[]> => {
   return await request
-    .get<LeaderboardDataItem[]>(ENDPOINTS.Users.LEADERBOARD)
+    .get<LeaderboardDataItem[]>(ENDPOINTS.REFERRAL.LEADERBOARD)
     .then((response) => response.data)
     .catch((error: AxiosError) => {
       throw error.response?.data || error;

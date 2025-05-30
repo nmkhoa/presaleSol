@@ -6,7 +6,6 @@ import {
 } from "@solana/wallet-adapter-react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import { clusterApiUrl } from "@solana/web3.js";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import {
   PhantomWalletAdapter,
@@ -17,11 +16,17 @@ import {
 } from "@solana/wallet-adapter-wallets";
 import { BackpackWalletAdapter } from "../wallets/backpack-wallet-adapter";
 import { GlowWalletAdapter } from "../wallets/glow-wallet-adapter";
+import { networkEnpoint, networkKey } from "@/constants/environment";
+import { clusterApiUrl } from "@solana/web3.js";
 
-export const network = WalletAdapterNetwork.Devnet;
+export const network =
+  networkKey === "devnet"
+    ? WalletAdapterNetwork.Devnet
+    : WalletAdapterNetwork.Mainnet;
 
 export const SolanaProvider = ({ children }: any) => {
-  const endpoint = clusterApiUrl(network);
+  const endpoint =
+    networkKey === "devnet" ? clusterApiUrl(network) : networkEnpoint;
 
   const wallets = [
     new PhantomWalletAdapter(),

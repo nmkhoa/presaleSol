@@ -53,7 +53,12 @@ const CryptoAlliance = () => {
             mt: "42px",
           }}
         >
-          <Flex w={"fit-content"} gap={"24px"} className="animation-alliance">
+          <Flex
+            w={"fit-content"}
+            mt={{ base: "20px", xl: "80px" }}
+            gap={"24px"}
+            className="animation-alliance"
+          >
             {[...partners, ...partners]?.map((partner) => {
               return (
                 <Link
@@ -86,10 +91,10 @@ const CryptoAlliance = () => {
           id={navKey.faq}
           maxW={"720px"}
           mx={"auto"}
-          mt={"68px"}
+          mt={"120px"}
           px={"12px"}
           xl={{ maxW: "1240px", px: "0" }}
-          md={{ mt: "197px" }}
+          md={{ mt: "200px" }}
         >
           <Text
             className="text-secondary"
@@ -185,7 +190,7 @@ const CryptoAlliance = () => {
             }}
           >
             <Link
-              href=""
+              href="https://docs.unich.com/welcome-to-unich/unich-tokenomics"
               className="flex gap-1 items-center"
               p={"12px"}
               fontWeight={700}
@@ -194,6 +199,7 @@ const CryptoAlliance = () => {
               xl={{
                 fontSize: "16px",
               }}
+              target="_blank"
             >
               View more
               <Image
