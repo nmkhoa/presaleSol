@@ -4,9 +4,13 @@ import { getAddressFormat, getNumberFixed } from "@/utils";
 import { Box, Flex, Grid, HStack, Image, Text } from "@chakra-ui/react";
 
 export default function ReferralLeaderboard() {
-  const { accessToken } = useAuthStore();
+  const { accessToken, user } = useAuthStore();
   const { data: leaderboard, isLoading } = useLeaderboard(accessToken);
   const { data: currentRank } = useCurrentRank(accessToken);
+
+  const isUserInLeaderboard = leaderboard?.some(
+    (item) => item.walletAddress === user?.walletAddress
+  );
 
   return (
     <Box
@@ -25,7 +29,11 @@ export default function ReferralLeaderboard() {
             w={{ base: "28px", md: "36px" }}
             h={{ base: "28px", md: "36px" }}
           />
-          <Text fontSize={{ base: "16px", md: "20px" }} fontWeight={700} lineHeight={"24px"}>
+          <Text
+            fontSize={{ base: "16px", md: "20px" }}
+            fontWeight={700}
+            lineHeight={"24px"}
+          >
             Leaderboard
           </Text>
         </HStack>
@@ -67,7 +75,12 @@ export default function ReferralLeaderboard() {
               Reward
             </Text>
           </Box>
-          <Grid gap={"8px"} maxH={"340px"} overflowY="auto" className="custom-scrollbar">
+          <Grid
+            gap={"8px"}
+            maxH={"340px"}
+            overflowY="auto"
+            className="custom-scrollbar"
+          >
             {isLoading && (
               <Box
                 textAlign="center"
@@ -90,6 +103,7 @@ export default function ReferralLeaderboard() {
             )}
             {leaderboard &&
               leaderboard.map((data, index) => {
+                const isUser = user?.walletAddress === data.walletAddress;
                 const currentRank = Number(data.currentRank);
                 const bgImage =
                   currentRank === 1
@@ -100,13 +114,17 @@ export default function ReferralLeaderboard() {
                     ? "url('/images/bg_rank3.svg')"
                     : undefined;
 
-                const bgColor = currentRank > 2 ? "#15171F" : undefined;
+                const bgColor = isUser
+                  ? "linear-gradient(89.88deg, #19FFAC -40.26%, #1A1F27 97.08%)"
+                  : currentRank > 3
+                  ? "#15171F"
+                  : undefined;
                 return (
                   <Box
                     key={index}
                     py={"18px"}
                     backgroundImage={bgImage}
-                    backgroundColor={bgColor}
+                    background={bgColor}
                     backgroundSize="cover"
                     borderRadius={"8px"}
                     fontSize={{ base: "12px", md: "14px", xl: "16px" }}
@@ -116,13 +134,25 @@ export default function ReferralLeaderboard() {
                       {currentRank || "-"}
                     </Text>
                     <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
-                      {getAddressFormat(data.walletAddress) || "-"}
+                      {isUser
+                        ? "You"
+                        : getAddressFormat(data.walletAddress) || "-"}
                     </Text>
-                    <Flex gap={"2px"} px={"16px"} fontWeight={500} color={"#C7CCD9"}>
+                    <Flex
+                      gap={"2px"}
+                      px={"16px"}
+                      fontWeight={500}
+                      color={"#C7CCD9"}
+                    >
                       {data.referralCount || "-"}
                     </Flex>
 
-                    <Text px={"16px"} fontWeight={500} color={"#C7CCD9"} textAlign={"right"}>
+                    <Text
+                      px={"16px"}
+                      fontWeight={500}
+                      color={"#C7CCD9"}
+                      textAlign={"right"}
+                    >
                       ${getNumberFixed(data.totalReward, 2)}
                     </Text>
                   </Box>
@@ -130,7 +160,7 @@ export default function ReferralLeaderboard() {
               })}
           </Grid>
         </Box>
-        {currentRank && (
+        {!isUserInLeaderboard && currentRank && currentRank.totalReward > 0 && (
           <Box
             py={{
               base: "16px",
@@ -155,7 +185,12 @@ export default function ReferralLeaderboard() {
               {currentRank.referralCount || "-"}
             </Flex>
 
-            <Text px={"5px"} fontWeight={500} color={"#C7CCD9"} textAlign={"right"}>
+            <Text
+              px={"5px"}
+              fontWeight={500}
+              color={"#C7CCD9"}
+              textAlign={"right"}
+            >
               ${getNumberFixed(currentRank.totalReward, 2)}
             </Text>
           </Box>

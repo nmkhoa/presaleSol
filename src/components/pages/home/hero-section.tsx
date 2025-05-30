@@ -373,7 +373,7 @@ const HeroSection = () => {
             fontSize={"12px"}
             fontWeight={500}
             xl={{
-              mt: "47px",
+              mt: "36px",
               fontSize: "14px",
             }}
             // target="_blank"

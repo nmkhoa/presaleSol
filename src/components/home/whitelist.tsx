@@ -52,6 +52,8 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
   });
   const { tokensPrice, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt } =
     useTokenStore();
+  const [inputReceive, setInputReceive] = useState("");
+  const [inputType, setInputType] = useState(0);
 
   const getPurchaseToken = async () => {
     if (method.key === paymentMethods[0].key) {
@@ -125,19 +127,57 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     }
   };
 
-  const onHandleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+  const validateInput = (value: string) => {
     if (value === "") {
       setInputAmount("");
-      return;
+      setInputReceive("");
+      return false;
     }
-    if (value.length > 30) return;
+    if (value.length > 30) return false;
     const idxDot = value.indexOf(".");
     if (idxDot !== -1) {
       const decimalPart = value.slice(idxDot + 1);
-      if (decimalPart.length > 4) return;
+      if (decimalPart.length > 4) return false;
     }
+    return true;
+  };
+
+  const getReceive = (value: string) => {
+    if (!value) return "0";
+    const priceByMethod = getPriceByMethod();
+    return getNumberFixed(
+      (+value * priceByMethod) /
+        ((solSaleAccountInfo?.firstRoundPrice || 1) * 0.75)
+    );
+  };
+
+  const getInputAmount = (value: string) => {
+    if (!value) return "0";
+    const priceByMethod = getPriceByMethod();
+    return getNumberFixed(
+      (+value * (solSaleAccountInfo?.firstRoundPrice || 0) * 0.75) /
+        (priceByMethod || 1)
+    );
+  };
+
+  const onHandleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const validate = validateInput(value);
+    if (!validate) return;
+    const receive = getReceive(value);
+    setInputReceive(receive?.toString());
     setInputAmount(value);
+    setInputType(0);
+  };
+
+  const onHandleInputReceive = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const validate = validateInput(value);
+    if (!validate) return;
+    const input = getInputAmount(value);
+    setInputAmount(input?.toString());
+    setInputReceive(value);
+    setInputType(1);
   };
 
   const getPriceByMethod = () => {
@@ -150,32 +190,41 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
   const errorMessage = useMemo(() => {
     if (!inputAmount) return "";
     const priceByMethod = getPriceByMethod();
-    const inputUsdAmount = +inputAmount * priceByMethod;
     const minToken =
       +(solSaleAccountInfo?.minUsdAmount || 0) / (priceByMethod || 1);
     const maxToken =
       +(solSaleAccountInfo?.maxUsdAmount || 0) / (priceByMethod || 1);
-    if (+inputUsdAmount < +(solSaleAccountInfo?.minUsdAmount || 0)) {
-      return `The minimum amount should be ${formatAmount(
-        getNumberFixed(minToken)
-      )}`;
-    }
-    if (+inputUsdAmount > +(solSaleAccountInfo?.maxUsdAmount || 0)) {
-      return `The maximum amount should be ${formatAmount(
-        getNumberFixed(maxToken)
-      )}`;
+    if (!inputType) {
+      if (getNumberFixed(inputAmount) < getNumberFixed(minToken)) {
+        return `The minimum amount should be ${formatAmount(
+          getNumberFixed(minToken)
+        )} ${method?.title?.toUpperCase()}`;
+      }
+      if (getNumberFixed(inputAmount) > getNumberFixed(maxToken)) {
+        return `The maximum amount should be ${formatAmount(
+          getNumberFixed(maxToken)
+        )} ${method?.title?.toUpperCase()}`;
+      }
+    } else {
+      if (getNumberFixed(inputAmount) < getNumberFixed(minToken)) {
+        return `The minimum amount should be ${formatAmount(
+          getNumberFixed(
+            (solSaleAccountInfo?.minUsdAmount || 0) /
+              (solSaleAccountInfo?.firstRoundPrice || 1)
+          )
+        )} $UN`;
+      }
+      if (getNumberFixed(inputAmount) > getNumberFixed(maxToken)) {
+        return `The maximum amount should be ${formatAmount(
+          getNumberFixed(
+            (solSaleAccountInfo?.maxUsdAmount || 0) /
+              (solSaleAccountInfo?.firstRoundPrice || 1)
+          )
+        )} $UN`;
+      }
     }
     return "";
   }, [inputAmount, solSaleAccountInfo]);
-
-  const receiveToken = useMemo(() => {
-    if (!inputAmount) return "0";
-    const priceByMethod = getPriceByMethod();
-    const priceAfterDiscount =
-      (solSaleAccountInfo?.firstRoundPrice || 0) * 0.75;
-    const receive = (+inputAmount * priceByMethod) / (priceAfterDiscount || 1);
-    return formatAmount(getNumberFixed(receive));
-  }, [inputAmount, solSaleAccountInfo?.firstRoundPrice]);
 
   const rewardRate = useMemo(() => {
     if (!solSaleAccountInfo || !solSaleAccountInfo?.denominator) return 0;
@@ -248,6 +297,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
               onClick={() => {
                 setMethod(item);
                 setInputAmount("");
+                setInputReceive("");
               }}
               md={{
                 fontSize: "14px",
@@ -284,7 +334,11 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
             alignItems={"center"}
             borderRadius={"8px"}
             background={"rgba(0, 0, 0, 0.35)"}
-            border={"1px solid var(--Color-Neutral-600, #40475C)"}
+            border={
+              !inputType && errorMessage
+                ? "1px solid var(--Color-Red-600, #D92D20)"
+                : "1px solid var(--Color-Neutral-600, #40475C)"
+            }
             xl={{
               p: "16px",
               fontSize: "16px",
@@ -332,7 +386,11 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
             alignItems={"center"}
             borderRadius={"8px"}
             background={"rgba(0, 0, 0, 0.35)"}
-            border={"1px solid var(--Color-Neutral-600, #40475C)"}
+            border={
+              inputType && errorMessage
+                ? "1px solid var(--Color-Red-600, #D92D20)"
+                : "1px solid var(--Color-Neutral-600, #40475C)"
+            }
             xl={{
               p: "16px",
               fontSize: "16px",
@@ -344,8 +402,9 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
               lineHeight={"20px"}
               border={"none"}
               outline={"none"}
-              disabled
-              value={receiveToken}
+              disabled={!connected}
+              value={inputReceive}
+              onChange={onHandleInputReceive}
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
             <Image
@@ -402,7 +461,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
           fontSize: "16px",
         }}
       >
-        Get rewards of ${rewardRate}%
+        Get rewards of {rewardRate}%
       </Text>
     </Box>
   );

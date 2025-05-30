@@ -43,7 +43,26 @@ const CryptoAlliance = () => {
               fontSize: "48px",
             }}
           >
-            Experience Top-Tier Decentralized Platforms Backed By
+            LEADING THE FREEDOM
+            <br /> CRYPTO ALLIANCE
+          </Text>
+          <Text
+            color={"#C7CCD9"}
+            maxW={"720px"}
+            mx={"auto"}
+            pt={"20px"}
+            px={"24px"}
+            fontSize={"14px"}
+            fontWeight={500}
+            lineHeight={"140%"}
+            md={{ px: "0", fontSize: "14px" }}
+            xl={{
+              maxW: "900px",
+              pt: 0,
+              fontSize: "4 16px",
+            }}
+          >
+            Unich drives the FCA - a network of 30+ trusted innovators.
           </Text>
         </Box>
         <Box
@@ -59,10 +78,10 @@ const CryptoAlliance = () => {
             gap={"24px"}
             className="animation-alliance"
           >
-            {[...partners, ...partners]?.map((partner) => {
+            {[...partners, ...partners]?.map((partner, index) => {
               return (
                 <Link
-                  key={partner.img}
+                  key={index}
                   w={"fit-content"}
                   href={partner.url}
                   outline={"none"}

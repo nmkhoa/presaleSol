@@ -178,7 +178,7 @@ export default function ReferralInfoPanel() {
               </Text>
             </HStack>
             <Box pl={"20px"} pr={"3px"}>
-              <Box py={"24px"} className="grid grid-cols-4" pr={"17px"}>
+              <Box py={"24px"} className="grid grid-cols-3" pr={"17px"}>
                 <Text
                   px={"12px"}
                   fontWeight={500}
@@ -197,15 +197,7 @@ export default function ReferralInfoPanel() {
                 >
                   Earning
                 </Text>
-                <Text
-                  px={"12px"}
-                  fontWeight={500}
-                  color={"#6E758A"}
-                  fontSize={{ base: "12px", md: "14px", xl: "16px" }}
-                  textAlign={"left"}
-                >
-                  Currrency
-                </Text>
+
                 <Text
                   px={"12px"}
                   fontWeight={500}
@@ -251,30 +243,23 @@ export default function ReferralInfoPanel() {
                         background={"#15171F"}
                         borderRadius={"8px"}
                         fontSize={{ base: "12px", md: "14px", xl: "16px" }}
-                        className="grid grid-cols-4"
+                        className="grid grid-cols-3"
                         wordBreak="break-word"
                       >
-                        <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
+                        <Text px={"12px"} fontWeight={500} color={"#C7CCD9"}>
                           {getAddressFormat(data.referral) || "-"}
                         </Text>
                         <Flex
                           gap={"2px"}
-                          px={"16px"}
+                          px={"12px"}
                           fontWeight={500}
                           color={"#C7CCD9"}
                         >
                           {getNumberFixed(
                             data.totalTokenReward,
-                            data.currency === "SOL" ? 4 : 2
-                          ) || "-"}
-                        </Flex>
-                        <Flex
-                          gap={"2px"}
-                          px={"16px"}
-                          fontWeight={500}
-                          color={"#C7CCD9"}
-                        >
-                          {data.currency || "-"}
+                            data.currency === "SOL" ? 3 : 2
+                          ) || "-"}{" "}
+                          {data.currency}
                         </Flex>
 
                         <Text

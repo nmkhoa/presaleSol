@@ -192,7 +192,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     const priceByMethod = getPriceByMethod();
     return getNumberFixed(
       (+value * (solSaleAccountInfo?.firstRoundPrice || 0)) /
-        (priceByMethod || 0)
+        (priceByMethod || 1)
     );
   };
 
@@ -485,7 +485,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
           fontSize: "16px",
         }}
       >
-        Get rewards of ${rewardRate}%
+        Get rewards of {rewardRate}%
       </Text>
     </Box>
   );
