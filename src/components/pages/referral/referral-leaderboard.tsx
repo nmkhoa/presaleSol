@@ -29,14 +29,9 @@ export default function ReferralLeaderboard() {
   const isUserInLeaderboard = leaderboard?.some(
     (item) => item.walletAddress === user?.walletAddress
   );
-  const shouldShowStickyUser =
-    isUserInLeaderboard &&
-    !isVisible &&
-    currentRank &&
-    currentRank?.totalReward > 0;
+  const shouldShowStickyUser = isUserInLeaderboard && !isVisible && currentRank;
 
-  const shouldShowFallbackUser =
-    !isUserInLeaderboard && currentRank && currentRank?.totalReward > 0;
+  const shouldShowFallbackUser = !isUserInLeaderboard && currentRank;
 
   return (
     <Box
