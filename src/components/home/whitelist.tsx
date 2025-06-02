@@ -196,6 +196,16 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
       return tokenBalanceUsdt < +inputAmount;
   }, [inputAmount, method]);
 
+  const getBalanceMustGetByMethod = () => {
+    if (method.key === paymentMethods[0].key)
+      return +inputAmount - tokenBalanceSol;
+    if (method.key === paymentMethods[1].key)
+      return +inputAmount - tokenBalanceUsdc;
+    if (method.key === paymentMethods[2].key)
+      return +inputAmount - tokenBalanceUsdt;
+    return +inputAmount;
+  };
+
   const errorMessage = useMemo(() => {
     if (!inputAmount) return "";
     const priceByMethod = getPriceByMethod();
@@ -232,10 +242,12 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         )} $UN`;
       }
     }
-    if (isBalanceDisable)
+    if (isBalanceDisable) {
+      const balanceMust = getBalanceMustGetByMethod();
       return `Insufficient balance. Please deposit ${getNumberFixed(
-        minToken
+        balanceMust < 0 ? 0 : balanceMust
       )} ${method?.title?.toUpperCase()} more to purchase.`;
+    }
     return "";
   }, [inputAmount, solSaleAccountInfo]);
 
@@ -422,7 +434,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         </Box>
       </Box>
       <Text
-        h={"16px"}
+        minH={"16px"}
         mt={"8px"}
         fontSize={"12px"}
         fontWeight={"16px"}
