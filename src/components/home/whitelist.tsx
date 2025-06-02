@@ -186,11 +186,6 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     if (method.key === paymentMethods[2].key) return tokensPrice?.usdt || 0;
     return 0;
   };
-  const totalBalance = useMemo(() => {
-    if (method.key === paymentMethods[0].key) return tokenBalanceSol;
-    if (method.key === paymentMethods[1].key) return tokenBalanceUsdc;
-    if (method.key === paymentMethods[2].key) return tokenBalanceUsdt;
-  }, [inputAmount, method]);
 
   const errorMessage = useMemo(() => {
     if (!inputAmount) return "";
@@ -206,7 +201,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         )} ${method?.title?.toUpperCase()}`;
       }
       if (getNumberFixed(inputAmount) > getNumberFixed(maxToken)) {
-        return `The maximum amount should be ${formatAmount(
+        return `The maximum amount can't exceed ${formatAmount(
           getNumberFixed(maxToken)
         )} ${method?.title?.toUpperCase()}`;
       }
@@ -220,7 +215,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         )} $UN`;
       }
       if (getNumberFixed(inputAmount) > getNumberFixed(maxToken)) {
-        return `The maximum amount should be ${formatAmount(
+        return `The maximum amount can't exceed ${formatAmount(
           getNumberFixed(
             (solSaleAccountInfo?.maxUsdAmount || 0) /
               (solSaleAccountInfo?.firstRoundPrice || 1)
@@ -229,9 +224,9 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
       }
     }
     if (isBalanceDisable)
-      return `The maximum amount can’t exceed ${formatAmount(
-        getNumberFixed(totalBalance || 0, 4)
-      )} ${method?.title?.toUpperCase()}`;
+      return `Insufficient balance. Please deposit ${getNumberFixed(
+        minToken
+      )} ${method?.title?.toUpperCase()} more to purchase.`;
     return "";
   }, [inputAmount, solSaleAccountInfo]);
 

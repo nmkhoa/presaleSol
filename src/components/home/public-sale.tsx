@@ -232,12 +232,6 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
       return tokenBalanceUsdt < +inputAmount;
   }, [inputAmount, method]);
 
-  const totalBalance = useMemo(() => {
-    if (method.key === paymentMethods[0].key) return tokenBalanceSol;
-    if (method.key === paymentMethods[1].key) return tokenBalanceUsdc;
-    if (method.key === paymentMethods[2].key) return tokenBalanceUsdt;
-  }, [inputAmount, method]);
-
   const errorMessage = useMemo(() => {
     if (!inputAmount) return "";
     const priceByMethod = getPriceByMethod();
@@ -252,7 +246,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         )} ${method?.title?.toUpperCase()}`;
       }
       if (getNumberFixed(inputAmount) > getNumberFixed(maxToken)) {
-        return `The maximum amount should be ${formatAmount(
+        return `The maximum amount can't exceed ${formatAmount(
           getNumberFixed(maxToken)
         )} ${method?.title?.toUpperCase()}`;
       }
@@ -266,7 +260,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         )} $UN`;
       }
       if (getNumberFixed(inputAmount) > getNumberFixed(maxToken)) {
-        return `The maximum amount should be ${formatAmount(
+        return `The maximum amount can't exceed ${formatAmount(
           getNumberFixed(
             (solSaleAccountInfo?.maxUsdAmount || 0) /
               (solSaleAccountInfo?.firstRoundPrice || 1)
@@ -275,9 +269,9 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
       }
     }
     if (isBalanceDisable)
-      return `The maximum amount can’t exceed ${formatAmount(
-        getNumberFixed(totalBalance || 0, 4)
-      )} ${method?.title?.toUpperCase()}`;
+      return `Insufficient balance. Please deposit ${getNumberFixed(
+        minToken
+      )} ${method?.title?.toUpperCase()} more to purchase.`;
     return "";
   }, [inputAmount, solSaleAccountInfo, tokensPrice, method, isBalanceDisable]);
 
@@ -451,7 +445,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         </Box>
       </Box>
       <Text
-        h={"16px"}
+        minH={"16px"}
         mt={"8px"}
         fontSize={"12px"}
         fontWeight={"16px"}
