@@ -230,6 +230,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
       return tokenBalanceUsdc < +inputAmount;
     if (method.key === paymentMethods[2].key)
       return tokenBalanceUsdt < +inputAmount;
+    return false;
   }, [inputAmount, method]);
 
   const errorMessage = useMemo(() => {

@@ -187,6 +187,15 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     return 0;
   };
 
+  const isBalanceDisable = useMemo(() => {
+    if (method.key === paymentMethods[0].key)
+      return tokenBalanceSol < +inputAmount;
+    if (method.key === paymentMethods[1].key)
+      return tokenBalanceUsdc < +inputAmount;
+    if (method.key === paymentMethods[2].key)
+      return tokenBalanceUsdt < +inputAmount;
+  }, [inputAmount, method]);
+
   const errorMessage = useMemo(() => {
     if (!inputAmount) return "";
     const priceByMethod = getPriceByMethod();
@@ -244,15 +253,6 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     if (method.key === paymentMethods[1].key) return tokenBalanceUsdc;
     if (method.key === paymentMethods[2].key) return tokenBalanceUsdt;
   }, [method.key, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt]);
-
-  const isBalanceDisable = useMemo(() => {
-    if (method.key === paymentMethods[0].key)
-      return tokenBalanceSol < +inputAmount;
-    if (method.key === paymentMethods[1].key)
-      return tokenBalanceUsdc < +inputAmount;
-    if (method.key === paymentMethods[2].key)
-      return tokenBalanceUsdt < +inputAmount;
-  }, [inputAmount, method]);
 
   if (!connected) {
     return <SaleWithoutConnectWallet />;
