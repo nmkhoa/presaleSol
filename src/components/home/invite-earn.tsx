@@ -115,12 +115,12 @@ const InviteAndEarn = () => {
           getNumberFixed(
             solUserAccountInfo?.publicTokensPurchased +
               solUserAccountInfo?.whitelistTokensPurchased +
-              earnedValues?.totalUNEarned || 0,
+              solUserAccountInfo?.tokenRefEarned || 0,
             2
           )
         )
       : "-.--";
-  }, [earnedValues?.totalUNEarned, solUserAccountInfo]);
+  }, [solUserAccountInfo]);
 
   return (
     <Box>
@@ -497,7 +497,11 @@ const InviteAndEarn = () => {
                             {getNumberFixed(data.tokenAmount, 2)}
                           </Flex>
                           <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
-                            {data.currencyAmount} {data.currency.toUpperCase()}
+                            {getNumberFixed(
+                              data.currencyAmount,
+                              data.currency === "SOL" ? 3 : 2
+                            ) || "-"}{" "}
+                            {data.currency.toUpperCase()}
                           </Text>
                           <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
                             ${getNumberFixed(data.currencyPrice, 2)}

@@ -250,6 +250,7 @@ const Products = () => {
             justifyContent={"start"}
             alignItems={"end"}
             md={{ w: "50%", pr: "30px", pl: "0" }}
+            xl={{ w: "55%" }}
           >
             <Image src="/images/my_assets.svg" w={"100%"} h={"auto"} />
           </Flex>
@@ -289,7 +290,7 @@ const Products = () => {
             w={"100%"}
             padding={"20px 16px 16px"}
             background={
-              "linear-gradient(0deg, #05060C 3.5%, rgba(0, 0, 0, 0) 83.59%)"
+              "linear-gradient(0deg, #05060C 20%, rgba(0, 0, 0, 0) 95%)"
             }
             gap={"0px"}
             borderRadius={"16px"}
@@ -415,7 +416,7 @@ const Products = () => {
             w={"100%"}
             padding={"20px 16px 16px"}
             background={
-              "linear-gradient(0deg, #05060C 3.5%, rgba(0, 0, 0, 0) 83.59%)"
+              "linear-gradient(0deg, #05060C 20%, rgba(0, 0, 0, 0) 95%)"
             }
             gap={"0px"}
             borderRadius={"16px"}

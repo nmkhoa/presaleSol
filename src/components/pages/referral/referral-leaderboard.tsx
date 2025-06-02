@@ -2,15 +2,41 @@ import { useCurrentRank, useLeaderboard } from "@/core/hook/useUsers";
 import { useAuthStore } from "@/stores/auth.store";
 import { getAddressFormat, getNumberFixed } from "@/utils";
 import { Box, Flex, Grid, HStack, Image, Text } from "@chakra-ui/react";
+import { useCallback, useRef, useState } from "react";
 
 export default function ReferralLeaderboard() {
   const { accessToken, user } = useAuthStore();
   const { data: leaderboard, isLoading } = useLeaderboard(accessToken);
   const { data: currentRank } = useCurrentRank(accessToken);
 
+  const [isVisible, setIsVisible] = useState(false);
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  const setTargetRef = useCallback((node: HTMLDivElement | null) => {
+    if (observer.current) observer.current.disconnect();
+
+    if (node) {
+      observer.current = new IntersectionObserver(
+        ([entry]) => {
+          setIsVisible(entry.isIntersecting);
+        },
+        { threshold: 0.5 }
+      );
+      observer.current.observe(node);
+    }
+  }, []);
+
   const isUserInLeaderboard = leaderboard?.some(
     (item) => item.walletAddress === user?.walletAddress
   );
+  const shouldShowStickyUser =
+    isUserInLeaderboard &&
+    !isVisible &&
+    currentRank &&
+    currentRank?.totalReward > 0;
+
+  const shouldShowFallbackUser =
+    !isUserInLeaderboard && currentRank && currentRank?.totalReward > 0;
 
   return (
     <Box
@@ -119,6 +145,7 @@ export default function ReferralLeaderboard() {
                   : currentRank > 3
                   ? "#15171F"
                   : undefined;
+
                 return (
                   <Box
                     key={index}
@@ -129,6 +156,7 @@ export default function ReferralLeaderboard() {
                     borderRadius={"8px"}
                     fontSize={{ base: "12px", md: "14px", xl: "16px" }}
                     className="grid grid-cols-4"
+                    ref={isUser ? setTargetRef : null}
                   >
                     <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
                       {currentRank || "-"}
@@ -160,7 +188,7 @@ export default function ReferralLeaderboard() {
               })}
           </Grid>
         </Box>
-        {!isUserInLeaderboard && currentRank && currentRank.totalReward > 0 && (
+        {(shouldShowStickyUser || shouldShowFallbackUser) && (
           <Box
             py={{
               base: "16px",
@@ -184,7 +212,6 @@ export default function ReferralLeaderboard() {
             <Flex gap={"2px"} px={"16px"} fontWeight={500} color={"#C7CCD9"}>
               {currentRank.referralCount || "-"}
             </Flex>
-
             <Text
               px={"5px"}
               fontWeight={500}

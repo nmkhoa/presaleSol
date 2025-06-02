@@ -186,6 +186,11 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     if (method.key === paymentMethods[2].key) return tokensPrice?.usdt || 0;
     return 0;
   };
+  const totalBalance = useMemo(() => {
+    if (method.key === paymentMethods[0].key) return tokenBalanceSol;
+    if (method.key === paymentMethods[1].key) return tokenBalanceUsdc;
+    if (method.key === paymentMethods[2].key) return tokenBalanceUsdt;
+  }, [inputAmount, method]);
 
   const errorMessage = useMemo(() => {
     if (!inputAmount) return "";
@@ -223,6 +228,10 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         )} $UN`;
       }
     }
+    if (isBalanceDisable)
+      return `The maximum amount can’t exceed ${formatAmount(
+        getNumberFixed(totalBalance || 0, 4)
+      )} ${method?.title?.toUpperCase()}`;
     return "";
   }, [inputAmount, solSaleAccountInfo]);
 

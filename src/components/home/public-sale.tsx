@@ -232,6 +232,12 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
       return tokenBalanceUsdt < +inputAmount;
   }, [inputAmount, method]);
 
+  const totalBalance = useMemo(() => {
+    if (method.key === paymentMethods[0].key) return tokenBalanceSol;
+    if (method.key === paymentMethods[1].key) return tokenBalanceUsdc;
+    if (method.key === paymentMethods[2].key) return tokenBalanceUsdt;
+  }, [inputAmount, method]);
+
   const errorMessage = useMemo(() => {
     if (!inputAmount) return "";
     const priceByMethod = getPriceByMethod();
@@ -268,7 +274,10 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         )} $UN`;
       }
     }
-    if (isBalanceDisable) return "Insufficient balance";
+    if (isBalanceDisable)
+      return `The maximum amount can’t exceed ${formatAmount(
+        getNumberFixed(totalBalance || 0, 4)
+      )} ${method?.title?.toUpperCase()}`;
     return "";
   }, [inputAmount, solSaleAccountInfo, tokensPrice, method, isBalanceDisable]);
 

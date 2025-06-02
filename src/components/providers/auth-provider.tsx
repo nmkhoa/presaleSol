@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useGetNonce, useLogin } from "@/core/hook/useAuth";
 import { useAuthStore } from "@/stores/auth.store";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -25,6 +26,16 @@ export default function AuthProvider({
   const { mutateAsync: getMe } = useGetMe();
 
   const { accessToken, user, setUser, referrerCode } = useAuthStore();
+
+  useEffect(() => {
+    if (
+      publicKey?.toBase58() &&
+      user?.walletAddress &&
+      publicKey?.toBase58() !== user?.walletAddress
+    ) {
+      handleLogin();
+    }
+  }, [publicKey, user]);
 
   useEffect(() => {
     if (connecting) {
