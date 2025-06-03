@@ -21,6 +21,15 @@ export const getSolSaleAccount = async ({
     program.programId
   );
   const saleAccountData = await program.account.saleAccount.fetch(saleAccount);
+  console.log("saleAccountData.currentRound: ", saleAccountData.currentRound);
+  let currentPrice = 0;
+  if (saleAccountData.currentRound === 1) {
+    currentPrice =
+      saleAccountData.firstRoundPrice.toString() / baseNumbTokenValue;
+  } else if (saleAccountData.currentRound === 2) {
+    currentPrice =
+      saleAccountData.secondRoundPrice.toString() / baseNumbTokenValue;
+  }
   callBack({
     currentRound: saleAccountData.currentRound,
     denominator: +saleAccountData.denominator.toString(),
@@ -44,6 +53,7 @@ export const getSolSaleAccount = async ({
     usdRaised: +saleAccountData.usdRaised.toString() / baseNumbUsdValue,
     usdcRaised: +saleAccountData.usdcRaised.toString() / baseNumbUsdValue,
     usdtRaised: +saleAccountData.usdtRaised.toString() / baseNumbUsdValue,
+    currentPrice: currentPrice,
   });
 };
 

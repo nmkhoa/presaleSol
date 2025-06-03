@@ -13,3 +13,5 @@ export const productPriceKey = {
   usdc: "Crypto.USDC/USD",
   usdt: "Crypto.USDT/USD",
 };
+
+export const maxPriceByNFT = 500;

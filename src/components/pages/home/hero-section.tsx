@@ -358,6 +358,7 @@ const HeroSection = () => {
               )}
               {!!tab && (
                 <Whitelist
+                  getMyNft={getMyNft}
                   fetchSaleAccount={fetchSaleAccount}
                   fetchUserAccount={fetchUserAccount}
                 />

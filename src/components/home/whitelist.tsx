@@ -13,7 +13,11 @@ import {
   Transaction,
 } from "@solana/web3.js";
 import { useAnchorProvider } from "@/hooks/use-anchor-provider";
-import { baseNumbSolValue, baseNumbTokenValue } from "@/constants/contract";
+import {
+  baseNumbSolValue,
+  baseNumbTokenValue,
+  maxPriceByNFT,
+} from "@/constants/contract";
 import { BN } from "@coral-xyz/anchor";
 import {
   formatAmount,
@@ -33,9 +37,10 @@ import SaleWithoutNFT from "./sale-nft";
 interface Props {
   fetchSaleAccount: () => Promise<void>;
   fetchUserAccount: () => Promise<void>;
+  getMyNft: () => Promise<void>;
 }
 
-const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
+const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
   const { nft } = useNftStore();
   const [method, setMethod] = useState(paymentMethods[0]);
   const { setShowModal } = useContext(ConnectWalletContext);
@@ -124,6 +129,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
       setLoadingPurchase(false);
       fetchSaleAccount();
       fetchUserAccount();
+      getMyNft();
     }
   };
 
@@ -147,7 +153,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     const priceByMethod = getPriceByMethod();
     return getNumberFixed(
       (+value * priceByMethod) /
-        ((solSaleAccountInfo?.firstRoundPrice || 1) * 0.75)
+        ((solSaleAccountInfo?.currentPrice || 1) * 0.75)
     );
   };
 
@@ -155,7 +161,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     if (!value) return "0";
     const priceByMethod = getPriceByMethod();
     return getNumberFixed(
-      (+value * (solSaleAccountInfo?.firstRoundPrice || 0) * 0.75) /
+      (+value * (solSaleAccountInfo?.currentPrice || 0) * 0.75) /
         (priceByMethod || 1)
     );
   };
@@ -187,23 +193,38 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     return 0;
   };
 
-  const isBalanceDisable = useMemo(() => {
-    if (method.key === paymentMethods[0].key)
-      return tokenBalanceSol < +inputAmount;
-    if (method.key === paymentMethods[1].key)
-      return tokenBalanceUsdc < +inputAmount;
-    if (method.key === paymentMethods[2].key)
-      return tokenBalanceUsdt < +inputAmount;
-  }, [inputAmount, method]);
+  const balanceByMethod = useMemo(() => {
+    if (method.key === paymentMethods[0].key) return tokenBalanceSol;
+    if (method.key === paymentMethods[1].key) return tokenBalanceUsdc;
+    if (method.key === paymentMethods[2].key) return tokenBalanceUsdt;
+    return 0;
+  }, [method, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt]);
 
-  const getBalanceMustGetByMethod = () => {
-    if (method.key === paymentMethods[0].key)
-      return +inputAmount - tokenBalanceSol;
-    if (method.key === paymentMethods[1].key)
-      return +inputAmount - tokenBalanceUsdc;
-    if (method.key === paymentMethods[2].key)
-      return +inputAmount - tokenBalanceUsdt;
-    return +inputAmount;
+  const isBalanceDisable = useMemo(() => {
+    return balanceByMethod < +inputAmount;
+  }, [inputAmount, balanceByMethod]);
+
+  const validateNftBy = () => {
+    const priceByMethod = getPriceByMethod();
+    const maxAmountUSD = Number(nft?.tokenAmount?.amount || 0) * maxPriceByNFT;
+    if (!inputType) {
+      const maxToken = (maxAmountUSD || 0) / (priceByMethod || 1);
+      if (getNumberFixed(inputAmount) > getNumberFixed(maxToken)) {
+        return `The maximum amount can't exceed ${formatAmount(
+          getNumberFixed(maxToken)
+        )} ${method.title}`;
+      }
+      return "";
+    } else {
+      const maxTokenUN =
+        (maxAmountUSD || 0) / ((solSaleAccountInfo?.currentPrice || 1) * 0.75);
+      if (getNumberFixed(inputReceive) > getNumberFixed(maxTokenUN)) {
+        return `The maximum amount can't exceed ${formatAmount(
+          getNumberFixed(maxTokenUN)
+        )} $UN`;
+      }
+      return "";
+    }
   };
 
   const errorMessage = useMemo(() => {
@@ -229,7 +250,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         return `The minimum amount should be ${formatAmount(
           getNumberFixed(
             (solSaleAccountInfo?.minUsdAmount || 0) /
-              (solSaleAccountInfo?.firstRoundPrice || 1)
+              (solSaleAccountInfo?.currentPrice || 1)
           )
         )} $UN`;
       }
@@ -237,13 +258,15 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         return `The maximum amount can't exceed ${formatAmount(
           getNumberFixed(
             (solSaleAccountInfo?.maxUsdAmount || 0) /
-              (solSaleAccountInfo?.firstRoundPrice || 1)
+              (solSaleAccountInfo?.currentPrice || 1)
           )
         )} $UN`;
       }
     }
+    const isUserCanBy = validateNftBy();
+    if (isUserCanBy) return isUserCanBy;
     if (isBalanceDisable) {
-      const balanceMust = getBalanceMustGetByMethod();
+      const balanceMust = +inputAmount - balanceByMethod;
       return `Insufficient balance. Please deposit ${getNumberFixed(
         balanceMust < 0 ? 0 : balanceMust
       )} ${method?.title?.toUpperCase()} more to purchase.`;
@@ -260,16 +283,10 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     );
   }, [solSaleAccountInfo]);
 
-  const balanceByMethod = useMemo(() => {
-    if (method.key === paymentMethods[0].key) return tokenBalanceSol;
-    if (method.key === paymentMethods[1].key) return tokenBalanceUsdc;
-    if (method.key === paymentMethods[2].key) return tokenBalanceUsdt;
-  }, [method.key, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt]);
-
   if (!connected) {
     return <SaleWithoutConnectWallet />;
   }
-  if (connected && !nft) {
+  if (connected && !Number(nft?.tokenAmount?.amount || 0)) {
     return <SaleWithoutNFT />;
   }
 
@@ -368,7 +385,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
               lineHeight={"20px"}
               border={"none"}
               outline={"none"}
-              disabled={!balanceByMethod || !connected}
+              disabled={!connected}
               value={inputAmount}
               onChange={onHandleInput}
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"

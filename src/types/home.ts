@@ -37,6 +37,7 @@ export type SaleAccountInfoType = {
   usdcRaised: number;
   usdtRaised: number;
   whitelistDiscount: number;
+  currentPrice: number;
 };
 
 export type TokenPriceType = {

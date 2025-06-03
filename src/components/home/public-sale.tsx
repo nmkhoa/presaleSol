@@ -183,7 +183,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     const priceByMethod = getPriceByMethod();
     return (
       getNumberFixed(+value * priceByMethod) /
-      (solSaleAccountInfo?.firstRoundPrice || 1)
+      (solSaleAccountInfo?.currentPrice || 1)
     );
   };
 
@@ -191,7 +191,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     if (!value) return "0";
     const priceByMethod = getPriceByMethod();
     return getNumberFixed(
-      (+value * (solSaleAccountInfo?.firstRoundPrice || 0)) /
+      (+value * (solSaleAccountInfo?.currentPrice || 0)) /
         (priceByMethod || 1)
     );
   };
@@ -223,25 +223,16 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     return 0;
   };
 
-  const isBalanceDisable = useMemo(() => {
-    if (method.key === paymentMethods[0].key)
-      return tokenBalanceSol < +inputAmount;
-    if (method.key === paymentMethods[1].key)
-      return tokenBalanceUsdc < +inputAmount;
-    if (method.key === paymentMethods[2].key)
-      return tokenBalanceUsdt < +inputAmount;
-    return false;
-  }, [inputAmount, method]);
+  const balanceByMethod = useMemo(() => {
+    if (method.key === paymentMethods[0].key) return tokenBalanceSol;
+    if (method.key === paymentMethods[1].key) return tokenBalanceUsdc;
+    if (method.key === paymentMethods[2].key) return tokenBalanceUsdt;
+    return 0;
+  }, [method, tokenBalanceSol, tokenBalanceUsdc, tokenBalanceUsdt]);
 
-  const getBalanceMustGetByMethod = () => {
-    if (method.key === paymentMethods[0].key)
-      return +inputAmount - tokenBalanceSol;
-    if (method.key === paymentMethods[1].key)
-      return +inputAmount - tokenBalanceUsdc;
-    if (method.key === paymentMethods[2].key)
-      return +inputAmount - tokenBalanceUsdt;
-    return +inputAmount;
-  };
+  const isBalanceDisable = useMemo(() => {
+    return balanceByMethod < +inputAmount;
+  }, [inputAmount, balanceByMethod]);
 
   const errorMessage = useMemo(() => {
     if (!inputAmount) return "";
@@ -266,7 +257,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         return `The minimum amount should be ${formatAmount(
           getNumberFixed(
             (solSaleAccountInfo?.minUsdAmount || 0) /
-              (solSaleAccountInfo?.firstRoundPrice || 1)
+              (solSaleAccountInfo?.currentPrice || 1)
           )
         )} $UN`;
       }
@@ -274,13 +265,13 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         return `The maximum amount can't exceed ${formatAmount(
           getNumberFixed(
             (solSaleAccountInfo?.maxUsdAmount || 0) /
-              (solSaleAccountInfo?.firstRoundPrice || 1)
+              (solSaleAccountInfo?.currentPrice || 1)
           )
         )} $UN`;
       }
     }
     if (isBalanceDisable) {
-      const balanceMust = getBalanceMustGetByMethod();
+      const balanceMust = +inputAmount - balanceByMethod;
       return `Insufficient balance. Please deposit ${getNumberFixed(
         balanceMust < 0 ? 0 : balanceMust
       )} ${method?.title?.toUpperCase()} more to purchase.`;
@@ -295,7 +286,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         100) /
       solSaleAccountInfo.denominator
     );
-  }, [solSaleAccountInfo]);
+  }, [solSaleAccountInfo, balanceByMethod]);
 
   return (
     <Box>

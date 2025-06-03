@@ -7,6 +7,7 @@ const SaleWithoutNFT = () => {
       justifyContent="center"
       alignItems="center"
       mt="100px"
+      mb="140px"
     >
       <Text
         textAlign={"center"}

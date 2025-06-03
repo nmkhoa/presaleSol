@@ -14,6 +14,20 @@ const TokenSold = () => {
     );
   }, [solSaleAccountInfo]);
 
+  const priceData = useMemo(() => {
+    if (solSaleAccountInfo?.currentRound === 2) {
+      return {
+        current: solSaleAccountInfo.currentPrice,
+        next: 0,
+      };
+    } else {
+      return {
+        current: solSaleAccountInfo?.firstRoundPrice,
+        next: solSaleAccountInfo?.secondRoundPrice,
+      };
+    }
+  }, [solSaleAccountInfo]);
+
   return (
     <Box>
       <Box
@@ -124,7 +138,7 @@ const TokenSold = () => {
           {formatAmount(
             Math.floor(
               (solSaleAccountInfo?.tokensSold || 0) *
-                (solSaleAccountInfo?.firstRoundPrice || 0)
+                (solSaleAccountInfo?.currentPrice || 0)
             )
           )}
         </Text>
@@ -141,7 +155,7 @@ const TokenSold = () => {
           /
           {formatAmount(
             (solSaleAccountInfo?.tokensForSale || 0) *
-              (solSaleAccountInfo?.firstRoundPrice || 0)
+              (solSaleAccountInfo?.currentPrice || 0)
           )}
         </Text>
       </Flex>
@@ -187,7 +201,7 @@ const TokenSold = () => {
               lineHeight: "18px",
             }}
           >
-            1 $UN = ${solSaleAccountInfo?.firstRoundPrice || 0}
+            1 $UN = ${priceData.current || 0}
           </Text>
         </Flex>
         <Flex gap={"4px"} alignItems={"center"}>
@@ -209,7 +223,7 @@ const TokenSold = () => {
               fontSize: "14px",
             }}
           >
-            ${solSaleAccountInfo?.secondRoundPrice || 0}
+            ${priceData.next || 0}
           </Text>
         </Flex>
       </Flex>
