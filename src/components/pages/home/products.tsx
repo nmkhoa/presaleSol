@@ -1,7 +1,36 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { request } from "@/config/request";
 import { landingPageLink, navKey } from "@/constants/home";
+import { formatAmount, getNumberFixed } from "@/utils";
 import { Box, Flex, Image, Link, Stack, Text } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
 const Products = () => {
+  const [totalVolume, setTotalVolume] = useState<
+    | {
+        preMarketVolume: number;
+        preOrderVolume: number;
+      }
+    | undefined
+  >();
+
+  const getTotalVolume = async () => {
+    const result = await request.get(
+      "https://api.unich.com/trading/order/v1/markets/overview"
+    );
+    console.log("result: ", result);
+    const data: any = result?.data;
+    if (data?.data) {
+      setTotalVolume({
+        preMarketVolume: data?.data?.preMarketVolume,
+        preOrderVolume: data?.data?.preOrderVolume,
+      });
+    }
+  };
+
+  useEffect(() => {
+    getTotalVolume();
+  }, []);
   return (
     <Box id={navKey.products} px={"12px"} md={{ px: 0 }}>
       <Flex
@@ -336,7 +365,10 @@ const Products = () => {
                     md={{ fontSize: "20px" }}
                     xl={{ fontSize: "24px" }}
                   >
-                    $1,944,900
+                    $
+                    {formatAmount(
+                      getNumberFixed(totalVolume?.preMarketVolume || 0)
+                    )}
                   </Text>
                 </Flex>
               </Box>
@@ -458,7 +490,10 @@ const Products = () => {
                     md={{ fontSize: "20px" }}
                     xl={{ fontSize: "24px" }}
                   >
-                    $1,944,900
+                    $
+                    {formatAmount(
+                      getNumberFixed(totalVolume?.preOrderVolume || 0)
+                    )}
                   </Text>
                 </Flex>
               </Box>
@@ -469,8 +504,7 @@ const Products = () => {
                   fontSize: "16px",
                 }}
               >
-                Pre-buy & pre-sell tokens at any price and profit within the
-                day
+                Pre-buy & pre-sell tokens at any price and profit within the day
               </Text>
             </Box>
             <Flex

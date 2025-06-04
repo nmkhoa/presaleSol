@@ -492,6 +492,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
           mt: "20px",
           fontSize: "16px",
         }}
+        _hover={{ color: "#FFAF40" }}
         onClick={() => onScrollView(navKey.invite)}
       >
         Get rewards of {rewardRate}%
