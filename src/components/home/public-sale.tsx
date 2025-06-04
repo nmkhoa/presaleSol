@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Flex, Grid, Image, Input, Text } from "@chakra-ui/react";
-import { paymentMethods } from "../../constants/home";
+import { navKey, paymentMethods } from "../../constants/home";
 import { useContext, useMemo, useState } from "react";
 import { ConnectWalletContext } from "../../contexts/connect-wallet-context";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -24,6 +24,7 @@ import {
   getErrorToast,
   getNumberFixed,
   getTxHashLink,
+  onScrollView,
 } from "@/utils";
 import { toaster } from "../ui/toaster";
 import { PythSolanaReceiver } from "@pythnetwork/pyth-solana-receiver";
@@ -191,8 +192,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     if (!value) return "0";
     const priceByMethod = getPriceByMethod();
     return getNumberFixed(
-      (+value * (solSaleAccountInfo?.currentPrice || 0)) /
-        (priceByMethod || 1)
+      (+value * (solSaleAccountInfo?.currentPrice || 0)) / (priceByMethod || 1)
     );
   };
 
@@ -484,6 +484,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         textAlign={"center"}
         fontWeight={700}
         fontSize={"12px"}
+        cursor={"pointer"}
         md={{
           fontSize: "14px",
         }}
@@ -491,6 +492,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
           mt: "20px",
           fontSize: "16px",
         }}
+        onClick={() => onScrollView(navKey.invite)}
       >
         Get rewards of {rewardRate}%
       </Text>

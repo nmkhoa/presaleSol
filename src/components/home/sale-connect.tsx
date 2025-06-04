@@ -14,7 +14,7 @@ const SaleWithoutConnectWallet = () => {
         fontWeight={500}
         xl={{ mt: "56px", fontSize: "16px" }}
       >
-        Whitelist round is only eligible for users who own special UNICH NFT.
+        Whitelist round is only eligible for users who own special Unich NFT.
         Please connect your wallet, or{" "}
         <Link href="https://discord.com/invite/unich" target="_blank" color={"#FF9A0D"}>
           Learn more

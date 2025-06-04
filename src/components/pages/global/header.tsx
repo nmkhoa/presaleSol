@@ -3,54 +3,12 @@ import ConnectWalletButton from "../wallet-custom/connect-wallet-button";
 import { landingPageLink, navbarItems } from "../../../constants/home";
 import { useTokenStore } from "@/stores/token.store";
 import { useMemo } from "react";
-import { formatAmount, getNumberFixed } from "@/utils";
+import { formatAmount, getNumberFixed, onScrollView } from "@/utils";
 import { useWallet } from "@solana/wallet-adapter-react";
 
 const Header = () => {
-  const { publicKey, connected } = useWallet();
-  const { solUserAccountInfo, tokensPrice } = useTokenStore();
-
-  const onScrollIntoView = (key: string) => {
-    const element = document.getElementById(key);
-    element?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const myRewards = useMemo(() => {
-    const availableSol =
-      (solUserAccountInfo?.solRefEarned || 0) -
-      (solUserAccountInfo?.solRefClaimed || 0);
-    const availableUsdc =
-      (solUserAccountInfo?.usdcRefEarned || 0) -
-      (solUserAccountInfo?.usdcRefClaimed || 0);
-    const availableUsdt =
-      (solUserAccountInfo?.usdtRefEarned || 0) -
-      (solUserAccountInfo?.usdtRefClaimed || 0);
-
-    return [
-      {
-        value: availableSol,
-        price: availableSol * (tokensPrice?.sol || 0),
-      },
-      {
-        value: availableUsdc,
-        price: availableUsdc * (tokensPrice?.usdc || 0),
-      },
-      {
-        value: availableUsdt,
-        price: availableUsdt * (tokensPrice?.usdt || 0),
-      },
-    ];
-  }, [solUserAccountInfo, tokensPrice, publicKey]);
-
-  const earnedValues = useMemo(() => {
-    let totalUNEarned = 0;
-    let totalUSDEarned = 0;
-    myRewards?.forEach((reward) => {
-      totalUNEarned += reward.value;
-      totalUSDEarned += reward.price;
-    });
-    return { totalUNEarned, totalUSDEarned };
-  }, [myRewards]);
+  const { connected } = useWallet();
+  const { solUserAccountInfo } = useTokenStore();
 
   const totalBalance = useMemo(() => {
     return solUserAccountInfo
@@ -58,12 +16,20 @@ const Header = () => {
           getNumberFixed(
             solUserAccountInfo?.publicTokensPurchased +
               solUserAccountInfo?.whitelistTokensPurchased +
-              earnedValues?.totalUNEarned || 0,
+              solUserAccountInfo?.tokenRefEarned || 0,
             2
           )
         )
       : "-.--";
-  }, [earnedValues?.totalUNEarned, solUserAccountInfo]);
+  }, [solUserAccountInfo]);
+
+  const handleNavItem = (key?: string | null, link?: string) => {
+    if (key) {
+      onScrollView(key);
+    } else {
+      window.open(link, "_blank");
+    }
+  };
 
   return (
     <Flex
@@ -124,7 +90,7 @@ const Header = () => {
             <Box
               cursor={"pointer"}
               className="!p-2 !font-semibold !leading-[130%] hover:!text-[#FFA60C]"
-              onClick={() => onScrollIntoView(item.key)}
+              onClick={() => handleNavItem(item.key, item.link)}
             >
               {item.name}
             </Box>
@@ -143,7 +109,7 @@ const Header = () => {
             lineHeight={"20px"}
             fontWeight={700}
             cursor={"pointer"}
-            onClick={() => onScrollIntoView("total-balance")}
+            onClick={() => onScrollView("total-balance")}
           >
             <Image src="/images/token.svg" w={"20px"} h={"20px"} alt="token" />
             {totalBalance}

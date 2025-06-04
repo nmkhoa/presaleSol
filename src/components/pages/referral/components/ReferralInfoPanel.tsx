@@ -89,7 +89,15 @@ export default function ReferralInfoPanel() {
                     display="flex"
                     alignItems="center"
                   >
-                    <Text fontSize={"12px"} color={"#FFEED6"} fontWeight={500}>
+                    <Text
+                      fontSize={"12px"}
+                      color={"#FFEED6"}
+                      fontWeight={500}
+                      w={"100%"}
+                      whiteSpace="nowrap"
+                      overflow="hidden"
+                      textOverflow="ellipsis"
+                    >
                       {user
                         ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}`
                         : ""}

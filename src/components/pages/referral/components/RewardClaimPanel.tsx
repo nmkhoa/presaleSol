@@ -175,49 +175,61 @@ export default function RewardClaimPanel() {
                 invitees.
               </Text>
             </Box>
-            <Box flex={"1 1 50%"}>
-              <Flex gap={"10px"}>
-                <Box
-                  w={{ base: "100%", xl: "317px" }}
-                  h={"40px"}
-                  background={"#000000"}
-                  rounded={"8px"}
-                  border={"1px solid #40475C"}
-                  px={"16px"}
-                  display="flex"
-                  alignItems="center"
+            <Flex
+              w={{ base: "100%", xl: "317px" }}
+              alignItems="center"
+              gap="8px"
+            >
+              <Box
+                flex="1"
+                h="40px"
+                background="#000000"
+                rounded="8px"
+                border="1px solid #40475C"
+                px="12px"
+                display="flex"
+                alignItems="center"
+                overflow="hidden"
+              >
+                <Text
+                  fontSize="12px"
+                  color="#FFEED6"
+                  fontWeight={500}
+                  whiteSpace="nowrap"
+                  overflow="hidden"
+                  textOverflow="ellipsis"
                 >
-                  <Text fontSize={"12px"} color={"#FFEED6"} fontWeight={500}>
-                    {user
-                      ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}`
-                      : ""}
-                  </Text>
-                </Box>
-                <Clipboard.Root
-                  value={
-                    user
-                      ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}`
-                      : ""
-                  }
-                  timeout={1000}
-                >
-                  <Clipboard.Trigger asChild>
-                    <Button
-                      w={"62px"}
-                      p={"12px"}
-                      background="#FFFFFF"
-                      rounded={"8px"}
-                      color={"#1A1001"}
-                      fontWeight={700}
-                      fontSize={{ base: "12px", xl: "14px" }}
-                      _hover={{ filter: "brightness(1.3)" }}
-                    >
-                      <Clipboard.CopyText />
-                    </Button>
-                  </Clipboard.Trigger>
-                </Clipboard.Root>
-              </Flex>
-            </Box>
+                  {user
+                    ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}`
+                    : ""}
+                </Text>
+              </Box>
+
+              <Clipboard.Root
+                value={
+                  user
+                    ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}`
+                    : ""
+                }
+                timeout={1000}
+              >
+                <Clipboard.Trigger asChild>
+                  <Button
+                    minW="auto"
+                    px="12px"
+                    h="40px"
+                    background="#FFFFFF"
+                    rounded="8px"
+                    color="#1A1001"
+                    fontWeight={700}
+                    fontSize="12px"
+                    _hover={{ filter: "brightness(1.2)" }}
+                  >
+                    <Clipboard.CopyText />
+                  </Button>
+                </Clipboard.Trigger>
+              </Clipboard.Root>
+            </Flex>
           </Flex>
         </Stack>
       </Box>

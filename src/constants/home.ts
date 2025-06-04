@@ -7,6 +7,7 @@ export const navKey = {
   partners: "partners",
   faq: "faq",
   visit: "visit",
+  invite: "invite",
 };
 
 export const navbarItems = [
@@ -20,7 +21,7 @@ export const navbarItems = [
   //   link: ROUTES.REFERRAL,
   // },
   {
-    name: "Benefits",
+    name: "Token Utilities",
     link: "#",
     key: navKey.benefit,
   },
@@ -41,8 +42,8 @@ export const navbarItems = [
   },
   {
     name: "Visit Unich",
-    link: "#",
-    key: navKey.visit,
+    link: "https://unich.com/en",
+    key: null,
   },
 ];
 
@@ -90,10 +91,10 @@ export const paymentMethods = [
 
 export const askedQuestions = [
   {
-    question: "What is the Unich Pre-Sale?",
-    answer: `Unich Pre-sale is an early-stage token sale that allows users to own $UN before the TGE. Holders of Unich exclusive NFTs are eligible to buy tokens with a 25% discount. You can also earn up to 11% in referral commissions by inviting friends.
+    question: "What is the Unich Public sale?",
+    answer: `Unich Public sale is an early-stage token sale that allows users to own $UN before the TGE. Holders of Unich exclusive NFTs are eligible to buy tokens with a 25% discount. You can also earn up to 11% in referral commissions by inviting friends.
 
-Unich is targeting a $15,000,000 fundraising goal to drive platform development, accelerate product innovation, and expand our global user base.
+Unich is targeting a $15,000,000 fundraising goal to drive platform development, accelerate product innovation, and deliver real benefits to the Freedom Fam community.
 
 $UN vesting includes a 25% unlock over the first 3 months, with the remaining 75% released in 25% monthly cliffs.`,
   },
@@ -108,14 +109,14 @@ $UN vesting includes a 25% unlock over the first 3 months, with the remaining 75
 Unich also adopts a Burn-to-Boost mechanism, where 30% of quarterly profits will be used to buy and burn $UN until the total supply is reduced by half.`,
   },
   {
-    question: "How to participate in the Unich Pre-Sale?",
+    question: "How to participate in the Unich Public sale?",
     answer: `Simply connect your wallet and choose one of the three payment methods: $SOL, $USDC, or $USDT, then select any amount of $UN tokens you want to buy.
 
 If you hold a Unich exclusive NFT, click on the Whitelist section to buy at a discounted price!`,
   },
   {
-    question: "Is the Unich Pre-Sale fair and transparent?",
-    answer: `Unich ensures fairness for all users. All transactions are recorded on the blockchain, guaranteeing security and transparency. The rules and conditions are clearly communicated to everyone, with no hidden fees or unfair advantages. Users have an equal opportunity to participate and benefit from the pre-sale.`,
+    question: "Is the Unich Public sale fair and transparent?",
+    answer: `Unich ensures fairness for all users. All transactions are recorded on the blockchain, guaranteeing security and transparency. The rules and conditions are clearly communicated to everyone, with no hidden fees or unfair advantages. Users have an equal opportunity to participate and benefit from the Public sale.`,
   },
 ];
 
@@ -210,61 +211,61 @@ export const partners = [
   {
     img: "/images/partners/kima.jpg",
     url: "https://x.com/KimaNetwork/status/1816110571517026357",
-    width: "228px"
+    width: "228px",
   },
   {
     img: "/images/partners/gt.jpg",
     url: "https://x.com/GT_Protocol/status/1852002652256899100",
-    width: "197px"
+    width: "197px",
   },
   {
     img: "/images/partners/ice.jpg",
     url: "https://x.com/ice_blockchain/status/1914982609064505694",
-    width: "258px"
+    width: "258px",
   },
   {
     img: "/images/partners/wagmi.jpg",
     url: "https://x.com/unich_com/status/1847229630601994629",
-    width: "206px"
+    width: "206px",
   },
   {
     img: "/images/partners/hyperGPT.jpg",
     url: "https://x.com/hypergpt/status/1872283808352833938",
-    width: "182px"
+    width: "182px",
   },
   {
     img: "/images/partners/b2.jpg",
     url: "https://x.com/unich_com/status/1867506964928115001",
-    width: "204px"
+    width: "204px",
   },
   {
     img: "/images/partners/script.jpg",
     url: "https://x.com/script_network/status/1842175418872242672",
-    width: "143px"
+    width: "143px",
   },
   {
     img: "/images/partners/dexcheck.jpg",
     url: "https://x.com/DexCheck_io/status/1875147497380704466",
-    width: "208px"
+    width: "208px",
   },
   {
     img: "/images/partners/eMoney.jpg",
     url: "https://x.com/emoney_network/status/1895857747754967530",
-    width: "255px"
+    width: "255px",
   },
   {
     img: "/images/partners/everreach.jpg",
     url: "https://x.com/unich_com/status/1874041045123817867",
-    width: "231px"
+    width: "231px",
   },
   {
     img: "/images/partners/kibble.jpg",
     url: "https://x.com/unich_com/status/1910296937619984789",
-    width: "148px"
+    width: "148px",
   },
   {
     img: "/images/partners/redot.jpg",
     url: "https://x.com/unich_com/status/1916789102642626933",
-    width: "179px"
+    width: "179px",
   },
 ];

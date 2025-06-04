@@ -15,7 +15,7 @@ export default function ReferralLayout({ children }: { children: ReactNode }) {
       <ReferralHeader />
       <Box
         as="main"
-        pt={{ base: "62px", xl: "100px" }}
+        pt={"100px"}
         px="12px"
         lg={{ px: "24px" }}
         xl={{ px: "77px" }}

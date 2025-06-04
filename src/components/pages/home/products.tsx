@@ -116,7 +116,7 @@ const Products = () => {
               color={"#C7CCD9"}
               lineHeight={"24px"}
             >
-              User
+              Users
             </Text>
           </Flex>
         </Box>
@@ -347,7 +347,7 @@ const Products = () => {
                   fontSize: "16px",
                 }}
               >
-                Trade tokens from high-quality projects even before TGE!
+                Trade tokens from high-quality projects even before TGE
               </Text>
             </Box>
             <Flex
@@ -470,7 +470,7 @@ const Products = () => {
                 }}
               >
                 Pre-buy & pre-sell tokens at any price and profit within the
-                day!
+                day
               </Text>
             </Box>
             <Flex

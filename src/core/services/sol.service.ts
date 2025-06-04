@@ -21,7 +21,6 @@ export const getSolSaleAccount = async ({
     program.programId
   );
   const saleAccountData = await program.account.saleAccount.fetch(saleAccount);
-  console.log("saleAccountData.currentRound: ", saleAccountData.currentRound);
   let currentPrice = 0;
   if (saleAccountData.currentRound === 1) {
     currentPrice =

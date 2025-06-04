@@ -24,6 +24,7 @@ import { Link } from "react-router-dom";
 import { toaster } from "../ui/toaster";
 import { useGetTransaction } from "@/core/hook/useUsers";
 import { useInView } from "react-intersection-observer";
+import { navKey } from "@/constants/home";
 
 const InviteAndEarn = () => {
   const { connected, publicKey } = useWallet();
@@ -110,6 +111,7 @@ const InviteAndEarn = () => {
   }, [myRewards]);
 
   const totalBalance = useMemo(() => {
+    if (!connected) return "-.--";
     return solUserAccountInfo
       ? formatAmount(
           getNumberFixed(
@@ -120,25 +122,25 @@ const InviteAndEarn = () => {
           )
         )
       : "-.--";
-  }, [solUserAccountInfo]);
+  }, [connected, solUserAccountInfo]);
 
   return (
-    <Box>
+    <Box id={navKey.invite}>
       <Flex
         w={"fit-content"}
         gap={"16px"}
         mx={"auto"}
-        mt={"70px"}
+        pt={"70px"}
         alignItems={"center"}
         flexDirection={"column"}
         md={{
           px: "44px",
-          mt: "110px",
+          pt: "110px",
         }}
         xl={{
           gap: "20px",
           flexDirection: "row",
-          mt: "160px",
+          pt: "160px",
           px: "0",
         }}
       >
@@ -347,7 +349,7 @@ const InviteAndEarn = () => {
                   lineHeight={"28px"}
                   xl={{ fontSize: "24px" }}
                 >
-                  {solUserAccountInfo?.tokenRefEarned
+                  {connected && solUserAccountInfo?.tokenRefEarned
                     ? formatAmount(
                         getNumberFixed(solUserAccountInfo?.tokenRefEarned, 2)
                       )
@@ -367,7 +369,7 @@ const InviteAndEarn = () => {
                 xl={{ fontSize: "24px" }}
               >
                 $
-                {earnedValues?.totalUSDEarned
+                {connected && earnedValues?.totalUSDEarned
                   ? formatAmount(
                       getNumberFixed(earnedValues?.totalUSDEarned, 2)
                     )
@@ -504,7 +506,7 @@ const InviteAndEarn = () => {
                             {data.currency.toUpperCase()}
                           </Text>
                           <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
-                            ${getNumberFixed(data.currencyPrice, 2)}
+                            ${data.currencyPrice || "-"}
                           </Text>
                           <Text
                             xl={{ gridColumn: "span 2 / span 2" }}

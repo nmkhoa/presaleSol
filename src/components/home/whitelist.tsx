@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Flex, Grid, Image, Input, Text } from "@chakra-ui/react";
-import { paymentMethods } from "../../constants/home";
+import { navKey, paymentMethods } from "../../constants/home";
 import { useContext, useMemo, useState } from "react";
 import { ConnectWalletContext } from "../../contexts/connect-wallet-context";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -24,6 +24,7 @@ import {
   getErrorToast,
   getNumberFixed,
   getTxHashLink,
+  onScrollView,
 } from "@/utils";
 import { toaster } from "../ui/toaster";
 import { PythSolanaReceiver } from "@pythnetwork/pyth-solana-receiver";
@@ -250,7 +251,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
         return `The minimum amount should be ${formatAmount(
           getNumberFixed(
             (solSaleAccountInfo?.minUsdAmount || 0) /
-              (solSaleAccountInfo?.currentPrice || 1)
+              ((solSaleAccountInfo?.currentPrice || 1) * 0.75)
           )
         )} $UN`;
       }
@@ -258,7 +259,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
         return `The maximum amount can't exceed ${formatAmount(
           getNumberFixed(
             (solSaleAccountInfo?.maxUsdAmount || 0) /
-              (solSaleAccountInfo?.currentPrice || 1)
+              ((solSaleAccountInfo?.currentPrice || 1) * 0.75)
           )
         )} $UN`;
       }
@@ -486,6 +487,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
         textAlign={"center"}
         fontWeight={700}
         fontSize={"12px"}
+        cursor={"pointer"}
         md={{
           fontSize: "14px",
         }}
@@ -493,6 +495,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
           mt: "20px",
           fontSize: "16px",
         }}
+        onClick={() => onScrollView(navKey.invite)}
       >
         Get rewards of {rewardRate}%
       </Text>
