@@ -2,18 +2,37 @@ import { Box, Flex, Heading, Image, Link } from "@chakra-ui/react";
 
 import ConnectWalletButton from "../../wallet-custom/connect-wallet-button";
 import { landingPageLink } from "@/constants/home";
+import { useEffect } from "react";
 
 const ReferralHeader = () => {
+  const onScrollHeader = () => {
+    const header = document.getElementById("header");
+    if (header) {
+      if (window.scrollY > 80) {
+        header.classList.remove("header-transparent");
+        header.classList.add("header-scrolled");
+      } else {
+        header.classList.remove("header-scrolled");
+        header.classList.add("header-transparent");
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", onScrollHeader);
+    return () => window.removeEventListener("scroll", onScrollHeader);
+  }, []);
+
   return (
     <Box
+      id="header"
       position={"fixed"}
       w={"100%"}
       top={0}
       left={0}
       px={{ base: "12px", md: "24px", xl: "77px" }}
       py={"24px"}
-      background={"rgba(0, 0, 0, 0.7)"}
-      backdropFilter={"blur(18.5px)"}
+      className="header-transparent"
       zIndex={100}
     >
       <Flex

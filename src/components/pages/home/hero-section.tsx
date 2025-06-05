@@ -168,7 +168,6 @@ const HeroSection = () => {
     <Box
       position={"relative"}
       id={navKey.buy}
-      pt={{ base: "62px", xl: "100px" }}
       xl={{
         px: 0,
       }}
@@ -182,7 +181,7 @@ const HeroSection = () => {
           h: "1450px",
         }}
       />
-      <Box position={"relative"} px={"12px"}>
+      <Box position={"relative"} px={"12px"} pt={{ base: "62px", xl: "100px" }}>
         <Header />
         <Text
           w={"fit-content"}
@@ -288,6 +287,7 @@ const HeroSection = () => {
           </Box>
           <Box
             w={"100%"}
+            minH={"380px"}
             p={"16px"}
             borderRadius={"20px"}
             background={
@@ -295,9 +295,11 @@ const HeroSection = () => {
             }
             md={{
               w: "360px",
+              minH: "380px",
             }}
             xl={{
               w: "419px",
+              minH: "450px",
               p: "20px",
             }}
           >
@@ -349,7 +351,7 @@ const HeroSection = () => {
                 Whitelist
               </Button>
             </Grid>
-            <div>
+            <Box>
               {!tab && (
                 <PublicSale
                   fetchSaleAccount={fetchSaleAccount}
@@ -363,7 +365,7 @@ const HeroSection = () => {
                   fetchUserAccount={fetchUserAccount}
                 />
               )}
-            </div>
+            </Box>
           </Box>
         </Flex>
         <Flex justifyContent={"center"}>

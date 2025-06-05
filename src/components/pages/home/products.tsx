@@ -18,7 +18,6 @@ const Products = () => {
     const result = await request.get(
       "https://api.unich.com/trading/order/v1/markets/overview"
     );
-    console.log("result: ", result);
     const data: any = result?.data;
     if (data?.data) {
       setTotalVolume({

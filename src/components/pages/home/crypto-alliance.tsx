@@ -16,13 +16,14 @@ const CryptoAlliance = () => {
         position={"absolute"}
         w={"100%"}
         h={"400px"}
-        backgroundImage={"url(/images/crypto_alliance_tablet.svg)"}
+        backgroundImage={"url(/images/crypto_alliance_tablet.jpg)"}
         backgroundSize={"auto 100%"}
         backgroundPosition={"center 70px"}
+        backgroundRepeat={"no-repeat"}
         md={{ h: "530px" }}
         xl={{
           h: "692px",
-          backgroundImage: "url(/images/crypto_alliance.svg)",
+          backgroundImage: "url(/images/crypto_alliance.jpg)",
         }}
       />
       <Box position={"relative"}>

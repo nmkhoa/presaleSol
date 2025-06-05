@@ -98,8 +98,6 @@ export function getErrorToast(error: any, token?: string) {
 }
 
 export const onScrollView = (key: string) => {
-  console.log("key: ", key)
   const element = document.getElementById(key);
-  console.log("element: ", element)
   element?.scrollIntoView({ behavior: "smooth" });
 };

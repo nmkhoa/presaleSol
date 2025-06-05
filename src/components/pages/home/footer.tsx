@@ -181,9 +181,9 @@ const FooterHome = () => {
               © Copyright 2025 by Unich. All rights reserved
             </Text>
             <Flex gap={"12px"} alignItems={"center"}>
-              {footerSocialLinks?.map((item) => {
+              {footerSocialLinks?.map((item, index) => {
                 return (
-                  <Link key={item.title} href={item.link} target="_blank">
+                  <Link key={index} href={item.link} target="_blank">
                     <Image
                       src={item.icon}
                       w={"24px"}

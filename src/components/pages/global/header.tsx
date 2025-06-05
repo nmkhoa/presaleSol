@@ -2,7 +2,7 @@ import { Box, Flex, Image } from "@chakra-ui/react";
 import ConnectWalletButton from "../wallet-custom/connect-wallet-button";
 import { landingPageLink, navbarItems } from "../../../constants/home";
 import { useTokenStore } from "@/stores/token.store";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { formatAmount, getNumberFixed, onScrollView } from "@/utils";
 import { useWallet } from "@solana/wallet-adapter-react";
 
@@ -31,8 +31,27 @@ const Header = () => {
     }
   };
 
+  const onScrollHeader = () => {
+    const header = document.getElementById("header");
+    if (header) {
+      if (window.scrollY > 80) {
+        header.classList.remove("header-transparent");
+        header.classList.add("header-scrolled");
+      } else {
+        header.classList.remove("header-scrolled");
+        header.classList.add("header-transparent");
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", onScrollHeader);
+    return () => window.removeEventListener("scroll", onScrollHeader);
+  }, []);
+
   return (
     <Flex
+      id="header"
       position={"fixed"}
       w={"100%"}
       px={"16px"}
@@ -41,9 +60,8 @@ const Header = () => {
       left={0}
       justifyContent={"space-between"}
       alignItems={"center"}
-      background={"rgba(0, 0, 0, 0.7)"}
-      backdropFilter={"blur(18.5px)"}
       zIndex={100}
+      className="header-transparent"
       md={{
         px: "36px",
         py: "16px",

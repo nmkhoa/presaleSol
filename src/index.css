@@ -175,3 +175,12 @@ button:disabled,
   background: #272d3d;
   border-radius: 41px;
 }
+
+.header-transparent {
+  background: transparent;
+}
+
+.header-scrolled {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(18.5px);
+}
