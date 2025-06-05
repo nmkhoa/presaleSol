@@ -23,7 +23,7 @@ import { useTokenStore } from "@/stores/token.store";
 import { request } from "@/config/request";
 import { feedIdSolana, nftAddress } from "@/constants/environment";
 import { useNftStore } from "@/stores/whitelist.store";
-import { useSolSale, useSolUser } from "@/core/hook/useSolUser";
+import { useSolSale, useSolUser } from "@/core/hook/use-sol-user";
 
 const HeroSection = () => {
   const [tab, setTab] = useState(0);
@@ -326,7 +326,7 @@ const HeroSection = () => {
                 }}
                 onClick={() => setTab(0)}
               >
-                Public sale
+                Public Sale
               </Button>
               <Button
                 w={"100%"}

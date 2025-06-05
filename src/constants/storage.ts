@@ -1,4 +1,4 @@
-export const STORAGE_KEY = {
+export const storageKey = {
   auth: "auth",
   accessToken: "accessToken",
   tokenPrice: "tokenPrice",

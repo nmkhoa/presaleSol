@@ -1,9 +1,9 @@
 import ReferralLeaderboard from "@/components/pages/referral/referral-leaderboard";
-import GoHomeButton from "../components/pages/global/GoHomeButton";
-import ReferralLayout from "../components/pages/referral/layout/ReferralLayout";
-import ReferralSummaryPanel from "../components/pages/referral/ReferralSummaryPanel";
+import ReferralLayout from "../components/pages/referral/layout/referral-layout";
+import ReferralSummaryPanel from "../components/pages/referral/referral-summary-panel";
 import { Stack } from "@chakra-ui/react";
 import { useEffect } from "react";
+import GoHomeButton from "@/components/pages/global/go-home-button";
 
 const Referral = () => {
   useEffect(() => {

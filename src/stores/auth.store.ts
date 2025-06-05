@@ -2,8 +2,9 @@
 import { persist, type PersistStorage } from "zustand/middleware";
 import { create } from "zustand";
 import Cookies from "js-cookie";
-import { STORAGE_KEY } from "@/constants/storage";
+import { storageKey } from "@/constants/storage";
 import type { User } from "@/types/user/user.interface";
+import { nodeEnv } from "@/constants/environment";
 
 const cookieStorage: PersistStorage<any> = {
   getItem: (name) => {
@@ -12,8 +13,10 @@ const cookieStorage: PersistStorage<any> = {
   },
   setItem: (name, value) => {
     Cookies.set(name, JSON.stringify(value), {
-      secure: false,
-      sameSite: "Lax",
+      secure: nodeEnv === "production",
+      sameSite: "Strict",
+      expires: 7,
+      path: "/",
     });
   },
   removeItem: (name) => {
@@ -49,11 +52,11 @@ export const useAuthStore = create<AuthState & AuthAction>()(
       setReferrerCode: (referrerCode) => set({ referrerCode }),
       resetAuthStore: () => {
         set(initialAuth);
-        Cookies.remove(STORAGE_KEY.auth);
+        Cookies.remove(storageKey.auth);
       },
     }),
     {
-      name: STORAGE_KEY.auth,
+      name: storageKey.auth,
       storage: cookieStorage,
       partialize: (state) => ({
         accessToken: state.accessToken,

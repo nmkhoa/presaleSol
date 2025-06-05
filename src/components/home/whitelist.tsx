@@ -18,7 +18,7 @@ import {
   baseNumbTokenValue,
   maxPriceByNFT,
 } from "@/constants/contract";
-import { BN } from "@coral-xyz/anchor";
+import { BN, type Address } from "@coral-xyz/anchor";
 import {
   formatAmount,
   getErrorToast,
@@ -72,7 +72,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
       return await program!.methods
         .purchaseTokensWithSolWhitelist(new BN(+inputAmount * baseNumbSolValue))
         .accounts({
-          buyer: publicKey,
+          buyer: publicKey as Address | undefined,
           priceUpdate: solUsdPriceFeedAccountPubkey,
         })
         .instruction();
@@ -83,7 +83,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
           new BN(+inputAmount * baseNumbTokenValue)
         )
         .accounts({
-          buyer: publicKey,
+          buyer: publicKey as Address | undefined,
         })
         .instruction();
     }
@@ -93,7 +93,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
           new BN(+inputAmount * baseNumbTokenValue)
         )
         .accounts({
-          buyer: publicKey,
+          buyer: publicKey as Address | undefined,
         })
         .instruction();
     }
@@ -105,19 +105,21 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
       setLoadingPurchase(true);
       const transaction = new Transaction();
       const purchaseIx = await getPurchaseToken();
-      transaction.add(purchaseIx);
-      const txHash = await provider!.sendAndConfirm(transaction, []);
-      toaster.create({
-        title: "Transaction Successful!",
-        description: `You have successfully purchased ${formatAmount(
-          +inputAmount
-        )} ${method.title}. View your balance now!`,
-        type: "success",
-        meta: {
-          url: getTxHashLink(txHash),
-          urlTile: "View your balance",
-        },
-      });
+      if (purchaseIx) {
+        transaction.add(purchaseIx);
+        const txHash = await provider!.sendAndConfirm(transaction, []);
+        toaster.create({
+          title: "Transaction Successful!",
+          description: `You have successfully purchased ${formatAmount(
+            +inputAmount
+          )} ${method.title}. View your balance now!`,
+          type: "success",
+          meta: {
+            url: getTxHashLink(txHash),
+            urlTile: "View your balance",
+          },
+        });
+      }
     } catch (error: any) {
       console.error("Error during purchase:", error, error?.message);
       const errorObj = getErrorToast(error);

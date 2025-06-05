@@ -5,7 +5,7 @@ import type {
 } from "@/types/home";
 import { persist } from "zustand/middleware";
 import { create } from "zustand";
-import { STORAGE_KEY } from "@/constants/storage";
+import { storageKey } from "@/constants/storage";
 
 type TokenState = {
   tokensPrice: TokenPriceType | null;
@@ -51,7 +51,7 @@ export const useTokenStore = create<TokenState & TokenAction>()(
       resetTokenStore: () => set({ ...initialToken }),
     }),
     {
-      name: STORAGE_KEY.tokenPrice,
+      name: storageKey.tokenPrice,
     }
   )
 );

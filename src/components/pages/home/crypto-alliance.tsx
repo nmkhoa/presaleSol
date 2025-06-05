@@ -47,7 +47,6 @@ const CryptoAlliance = () => {
             <br /> CRYPTO ALLIANCE
           </Text>
           <Text
-            color={"#C7CCD9"}
             maxW={"720px"}
             mx={"auto"}
             pt={"20px"}

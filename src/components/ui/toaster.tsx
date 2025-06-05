@@ -75,7 +75,6 @@ export const Toaster = () => {
               px="16px"
               py="20px"
               maxW="400px"
-              color={"#C7CCD9"}
             >
               {toast.type === "loading" ? (
                 <Spinner size="sm" color="blue.solid" />

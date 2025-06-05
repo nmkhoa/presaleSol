@@ -88,6 +88,7 @@ const Header = () => {
         {navbarItems?.map((item) => {
           return (
             <Box
+              key={item.key}
               cursor={"pointer"}
               className="!p-2 !font-semibold !leading-[130%] hover:!text-[#FFA60C]"
               onClick={() => handleNavItem(item.key, item.link)}

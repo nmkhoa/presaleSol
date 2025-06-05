@@ -1,6 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
-import RewardClaimPanel from "./components/RewardClaimPanel";
-import ReferralInfoPanel from "./components/ReferralInfoPanel";
+import RewardClaimPanel from "./components/reward-claim-panel";
+import ReferralInfoPanel from "./components/referral-into-panel";
 
 const ReferralSummaryPanel = () => {
   return (

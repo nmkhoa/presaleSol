@@ -15,11 +15,11 @@ const Home = () => {
   const { setReferrerCode } = useAuthStore();
 
   useEffect(() => {
-    document.title = "Unich Token: Freedom starts with $UN | Public sale now LIVE";
+    document.title = "Unich Token: Freedom starts with $UN | Public Sale now LIVE";
 
     // Tạo hoặc cập nhật thẻ meta description
     const description =
-      "Unich Token: Freedom starts with $UN | Public sale now LIVE";
+      "Unich Token: Freedom starts with $UN | Public Sale now LIVE";
     let metaDesc = document.querySelector("meta[name='description']");
     if (!metaDesc) {
       metaDesc = document.createElement("meta");

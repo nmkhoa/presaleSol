@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useGetNonce, useLogin } from "@/core/hook/useAuth";
+import { useGetNonce, useLogin } from "@/core/hook/use-auth";
 import { useAuthStore } from "@/stores/auth.store";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useEffect, useMemo, useState } from "react";
@@ -7,7 +7,7 @@ import bs58 from "bs58";
 import { toaster } from "../ui/toaster";
 import { logout } from "@/core/services";
 import { SignMessageModal } from "../modals/sign-message-modal ";
-import { useGetMe } from "@/core/hook/useUsers";
+import { useGetMe } from "@/core/hook/use-users";
 
 export default function AuthProvider({
   children,

@@ -16,9 +16,9 @@ import { useAnchorProvider } from "@/hooks/use-anchor-provider";
 import {
   baseNumbSolValue,
   baseNumbTokenValue,
-  USER_ACCOUNT_SEED,
+  userAccountSeed,
 } from "@/constants/contract";
-import { BN } from "@coral-xyz/anchor";
+import { BN, type Address } from "@coral-xyz/anchor";
 import {
   formatAmount,
   getErrorToast,
@@ -59,10 +59,11 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     useTokenStore();
 
   const fetchReferralAccount = async (referrer: string | undefined) => {
+    if (!program) return;
     try {
       const [account] = PublicKey.findProgramAddressSync(
         [
-          Buffer.from(USER_ACCOUNT_SEED),
+          Buffer.from(userAccountSeed),
           new PublicKey(referrer || "").toBuffer(),
         ],
         program.programId
@@ -83,7 +84,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     if (referrerAddress && referralAccountExists) {
       const [referAccount] = PublicKey.findProgramAddressSync(
         [
-          Buffer.from(USER_ACCOUNT_SEED),
+          Buffer.from(userAccountSeed),
           new PublicKey(referrerAddress).toBuffer(),
         ],
         program!.programId
@@ -101,7 +102,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
       return await program!.methods
         .purchaseTokensWithSol(new BN(+inputAmount * baseNumbSolValue))
         .accounts({
-          buyer: publicKey,
+          buyer: publicKey as Address | undefined,
           referrer: referrer,
           referrerAccount: referralAccount,
           priceUpdate: solUsdPriceFeedAccountPubkey,
@@ -112,7 +113,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
       return await program!.methods
         .purchaseTokensWithUsdc(new BN(+inputAmount * baseNumbTokenValue))
         .accounts({
-          buyer: publicKey,
+          buyer: publicKey as Address | undefined,
           referrer: referrer,
           referrerAccount: referralAccount,
         })
@@ -122,7 +123,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
       return await program!.methods
         .purchaseTokensWithUsdt(new BN(+inputAmount * baseNumbTokenValue))
         .accounts({
-          buyer: publicKey,
+          buyer: publicKey as Address | undefined,
           referrer: referrer,
           referrerAccount: referralAccount,
         })
@@ -136,19 +137,21 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
       setLoadingPurchase(true);
       const transaction = new Transaction();
       const purchaseIx = await getPurchaseToken();
-      transaction.add(purchaseIx);
-      const txHash = await provider!.sendAndConfirm(transaction, []);
-      toaster.create({
-        title: "Transaction Successful!",
-        description: `You have successfully purchased ${formatAmount(
-          +inputAmount
-        )} ${method.title}. View your balance now!`,
-        type: "success",
-        meta: {
-          url: getTxHashLink(txHash),
-          urlTile: "View your balance",
-        },
-      });
+      if (purchaseIx) {
+        transaction.add(purchaseIx);
+        const txHash = await provider!.sendAndConfirm(transaction, []);
+        toaster.create({
+          title: "Transaction Successful!",
+          description: `You have successfully purchased ${formatAmount(
+            +inputAmount
+          )} ${method.title}. View your balance now!`,
+          type: "success",
+          meta: {
+            url: getTxHashLink(txHash),
+            urlTile: "View your balance",
+          },
+        });
+      }
     } catch (error: any) {
       console.error("Error during purchase:", error, error?.message);
       const errorObj = getErrorToast(error);
@@ -182,9 +185,8 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
   const getReceive = (value: string) => {
     if (!value) return "0";
     const priceByMethod = getPriceByMethod();
-    return (
-      getNumberFixed(+value * priceByMethod) /
-      (solSaleAccountInfo?.currentPrice || 1)
+    return getNumberFixed(
+      (+value * priceByMethod) / (solSaleAccountInfo?.currentPrice || 1)
     );
   };
 

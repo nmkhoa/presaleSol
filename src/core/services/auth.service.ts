@@ -1,6 +1,6 @@
 import { request } from "@/config/request";
-import { ENDPOINTS } from "@/constants/apiEndpoints";
-import { resetAllStores } from "@/stores/clearAll.store";
+import { endpoints } from "@/constants/api-endpoint";
+import { resetAllStores } from "@/stores/clear-all.store";
 import type {
   LoginRequest,
   LoginResponse,
@@ -14,10 +14,15 @@ export const login = async (
   loginRequest: LoginRequest
 ): Promise<LoginResponse> => {
   return await request
-    .post<LoginResponse>(ENDPOINTS.AUTH.LOGIN, loginRequest)
+    .post<LoginResponse>(endpoints.AUTH.LOGIN, loginRequest)
     .then((response) => response.data)
     .catch((error: AxiosError) => {
-      throw error.response?.data || error;
+      console.error("API Error:", error);
+      throw {
+        message: "An error occurred during authentication",
+        status: error.response?.status || 500,
+        // Sanitized error info for frontend
+      };
     });
 };
 export const logout = () => {
@@ -30,18 +35,28 @@ export const getNonce = async (
   nonceRequest: NonceRequest
 ): Promise<NonceResponse> => {
   return await request
-    .get<NonceResponse>(ENDPOINTS.AUTH.NONCE, { params: nonceRequest })
+    .get<NonceResponse>(endpoints.AUTH.NONCE, { params: nonceRequest })
     .then((response) => response.data)
     .catch((error: AxiosError) => {
-      throw error.response?.data || error;
+      console.error("API Error:", error);
+      throw {
+        message: "An error occurred during authentication",
+        status: error.response?.status || 500,
+        // Sanitized error info for frontend
+      };
     });
 };
 
 export const getCurrentRank = async (): Promise<CurrentRankResponse> => {
   return await request
-    .get<CurrentRankResponse>(ENDPOINTS.REFERRAL.CURRENT_RANK)
+    .get<CurrentRankResponse>(endpoints.REFERRAL.CURRENT_RANK)
     .then((response) => response.data)
     .catch((error: AxiosError) => {
-      throw error.response?.data || error;
+      console.error("API Error:", error);
+      throw {
+        message: "An error occurred during authentication",
+        status: error.response?.status || 500,
+        // Sanitized error info for frontend
+      };
     });
 };

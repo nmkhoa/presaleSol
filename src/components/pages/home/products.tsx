@@ -208,7 +208,7 @@ const Products = () => {
                 fontSize: "16px",
               }}
             >
-              Your secured gateway to trading early, earning more, and unlocking
+              Your secure gateway to trading early, earning more, and unlocking
               real Web3 utilities.
             </Text>
             <Box
@@ -379,7 +379,7 @@ const Products = () => {
                   fontSize: "16px",
                 }}
               >
-                Trade tokens from high-quality projects even before TGE
+                Trade tokens from high-quality projects even before TGE.
               </Text>
             </Box>
             <Flex
@@ -504,7 +504,7 @@ const Products = () => {
                   fontSize: "16px",
                 }}
               >
-                Pre-buy & pre-sell tokens at any price and profit within the day
+                Pre-buy & pre-sell tokens at any price and profit within the day.
               </Text>
             </Box>
             <Flex

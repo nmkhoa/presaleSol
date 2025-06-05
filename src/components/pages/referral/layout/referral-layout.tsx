@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import ReferralHeader from "./ReferralHeader";
+import ReferralHeader from "./referral-header";
 import { Box } from "@chakra-ui/react";
 
 export default function ReferralLayout({ children }: { children: ReactNode }) {

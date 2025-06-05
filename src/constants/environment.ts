@@ -9,3 +9,4 @@ export const heliusApiKey = import.meta.env.VITE_API_HELIUS_KEY;
 export const networkKey = import.meta.env.VITE_API_NETWORK_KEY;
 export const nftAddress = import.meta.env.VITE_NFT_ADDRESS;
 export const networkEnpoint = import.meta.env.VITE_NETWORK_ENPOINT;
+export const nodeEnv = import.meta.env.VITE_NODE_ENV;

@@ -1,4 +1,4 @@
-import { ROUTES } from "@/constants/router";
+import { routes } from "@/constants/router";
 import { ConnectWalletContext } from "@/contexts/connect-wallet-context";
 import { useAuthStore } from "@/stores/auth.store";
 import { useTokenStore } from "@/stores/token.store";
@@ -22,7 +22,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useContext, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { toaster } from "../ui/toaster";
-import { useGetTransaction } from "@/core/hook/useUsers";
+import { useGetTransaction } from "@/core/hook/use-users";
 import { useInView } from "react-intersection-observer";
 import { navKey } from "@/constants/home";
 
@@ -333,7 +333,7 @@ const InviteAndEarn = () => {
             xl={{ mt: "67px" }}
           >
             <Box>
-              <Text fontSize={"14px"} fontWeight={500} color={"#C7CCD9"}>
+              <Text fontSize={"14px"} fontWeight={500}>
                 $UN Earned
               </Text>
               <Flex gap={"6px"} mt={"4px"}>
@@ -358,7 +358,7 @@ const InviteAndEarn = () => {
               </Flex>
             </Box>
             <Box>
-              <Text fontSize={"14px"} fontWeight={500} color={"#C7CCD9"}>
+              <Text fontSize={"14px"} fontWeight={500}>
                 USD Earned
               </Text>
               <Text
@@ -377,7 +377,7 @@ const InviteAndEarn = () => {
               </Text>
             </Box>
             <Link
-              to={ROUTES.REFERRAL}
+              to={routes.REFERRAL}
               onClick={checkConnected}
               className="btn-gradient-secondary"
             >
@@ -476,7 +476,6 @@ const InviteAndEarn = () => {
                             <Text
                               px="16px"
                               fontWeight={500}
-                              color="#C7CCD9"
                               _hover={{ textDecoration: "underline" }}
                               cursor="pointer"
                               className="truncate"
@@ -484,12 +483,7 @@ const InviteAndEarn = () => {
                               {data.signature.slice(0, 9)}
                             </Text>
                           </a>
-                          <Flex
-                            gap={"2px"}
-                            px={"16px"}
-                            fontWeight={500}
-                            color={"#C7CCD9"}
-                          >
+                          <Flex gap={"2px"} px={"16px"} fontWeight={500}>
                             <Image
                               src="/images/token.svg"
                               w={"20px"}
@@ -498,14 +492,14 @@ const InviteAndEarn = () => {
                             />
                             {getNumberFixed(data.tokenAmount, 2)}
                           </Flex>
-                          <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
+                          <Text px={"16px"} fontWeight={500}>
                             {getNumberFixed(
                               data.currencyAmount,
                               data.currency === "SOL" ? 3 : 2
                             ) || "-"}{" "}
                             {data.currency.toUpperCase()}
                           </Text>
-                          <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
+                          <Text px={"16px"} fontWeight={500}>
                             ${data.currencyPrice || "-"}
                           </Text>
                           <Text

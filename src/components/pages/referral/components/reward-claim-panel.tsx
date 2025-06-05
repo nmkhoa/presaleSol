@@ -31,7 +31,7 @@ import { useUnichProgram } from "@/hooks/use-program";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useAnchorProvider } from "@/hooks/use-anchor-provider";
 import { clusterApiUrl, Connection, Transaction } from "@solana/web3.js";
-import { useSolUser } from "@/core/hook/useSolUser";
+import { useSolUser } from "@/core/hook/use-sol-user";
 import { tokenUsdc, tokenUsdt } from "@/constants/environment";
 import { network } from "@/components/providers/solana-provider";
 import { createATAInstruction } from "@/utils/wallet";

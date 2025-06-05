@@ -152,7 +152,7 @@ const TokenSold = () => {
             lineHeight: "18px",
           }}
         >
-          /
+          / $
           {formatAmount(
             (solSaleAccountInfo?.tokensForSale || 0) *
               (solSaleAccountInfo?.currentPrice || 0)
@@ -204,28 +204,30 @@ const TokenSold = () => {
             1 $UN = ${priceData.current || 0}
           </Text>
         </Flex>
-        <Flex gap={"4px"} alignItems={"center"}>
-          <Text
-            fontSize={"12px"}
-            color={"#C7CCD9"}
-            fontWeight={500}
-            xl={{
-              fontSize: "14px",
-            }}
-          >
-            Next Price:
-          </Text>
-          <Text
-            fontSize={"12px"}
-            color={"#FFFFFF"}
-            fontWeight={700}
-            xl={{
-              fontSize: "14px",
-            }}
-          >
-            ${priceData.next || 0}
-          </Text>
-        </Flex>
+        {solSaleAccountInfo?.currentRound === 1 && (
+          <Flex gap={"4px"} alignItems={"center"}>
+            <Text
+              fontSize={"12px"}
+              color={"#C7CCD9"}
+              fontWeight={500}
+              xl={{
+                fontSize: "14px",
+              }}
+            >
+              Next Price:
+            </Text>
+            <Text
+              fontSize={"12px"}
+              color={"#FFFFFF"}
+              fontWeight={700}
+              xl={{
+                fontSize: "14px",
+              }}
+            >
+              ${priceData.next || 0}
+            </Text>
+          </Flex>
+        )}
       </Flex>
       <Flex
         gap={"8px"}

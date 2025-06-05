@@ -3,21 +3,24 @@ import {
   baseNumbSolValue,
   baseNumbTokenValue,
   baseNumbUsdValue,
-  SALE_ACCOUNT_SEED,
-  USER_ACCOUNT_SEED,
+  saleAccountSeed,
+  userAccountSeed,
 } from "@/constants/contract";
 import type { SaleAccountInfoType, UserAccountInfoType } from "@/types/home";
 import { PublicKey } from "@solana/web3.js";
+import type { UnichPresaleContract } from "../../contracts/unich-presale-contract";
+import type { Program } from "@coral-xyz/anchor";
 
 export const getSolSaleAccount = async ({
   program,
   callBack,
 }: {
-  program: any;
+  program: Program<UnichPresaleContract> | null;
   callBack: (solSaleAccountInfo: SaleAccountInfoType) => void;
 }): Promise<void> => {
+  if (!program) return;
   const [saleAccount] = PublicKey.findProgramAddressSync(
-    [Buffer.from(SALE_ACCOUNT_SEED)],
+    [Buffer.from(saleAccountSeed)],
     program.programId
   );
   const saleAccountData = await program.account.saleAccount.fetch(saleAccount);
@@ -61,13 +64,14 @@ export const getSolUserAccount = async ({
   publicKey,
   callBack,
 }: {
-  program: any;
+  program: Program<UnichPresaleContract> | null;
   publicKey: PublicKey;
   callBack: (solSaleAccountInfo: UserAccountInfoType) => void;
 }) => {
+  if (!program) return;
   const [account] = PublicKey.findProgramAddressSync(
-    [Buffer.from(USER_ACCOUNT_SEED), publicKey.toBuffer()],
-    program.programId
+    [Buffer.from(userAccountSeed), publicKey.toBuffer()],
+    program?.programId
   );
   const accountData = await program.account.userAccount.fetch(account);
   callBack({

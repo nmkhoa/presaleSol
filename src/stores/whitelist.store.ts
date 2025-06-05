@@ -1,6 +1,6 @@
 import { persist } from "zustand/middleware";
 import { create } from "zustand";
-import { STORAGE_KEY } from "@/constants/storage";
+import { storageKey } from "@/constants/storage";
 import type { NftInfoType } from "@/types/user/user.interface";
 
 type WhitelistState = {
@@ -22,7 +22,7 @@ export const useNftStore = create<WhitelistState & WhitelistAction>()(
       setNft: (nft) => set({ nft }),
     }),
     {
-      name: STORAGE_KEY.whitelist,
+      name: storageKey.whitelist,
     }
   )
 );

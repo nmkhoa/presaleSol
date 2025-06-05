@@ -1,4 +1,4 @@
-import { useCurrentRank, useLeaderboard } from "@/core/hook/useUsers";
+import { useCurrentRank, useLeaderboard } from "@/core/hook/use-users";
 import { useAuthStore } from "@/stores/auth.store";
 import { getAddressFormat, getNumberFixed } from "@/utils";
 import { Box, Flex, Grid, HStack, Image, Text } from "@chakra-ui/react";

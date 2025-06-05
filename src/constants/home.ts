@@ -16,10 +16,6 @@ export const navbarItems = [
     link: "#",
     key: navKey.buy,
   },
-  // {
-  //   name: "Referral",
-  //   link: ROUTES.REFERRAL,
-  // },
   {
     name: "Token Utilities",
     link: "#",
@@ -91,8 +87,8 @@ export const paymentMethods = [
 
 export const askedQuestions = [
   {
-    question: "What is the Unich Public sale?",
-    answer: `Unich Public sale is an early-stage token sale that allows users to own $UN before the TGE. Holders of Unich exclusive NFTs are eligible to buy tokens with a 25% discount. You can also earn up to 11% in referral commissions by inviting friends.
+    question: "What is the Unich Public Sale?",
+    answer: `Unich Public Sale is an early-stage token sale that allows users to own $UN before the TGE. Holders of Unich NFTs are eligible to buy tokens with a 25% discount. You can also earn up to 11% in referral commissions by inviting friends.
 
 Unich is targeting a $15,000,000 fundraising goal to drive platform development, accelerate product innovation, and deliver real benefits to the Freedom Fam community.
 
@@ -109,13 +105,13 @@ $UN vesting includes a 25% unlock over the first 3 months, with the remaining 75
 Unich also adopts a Burn-to-Boost mechanism, where 30% of quarterly profits will be used to buy and burn $UN until the total supply is reduced by half.`,
   },
   {
-    question: "How to participate in the Unich Public sale?",
+    question: "How to participate in the Unich Public Sale?",
     answer: `Simply connect your wallet and choose one of the three payment methods: $SOL, $USDC, or $USDT, then select any amount of $UN tokens you want to buy.
 
-If you hold a Unich exclusive NFT, click on the Whitelist section to buy at a discounted price!`,
+If you hold a Unich NFT, click on the Whitelist section to buy at a discounted price!`,
   },
   {
-    question: "Is the Unich Public sale fair and transparent?",
+    question: "Is the Unich Public Sale fair and transparent?",
     answer: `Unich ensures fairness for all users. All transactions are recorded on the blockchain, guaranteeing security and transparency. The rules and conditions are clearly communicated to everyone, with no hidden fees or unfair advantages. Users have an equal opportunity to participate and benefit from the Public sale.`,
   },
 ];

@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import IconSOL from "@assets/icon/icon_SOL.svg";
 import { formatTimeAgo, getAddressFormat, getNumberFixed } from "@/utils";
-import { useReferralInfo } from "@/core/hook/useUsers";
+import { useReferralInfo } from "@/core/hook/use-users";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 export default function ReferralInfoPanel() {
