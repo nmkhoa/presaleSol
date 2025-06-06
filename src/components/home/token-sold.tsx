@@ -41,7 +41,7 @@ const TokenSold = () => {
           maxW={"100%"}
           h={"34px"}
           background={
-            "linear-gradient(235.88deg, #FFDE91 8.35%, #FFAE00 45.69%, #ED6E00 98.76%)"
+            "linear-gradient(235.88deg, var(--btn-yellow-normal) 8.35%, var(--btn-orange-light) 45.69%, var(--btn-orange-semi) 98.76%)"
           }
           borderRadius={"14px"}
         />
@@ -63,7 +63,7 @@ const TokenSold = () => {
       <Text
         mt={"36px"}
         fontSize={"12px"}
-        color={"#C7CCD9"}
+        color={"var(--normal-text-color)"}
         fontWeight={500}
         xl={{ fontSize: "14px" }}
       >
@@ -97,7 +97,7 @@ const TokenSold = () => {
         <Text
           fontSize={"12px"}
           lineHeight={"16px"}
-          color={"#6E758A"}
+          color={"var(--table-head-color)"}
           fontWeight={500}
           xl={{
             fontSize: "14px",
@@ -117,7 +117,7 @@ const TokenSold = () => {
       <Text
         mt={"16px"}
         fontSize={"12px"}
-        color={"#C7CCD9"}
+        color={"var(--normal-text-color)"}
         fontWeight={500}
         xl={{ mt: "20px", fontSize: "14px" }}
       >
@@ -145,18 +145,14 @@ const TokenSold = () => {
         <Text
           fontSize={"12px"}
           lineHeight={"16px"}
-          color={"#6E758A"}
+          color={"var(--table-head-color)"}
           fontWeight={500}
           xl={{
             fontSize: "14px",
             lineHeight: "18px",
           }}
         >
-          / $
-          {formatAmount(
-            (solSaleAccountInfo?.tokensForSale || 0) *
-              (solSaleAccountInfo?.currentPrice || 0)
-          )}
+          / ${formatAmount(15000000)}
         </Text>
       </Flex>
       <Box
@@ -169,7 +165,7 @@ const TokenSold = () => {
       <Text
         mt={"20px"}
         fontSize={"12px"}
-        color={"#C7CCD9"}
+        color={"var(--normal-text-color)"}
         fontWeight={500}
         xl={{ mt: "28px", fontSize: "14px" }}
       >
@@ -208,7 +204,7 @@ const TokenSold = () => {
           <Flex gap={"4px"} alignItems={"center"}>
             <Text
               fontSize={"12px"}
-              color={"#C7CCD9"}
+              color={"var(--normal-text-color)"}
               fontWeight={500}
               xl={{
                 fontSize: "14px",
@@ -218,7 +214,7 @@ const TokenSold = () => {
             </Text>
             <Text
               fontSize={"12px"}
-              color={"#FFFFFF"}
+              color={"var(--color-white)"}
               fontWeight={700}
               xl={{
                 fontSize: "14px",
