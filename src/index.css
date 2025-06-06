@@ -94,6 +94,7 @@
   --hero-radial-bg-extra: rgba(0, 8, 18, 0.035);
   --hero-border-color: rgba(255, 255, 255, 0.15);
   --referral-layout-bg: rgba(0, 0, 1, 0);
+  --pre-market-bg: rgba(0, 0, 0, 0);
 }
 
 body {

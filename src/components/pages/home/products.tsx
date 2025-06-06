@@ -322,7 +322,7 @@ const Products = () => {
             w={"100%"}
             padding={"20px 16px 16px"}
             background={
-              "linear-gradient(0deg, var(--pre-order-bg-light) 20%, var(--bg-color) 95%)"
+              "linear-gradient(0deg, var(--pre-order-bg-light) 20%, var(--pre-market-bg) 95%)"
             }
             gap={"0px"}
             borderRadius={"16px"}
@@ -453,7 +453,7 @@ const Products = () => {
             w={"100%"}
             padding={"20px 16px 16px"}
             background={
-              "linear-gradient(0deg, var(--pre-order-bg-light) 20%, var(--bg-color) 95%)"
+              "linear-gradient(0deg, var(--pre-order-bg-light) 20%, var(--pre-market-bg) 95%)"
             }
             gap={"0px"}
             borderRadius={"16px"}
