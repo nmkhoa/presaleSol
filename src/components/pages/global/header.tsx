@@ -96,7 +96,7 @@ const Header = () => {
         gap={"28px"}
         px={"20px"}
         py={"8px"}
-        bg={"rgba(255, 255, 255, 0.06)"}
+        bg={"var(--navbar-item-bg)"}
         borderRadius={"24px"}
         display={"none"}
         xl={{
@@ -108,7 +108,8 @@ const Header = () => {
             <Box
               key={item.key}
               cursor={"pointer"}
-              className="!p-2 !font-semibold !leading-[130%] hover:!text-[#FFA60C]"
+              _hover={{ color: "var(--select-hover-color)" }}
+              className="!p-2 !font-semibold !leading-[130%]"
               onClick={() => handleNavItem(item.key, item.link)}
             >
               {item.name}
@@ -121,8 +122,8 @@ const Header = () => {
           <Flex
             gap={"6px"}
             p={"8px 12px"}
-            bg={"#15171F"}
-            border={"1px solid #40475C"}
+            bg={"var(--transaction-bg)"}
+            border={"1px solid var(--border-method-normal)"}
             borderRadius={"4px"}
             fontSize={"16px"}
             lineHeight={"20px"}

@@ -51,14 +51,14 @@ const ConnectWalletModal = ({ showModal, setShowModal }: Props) => {
         <Dialog.Content
           padding={"1px"}
           background={
-            "linear-gradient(171.2deg, rgba(81, 88, 96, 0.07) 13.37%, #31353A 93.3%)"
+            "linear-gradient(171.2deg, var(--connect-wallet-border-light) 13.37%, var(--connect-wallet-border-normal) 93.3%)"
           }
           borderRadius={"12px"}
         >
           <Box
             p={"20px"}
             background={
-              "linear-gradient(182.62deg, #151515 -11.16%, #1D1D1D 100%)"
+              "linear-gradient(182.62deg, var(--connect-wallet-bg-light) -11.16%, var(--connect-wallet-bg-normal) 100%)"
             }
             borderRadius={"11px"}
           >
@@ -91,11 +91,11 @@ const ConnectWalletModal = ({ showModal, setShowModal }: Props) => {
                   <Flex
                     gap={"12px"}
                     p={"4px"}
-                    bg={"#06070A"}
+                    bg={"var(--progress-out-bg)"}
                     borderRadius={"12px"}
                     alignItems={"center"}
                     cursor={"pointer"}
-                    _hover={{ color: "#FFA60C" }}
+                    _hover={{ color: "var(--select-hover-color)" }}
                     onClick={() => onConnectWallet(w.adapter.name)}
                   >
                     <Image

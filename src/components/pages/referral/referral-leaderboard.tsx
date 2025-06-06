@@ -35,7 +35,9 @@ export default function ReferralLeaderboard() {
 
   return (
     <Box
-      background={"linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"}
+      background={
+        "linear-gradient(143.45deg, var(--card-bg-light) 10.97%, var(--card-bg-normal) 56.87%)"
+      }
       w="full"
       h="full"
       minH={"480px"}
@@ -64,7 +66,7 @@ export default function ReferralLeaderboard() {
               px={"16px"}
               fontWeight={500}
               fontSize={{ base: "12px", md: "14px", xl: "16px" }}
-              color={"#6E758A"}
+              color={"var(--table-head-color)"}
             >
               Rank
             </Text>
@@ -72,7 +74,7 @@ export default function ReferralLeaderboard() {
               px={"16px"}
               fontWeight={500}
               fontSize={{ base: "12px", md: "14px", xl: "16px" }}
-              color={"#6E758A"}
+              color={"var(--table-head-color)"}
             >
               Address
             </Text>
@@ -80,7 +82,7 @@ export default function ReferralLeaderboard() {
             <Text
               px={"16px"}
               fontWeight={500}
-              color={"#6E758A"}
+              color={"var(--table-head-color)"}
               textAlign={"left"}
               fontSize={{ base: "12px", md: "14px", xl: "16px" }}
             >
@@ -89,7 +91,7 @@ export default function ReferralLeaderboard() {
             <Text
               px={"16px"}
               fontWeight={500}
-              color={"#6E758A"}
+              color={"var(--table-head-color)"}
               textAlign={"right"}
               fontSize={{ base: "12px", md: "14px", xl: "16px" }}
             >
@@ -136,9 +138,9 @@ export default function ReferralLeaderboard() {
                     : undefined;
 
                 const bgColor = isUser
-                  ? "linear-gradient(89.88deg, #19FFAC -40.26%, #1A1F27 97.08%)"
+                  ? "linear-gradient(89.88deg, var(--leaderboard-bg-light) -40.26%, var(--leaderboard-bg-dark) 97.08%)"
                   : currentRank > 3
-                  ? "#15171F"
+                  ? "var(--transaction-bg)"
                   : undefined;
 
                 return (
@@ -153,10 +155,18 @@ export default function ReferralLeaderboard() {
                     className="grid grid-cols-4"
                     ref={isUser ? setTargetRef : null}
                   >
-                    <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
+                    <Text
+                      px={"16px"}
+                      fontWeight={500}
+                      color={"var(--normal-text-color)"}
+                    >
                       {currentRank || "-"}
                     </Text>
-                    <Text px={"16px"} fontWeight={500} color={"#C7CCD9"}>
+                    <Text
+                      px={"16px"}
+                      fontWeight={500}
+                      color={"var(--normal-text-color)"}
+                    >
                       {isUser
                         ? "You"
                         : getAddressFormat(data.walletAddress) || "-"}
@@ -165,7 +175,7 @@ export default function ReferralLeaderboard() {
                       gap={"2px"}
                       px={"16px"}
                       fontWeight={500}
-                      color={"#C7CCD9"}
+                      color={"var(--normal-text-color)"}
                     >
                       {data.referralCount || "-"}
                     </Flex>
@@ -173,7 +183,7 @@ export default function ReferralLeaderboard() {
                     <Text
                       px={"16px"}
                       fontWeight={500}
-                      color={"#C7CCD9"}
+                      color={"var(--normal-text-color)"}
                       textAlign={"right"}
                     >
                       ${getNumberFixed(data.totalReward, 2)}
@@ -193,24 +203,33 @@ export default function ReferralLeaderboard() {
             }}
             px={"32px"}
             mt={"8px"}
-            background="linear-gradient(89.88deg, #19FFAC -40.26%, #1A1F27 97.08%)"
+            background="linear-gradient(89.88deg, var(--leaderboard-bg-light) -40.26%, var(--leaderboard-bg-dark) 97.08%)"
             borderBottomRadius={"8px"}
             fontSize={{ base: "12px", md: "14px", xl: "16px" }}
             className="grid grid-cols-4"
           >
-            <Text fontWeight={500} color={"#C7CCD9"}>
+            <Text fontWeight={500} color={"var(--normal-text-color)"}>
               {currentRank.currentRank || "-"}
             </Text>
-            <Text px={"10px"} fontWeight={500} color={"#C7CCD9"}>
+            <Text
+              px={"10px"}
+              fontWeight={500}
+              color={"var(--normal-text-color)"}
+            >
               You
             </Text>
-            <Flex gap={"2px"} px={"16px"} fontWeight={500} color={"#C7CCD9"}>
+            <Flex
+              gap={"2px"}
+              px={"16px"}
+              fontWeight={500}
+              color={"var(--normal-text-color)"}
+            >
               {currentRank.referralCount || "-"}
             </Flex>
             <Text
               px={"5px"}
               fontWeight={500}
-              color={"#C7CCD9"}
+              color={"var(--normal-text-color)"}
               textAlign={"right"}
             >
               ${getNumberFixed(currentRank.totalReward, 2)}

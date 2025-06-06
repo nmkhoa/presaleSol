@@ -167,7 +167,7 @@ const InviteAndEarn = () => {
               <Text
                 fontSize={"16px"}
                 fontWeight={700}
-                color={"#FFFFFF"}
+                color={"var(--color-white)"}
                 md={{ fontSize: "20px" }}
                 xl={{ fontSize: "28px" }}
               >
@@ -176,7 +176,7 @@ const InviteAndEarn = () => {
               <Text
                 fontSize={"16px"}
                 fontWeight={700}
-                color={"#FFFFFF"}
+                color={"var(--color-white)"}
                 display={"block"}
                 md={{ display: "none", fontSize: "64px" }}
                 xl={{ display: "block" }}
@@ -187,8 +187,8 @@ const InviteAndEarn = () => {
             <Flex gap={"10px"} mt={"12px"} xl={{ mt: "38px" }}>
               <Input
                 h={"40px"}
-                background={"rgba(0, 0, 0, 0.95)"}
-                color={"#FFEED6"}
+                background={"var(--bg-super-dark)"}
+                color={"var(--color-input)"}
                 borderRadius={"8px"}
                 border={"none"}
                 disabled
@@ -216,9 +216,9 @@ const InviteAndEarn = () => {
                       w={"80px"}
                       h={"42px"}
                       p={"12px"}
-                      background="#FFFFFF"
+                      background="var(--color-white)"
                       rounded={"8px"}
-                      color={"#1A1001"}
+                      color={"var(--btn-white-color)"}
                       fontWeight={700}
                       fontSize={"12px"}
                       xl={{
@@ -234,7 +234,7 @@ const InviteAndEarn = () => {
               ) : (
                 <Button
                   background={"white"}
-                  color={"#1A1001"}
+                  color={"var(--btn-white-color)"}
                   h={"42px"}
                   px={"8px"}
                   fontWeight={700}
@@ -256,7 +256,7 @@ const InviteAndEarn = () => {
             fontSize={"84px"}
             lineHeight={"84px"}
             fontWeight={700}
-            color={"#FFFFFF"}
+            color={"var(--color-white)"}
             display={"none"}
             textAlign={"right"}
             md={{
@@ -272,7 +272,7 @@ const InviteAndEarn = () => {
           minH={"100%"}
           p={"12px"}
           background={
-            "linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"
+            "linear-gradient(143.45deg, var(--card-bg-light) 10.97%, var(--card-bg-normal) 56.87%)"
           }
           borderRadius={"12px"}
           md={{
@@ -395,7 +395,7 @@ const InviteAndEarn = () => {
               mt={"20px"}
               py={"20px"}
               background={
-                "linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"
+                "linear-gradient(143.45deg, var(--card-bg-light) 10.97%, var(--card-bg-normal) 56.87%)"
               }
               borderRadius={"12px"}
               xl={{ maxW: "1240px" }}
@@ -416,22 +416,38 @@ const InviteAndEarn = () => {
                   gridTemplateColumns={"repeat(5, minmax(0, 1fr))"}
                   xl={{ gridTemplateColumns: "repeat(6, minmax(0, 1fr))" }}
                 >
-                  <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
+                  <Text
+                    px={"16px"}
+                    fontWeight={500}
+                    color={"var(--table-head-color)"}
+                  >
                     Tx Hash
                   </Text>
-                  <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
+                  <Text
+                    px={"16px"}
+                    fontWeight={500}
+                    color={"var(--table-head-color)"}
+                  >
                     Amount
                   </Text>
-                  <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
+                  <Text
+                    px={"16px"}
+                    fontWeight={500}
+                    color={"var(--table-head-color)"}
+                  >
                     Total Spent
                   </Text>
-                  <Text px={"16px"} fontWeight={500} color={"#6E758A"}>
+                  <Text
+                    px={"16px"}
+                    fontWeight={500}
+                    color={"var(--table-head-color)"}
+                  >
                     Price
                   </Text>
                   <Text
                     px={"16px"}
                     fontWeight={500}
-                    color={"#6E758A"}
+                    color={"var(--table-head-color)"}
                     textAlign={"right"}
                     xl={{ gridColumn: "span 2 / span 2" }}
                   >
@@ -461,7 +477,7 @@ const InviteAndEarn = () => {
                           key={index}
                           py={"18px"}
                           display={"grid"}
-                          background={"#15171F"}
+                          background={"var(--transaction-bg)"}
                           borderRadius={"8px"}
                           gridTemplateColumns={"repeat(5, minmax(0, 1fr))"}
                           xl={{
@@ -506,7 +522,7 @@ const InviteAndEarn = () => {
                             xl={{ gridColumn: "span 2 / span 2" }}
                             px={"16px"}
                             fontWeight={500}
-                            color={"#C7CCD9"}
+                            color={"var(--normal-text-color)"}
                             textAlign={"right"}
                           >
                             {formatTimeAgo(data.blockTime) || "N/A"}

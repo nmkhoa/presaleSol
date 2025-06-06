@@ -147,8 +147,8 @@ const CryptoAlliance = () => {
                 value={item.question}
                 mb={"10px"}
                 pb={"20px"}
-                background={"#06070A"}
-                border={"1px solid #272D3D"}
+                background={"var(--progress-out-bg)"}
+                border={"1px solid var(--question-border-color)"}
                 borderRadius={"12px"}
                 xl={{
                   pb: "28px",
@@ -213,7 +213,7 @@ const CryptoAlliance = () => {
               className="flex gap-1 items-center"
               p={"12px"}
               fontWeight={700}
-              color={"#FF9A0D"}
+              color={"var(--text-primary-link-color)"}
               fontSize={"14px"}
               xl={{
                 fontSize: "16px",

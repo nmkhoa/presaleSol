@@ -29,31 +29,31 @@ export const getToastColor = (type: ToastType) => {
     case "success":
       return {
         icon: <HiOutlineCheckCircle />,
-        borderColor: "#C8FF6B33",
-        color: "#78C000",
-        bg: "linear-gradient(276.58deg, rgba(107, 164, 14, 0.5) -37.28%, rgba(20, 32, 1, 0.8) 13.79%, rgba(20, 32, 1, 0.8) 78.76%, #6BA40E 130.23%)",
+        borderColor: "var(--success-boder-toast)",
+        color: "var(--success-color-toast)",
+        bg: "linear-gradient(276.58deg, var(--success-bg-light) -37.28%, var(--success-bg-normal) 13.79%, var(--success-bg-semi) 78.76%, var(--suceess-bg-extra) 130.23%)",
       };
     case "error":
       return {
         icon: <HiOutlineNoSymbol />,
-        borderColor: "#FF7F6B33",
-        color: "#F04438",
-        bg: "linear-gradient(276.58deg, rgba(78, 2, 2, 0.5) -37.28%, rgba(21, 4, 1, 0.8) 13.79%, rgba(21, 4, 1, 0.8) 78.76%, #A40E0E 130.23%)",
+        borderColor: "var(--error-border-toast)",
+        color: "var(--error-message-color)",
+        bg: "linear-gradient(276.58deg, var(--error-bg-light) -37.28%, var(--error-bg-normal) 13.79%, var(--error-bg-semi) 78.76%, var(--error-bg-extra) 130.23%)",
       };
     case "info":
       return {
         icon: <HiOutlineInformationCircle />,
-        borderColor: "#6B8EFF33",
-        color: "#7FBFFF",
-        bg: "linear-gradient(276.58deg, rgba(9, 2, 78, 0.5) -37.28%, rgba(2, 1, 21, 0.8) 13.79%, rgba(2, 1, 21, 0.8) 78.76%, #0E34A4 130.23%)",
+        borderColor: "var(--info-border-toast)",
+        color: "var(--info-color-toast)",
+        bg: "linear-gradient(276.58deg, var(--info-bg-light) -37.28%, var(--info-bg-normal) 13.79%, var(--info-bg-semi) 78.76%, var(--info-bg-extra) 130.23%)",
       };
     case "warning":
     default:
       return {
         icon: <HiOutlineExclamationTriangle />,
-        borderColor: "#FFB56B33",
-        color: "#F79009",
-        bg: "linear-gradient(276.58deg, rgba(78, 47, 2, 0.5) -37.28%, rgba(21, 13, 1, 0.8) 13.79%, rgba(21, 13, 1, 0.8) 78.76%, #A4680E 130.23%)",
+        borderColor: "var(--warning-border-toast)",
+        color: "var(--warning-color-toast)",
+        bg: "linear-gradient(276.58deg, var(--warning-bg-light) -37.28%, var(--warning-bg-normal) 13.79%, var(--warning-bg-semi) 78.76%, var(--warning-bg-extra) 130.23%)",
       };
   }
 };

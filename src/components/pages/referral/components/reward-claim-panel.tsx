@@ -154,7 +154,7 @@ export default function RewardClaimPanel() {
           <Text
             fontSize={{ base: "18px", md: "20px", "2xl": "24px" }}
             fontWeight={700}
-            color={"#FFFFFF"}
+            color={"var(--color-white)"}
           >
             Your Network = Your Reward!
           </Text>
@@ -167,7 +167,7 @@ export default function RewardClaimPanel() {
             <Box flex={"1 1 50%"}>
               <Text
                 fontSize={{ base: "12px", md: "14px", "2xl": "16px" }}
-                color={"#06070A"}
+                color={"var(--progress-out-bg)"}
                 fontWeight={500}
                 textAlign={"left"}
               >
@@ -183,9 +183,9 @@ export default function RewardClaimPanel() {
               <Box
                 flex="1"
                 h="40px"
-                background="#000000"
+                background="var(--bg-color)"
                 rounded="8px"
-                border="1px solid #40475C"
+                border="1px solid var(--border-method-normal)"
                 px="12px"
                 display="flex"
                 alignItems="center"
@@ -193,7 +193,7 @@ export default function RewardClaimPanel() {
               >
                 <Text
                   fontSize="12px"
-                  color="#FFEED6"
+                  color="var(--color-input)"
                   fontWeight={500}
                   whiteSpace="nowrap"
                   overflow="hidden"
@@ -218,9 +218,9 @@ export default function RewardClaimPanel() {
                     minW="auto"
                     px="12px"
                     h="40px"
-                    background="#FFFFFF"
+                    background="var(--color-white)"
                     rounded="8px"
-                    color="#1A1001"
+                    color="var(--btn-white-color)"
                     fontWeight={700}
                     fontSize="12px"
                     _hover={{ filter: "brightness(1.2)" }}
@@ -235,7 +235,7 @@ export default function RewardClaimPanel() {
       </Box>
       <Box
         background={
-          "linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"
+          "linear-gradient(143.45deg, var(--card-bg-light) 10.97%, var(--card-bg-normal) 56.87%)"
         }
         w="full"
         h="full"
@@ -250,7 +250,7 @@ export default function RewardClaimPanel() {
               <Text
                 fontWeight="bold"
                 fontSize={{ base: "12px", md: "14px", xl: "18px" }}
-                color="#FFFFFF"
+                color="var(--color-white)"
               >
                 $UN Earned
               </Text>
@@ -266,7 +266,7 @@ export default function RewardClaimPanel() {
               <Text
                 fontWeight="bold"
                 fontSize={{ base: "20px", md: "28px", xl: "36px" }}
-                color="#FFFFFF"
+                color="var(--color-white)"
               >
                 {solUserAccountInfo?.tokenRefEarned
                   ? formatAmount(
@@ -277,14 +277,14 @@ export default function RewardClaimPanel() {
             </HStack>
           </Box>
 
-          <Box w="full" h="1px" bg="#FFFFFF1A" />
+          <Box w="full" h="1px" bg="var(--color-line)" />
 
           <Box>
             <HStack gap={"8px"}>
               <Text
                 fontWeight="bold"
                 fontSize={{ base: "12px", md: "14px", xl: "18px" }}
-                color="#FFFFFF"
+                color="var(--color-white)"
               >
                 USD Earned
               </Text>
@@ -294,7 +294,7 @@ export default function RewardClaimPanel() {
               <Text
                 fontWeight="bold"
                 fontSize={{ base: "20px", md: "28px", xl: "36px" }}
-                color="#FFFFFF"
+                color="var(--color-white)"
               >
                 $
                 {earnedValues?.totalUSDEarned
@@ -306,11 +306,11 @@ export default function RewardClaimPanel() {
             </HStack>
           </Box>
 
-          <Box w="full" h="1px" bg="#FFFFFF1A" />
+          <Box w="full" h="1px" bg="var(--color-line)" />
 
           <Text
             fontSize={{ base: "12px", md: "14px" }}
-            color="#C7CCD9"
+            color="var(--claim-reward-color)"
             fontWeight="normal"
           >
             Claim Your Reward
@@ -325,7 +325,7 @@ export default function RewardClaimPanel() {
                   value={item.method.key}
                   border="1px solid transparent"
                   borderRadius="8px"
-                  background={"#0D0D0D"}
+                  background={"var(--reward-item-bg)"}
                   pointerEvents={"none"}
                 >
                   <RadioCard.ItemHiddenInput />
@@ -377,12 +377,12 @@ export default function RewardClaimPanel() {
             borderRadius="8px"
             fontSize="16px"
             fontWeight="bold"
-            color="#1A1001"
+            color="var(--btn-white-color)"
             disabled={!isDisabled}
             loading={loadingClaim}
             background={`
-            linear-gradient(94.13deg, #FFDE91 -3.77%, #FFAE00 19.01%, #FF7700 119.2%) padding-box,
-            linear-gradient(271.06deg, #FFA023 8.52%, #FFF8E8 104.75%) border-box
+            linear-gradient(94.13deg, var(--btn-yellow-normal) -3.77%, var(--btn-orange-light) 19.01%, var(--btn-orange-extra) 119.2%) padding-box,
+            linear-gradient(271.06deg, var(--btn-yellow-semi) 8.52%, var(--btn-yellow-extra) 104.75%) border-box
           `}
             onClick={() => handleClaim()}
           >

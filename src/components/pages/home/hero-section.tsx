@@ -5,7 +5,6 @@ import { Box, Button, Flex, Grid, Image, Text } from "@chakra-ui/react";
 import Header from "../global/header";
 import TokenSold from "../../home/token-sold";
 import { useCallback, useEffect, useState } from "react";
-import clsx from "clsx";
 import PublicSale from "../../home/public-sale";
 import Whitelist from "../../home/whitelist";
 import InviteAndEarn from "../../home/invite-earn";
@@ -228,7 +227,7 @@ const HeroSection = () => {
           mx={"auto"}
           textAlign={"center"}
           fontSize={"14px"}
-          color={"#B4C1D1"}
+          color={"var(--hero-des-text-color)"}
           fontWeight={500}
           md={{
             maxW: "582px",
@@ -253,10 +252,10 @@ const HeroSection = () => {
           gap={"8px"}
           borderRadius={"28px"}
           background={
-            "linear-gradient(180deg, rgba(255, 252, 252, 0.04) 0%, rgba(255, 255, 255, 0) 100%),radial-gradient(267.84% 97.01% at 58.6% 100%, rgba(65, 116, 186, 0.091) 12.68%, rgba(17, 104, 221, 0.154) 45.68%, rgba(0, 39, 93, 0.021) 82.57%, rgba(0, 8, 18, 0.035) 100%)"
+            "linear-gradient(180deg, var(--hero-linear-bg-light) 0%, var(--hero-linear-bg-normal) 100%),radial-gradient(267.84% 97.01% at 58.6% 100%, var(--hero-radial-bg-light) 12.68%, var(--hero-radial-bg-normal) 45.68%, var(--hero-radial-bg-semi) 82.57%, var(--hero-radial-bg-extra) 100%)"
           }
           backdropFilter={"blur(16.1px)"}
-          border={"1px solid rgba(255, 255, 255, 0.15)"}
+          border={"1px solid var(--hero-border-color)"}
           flexDirection={"column-reverse"}
           md={{
             mt: "28px",
@@ -273,7 +272,7 @@ const HeroSection = () => {
             p={"16px"}
             borderRadius={"20px"}
             background={
-              "linear-gradient(152.22deg, #14161B 38.95%, #15161C 96.26%)"
+              "linear-gradient(152.22deg, var(--bg-sold-light) 38.95%, var(--bg-sold-normal) 96.26%)"
             }
             md={{
               w: "276px",
@@ -291,7 +290,7 @@ const HeroSection = () => {
             p={"16px"}
             borderRadius={"20px"}
             background={
-              "linear-gradient(152.22deg, #14161B 38.95%, #15161C 96.26%)"
+              "linear-gradient(152.22deg, var(--bg-sold-light) 38.95%, var(--bg-sold-normal) 96.26%)"
             }
             md={{
               w: "360px",
@@ -307,7 +306,7 @@ const HeroSection = () => {
               className="grid-cols-2"
               gap={"4px"}
               p={"2px"}
-              background={"rgba(0, 0, 0, 0.7)"}
+              background={"var(--bg-dark)"}
               borderRadius={"24px"}
             >
               <Button
@@ -317,11 +316,12 @@ const HeroSection = () => {
                 borderRadius={"120px"}
                 fontWeight={600}
                 fontSize={"14px"}
-                className={clsx(
+                background={!tab ? "var(--btn-white-color)" : "transparent"}
+                color={
                   !tab
-                    ? "!text-[#FF9A0D] !bg-[#1A1001]"
-                    : "!text-[#9EA5BA] !bg-transparent"
-                )}
+                    ? "var(--text-primary-link-color)"
+                    : "var(--tab-active-color)"
+                }
                 md={{
                   py: "8px",
                   fontSize: "16px",
@@ -337,11 +337,12 @@ const HeroSection = () => {
                 borderRadius={"120px"}
                 fontWeight={600}
                 fontSize={"14px"}
-                className={clsx(
+                background={tab ? "var(--btn-white-color)" : "transparent"}
+                color={
                   tab
-                    ? "!text-[#FF9A0D] !bg-[#1A1001]"
-                    : "!text-[#9EA5BA] !bg-transparent"
-                )}
+                    ? "var(--text-primary-link-color)"
+                    : "var(--tab-active-color)"
+                }
                 md={{
                   py: "8px",
                   fontSize: "16px",
@@ -380,7 +381,7 @@ const HeroSection = () => {
               fontSize: "14px",
             }}
             // target="_blank"
-            color={"#C7CCD9"}
+            color={"var(--normal-text-color)"}
           >
             Audited by
           </Text>

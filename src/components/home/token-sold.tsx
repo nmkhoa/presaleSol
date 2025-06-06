@@ -33,7 +33,7 @@ const TokenSold = () => {
       <Box
         position={"relative"}
         p={"4px"}
-        backgroundColor={"#06070A"}
+        backgroundColor={"var(--progress-out-bg)"}
         borderRadius={"16px"}
       >
         <Box
@@ -186,7 +186,7 @@ const TokenSold = () => {
           />
           <Text
             fontSize={"14px"}
-            color={"#FF9A0D"}
+            color={"var(--text-primary-link-color)"}
             fontWeight={700}
             md={{
               fontSize: "16px",
@@ -239,11 +239,11 @@ const TokenSold = () => {
               <Box
                 p={"1px"}
                 background={
-                  "linear-gradient(180deg, #22293B -11%, rgba(14, 21, 37, 0) 135%)"
+                  "linear-gradient(180deg, var(--social-border-color) -11%, var(--social-border-normal) 135%)"
                 }
                 borderRadius={"8px"}
               >
-                <Box p={"8px"} bg={"#202127"} md={{ p: "12px" }}>
+                <Box p={"8px"} bg={"var(--cocial-bg-color)"} md={{ p: "12px" }}>
                   <Image
                     src={item.icon}
                     w={"18px"}

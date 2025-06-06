@@ -67,7 +67,7 @@ const ReferralHeader = () => {
           fontSize={{ base: "16px", md: "28px", xl: "36px", "2xl": "48px" }}
           textTransform="uppercase"
           fontWeight="bold"
-          color={"#FFFFFF"}
+          color={"var(--color-white)"}
         >
           FREEDOM REFERRAL HUB
         </Heading>

@@ -19,7 +19,7 @@ const SaleWithoutNFT = () => {
         <Link
           href="https://discord.com/invite/unich"
           target="_blank"
-          color={"#FF9A0D"}
+          color={"var(--text-primary-link-color)"}
         >
           Learn more
         </Link>

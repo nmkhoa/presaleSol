@@ -10,7 +10,7 @@ export default function GoHomeButton() {
     <Button
       p={"8px"}
       rounded={"8px"}
-      background="linear-gradient(311.41deg, rgba(255, 255, 255, 0.19) 9.23%, rgba(255, 255, 255, 0.01) 102.79%)"
+      background="linear-gradient(311.41deg, var(--back-home-bg-light) 9.23%, var(--back-home-bg-normal) 102.79%)"
       _hover={{
         filter: "brightness(1.15)",
       }}
@@ -18,7 +18,11 @@ export default function GoHomeButton() {
       onClick={() => navigate("/")}
     >
       <chakra.img src={ArrowLeft} alt="arrow left" w="25px" h="25px" />
-      <Text fontSize={"14px"} color={"#C7CCD9"} fontWeight={"medium"}>
+      <Text
+        fontSize={"14px"}
+        color={"var(--normal-text-color)"}
+        fontWeight={"medium"}
+      >
         Back to home
       </Text>
     </Button>

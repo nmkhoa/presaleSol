@@ -18,7 +18,7 @@ export const SignMessageModal = ({ showModal }: Props) => {
             gap={3}
             py={"30px"}
             position="relative"
-            bg="linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"
+            bg="linear-gradient(143.45deg, var(--card-bg-light) 10.97%, var(--card-bg-normal) 56.87%)"
             borderRadius="2xl"
             boxShadow="xl"
             zIndex={1}

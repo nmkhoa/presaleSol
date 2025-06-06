@@ -30,7 +30,7 @@ const ConnectWalletButton = () => {
           <Dialog.Trigger>
             <Flex
               overflow={"hidden"}
-              border={"1px solid #40475C"}
+              border={"1px solid var(--border-method-normal)"}
               borderRadius={"6px"}
             >
               <Box
@@ -66,7 +66,7 @@ const ConnectWalletButton = () => {
               <Box
                 p={"20px"}
                 background={
-                  "linear-gradient(145.6deg, #14161B 40.65%, #15161C 95.33%)"
+                  "linear-gradient(145.6deg, var(--bg-sold-light) 40.65%, var(--bg-sold-normal) 95.33%)"
                 }
                 borderRadius={"8px"}
               >
@@ -78,7 +78,9 @@ const ConnectWalletButton = () => {
                   my={"8px"}
                   padding={"8px"}
                   alignItems={"center"}
-                  border={"1px solid var(--Color-Neutral-600, #40475C)"}
+                  border={
+                    "1px solid var(--Color-Neutral-600, var(--border-method-normal))"
+                  }
                   borderRadius={"12px"}
                 >
                   <Image
@@ -93,7 +95,7 @@ const ConnectWalletButton = () => {
                     <Text fontSize={"18px"} fontWeight={600}>
                       {wallet?.adapter?.name || ""}
                     </Text>
-                    <Text color={"#6E758A"} fontWeight={600}>
+                    <Text color={"var(--table-head-color)"} fontWeight={600}>
                       {getAddressFormat(publicKey?.toBase58() ?? "")}
                     </Text>
                   </Box>
@@ -113,7 +115,7 @@ const ConnectWalletButton = () => {
                   <Button
                     className="col-span-2"
                     background={
-                      "linear-gradient(90deg, #2F3138 0%, #1C1F2C 111.06%)"
+                      "linear-gradient(90deg, var(--btn-secondary-bg-medium) 0%, var(--bnt-secondary-bg-semi) 111.06%)"
                     }
                     color={"white"}
                     onClick={() => onDisconnectWallet()}

@@ -298,7 +298,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
       <Text
         mt={"16px"}
         fontSize={"12px"}
-        color={"#C7CCD9"}
+        color={"var(--normal-text-color)"}
         fontWeight={500}
         xl={{ mt: "36px", fontSize: "14px" }}
       >
@@ -318,10 +318,14 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
               p={"8px"}
               border={
                 method.key === item.key
-                  ? "1px solid #FFAF40"
-                  : "1px solid #40475C"
+                  ? "1px solid var(--border-method-active)"
+                  : "1px solid var(--border-method-normal)"
               }
-              background={method.key === item.key ? "#1A1001" : "transparent"}
+              background={
+                method.key === item.key
+                  ? "var(--btn-white-color)"
+                  : "transparent"
+              }
               alignItems={"center"}
               justifyContent={"center"}
               lineHeight={"20px"}
@@ -329,7 +333,11 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
               fontWeight={700}
               fontSize={"12px"}
               cursor={"pointer"}
-              color={method.key === item.key ? "#FFAF40" : "#FFFFFF"}
+              color={
+                method.key === item.key
+                  ? "var(--border-method-active)"
+                  : "var(--color-white)"
+              }
               onClick={() => {
                 setMethod(item);
                 setInputAmount("");
@@ -354,7 +362,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
           <Text
             mt={"24px"}
             fontSize={"12px"}
-            color={"#C7CCD9"}
+            color={"var(--normal-text-color)"}
             fontWeight={500}
             xl={{
               fontSize: "14px",
@@ -369,11 +377,11 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
             fontSize={"12px"}
             alignItems={"center"}
             borderRadius={"8px"}
-            background={"rgba(0, 0, 0, 0.35)"}
+            background={"var(--bg-input-amount)"}
             border={
               !inputType && errorMessage
-                ? "1px solid var(--Color-Red-600, #D92D20)"
-                : "1px solid var(--Color-Neutral-600, #40475C)"
+                ? "1px solid var(--Color-Red-600, var(--input-error-border))"
+                : "1px solid var(--Color-Neutral-600, var(--border-method-normal))"
             }
             xl={{
               p: "16px",
@@ -406,7 +414,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
           <Text
             mt={"24px"}
             fontSize={"12px"}
-            color={"#C7CCD9"}
+            color={"var(--normal-text-color)"}
             fontWeight={500}
             xl={{
               fontSize: "14px",
@@ -421,11 +429,11 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
             fontSize={"12px"}
             alignItems={"center"}
             borderRadius={"8px"}
-            background={"rgba(0, 0, 0, 0.35)"}
+            background={"var(--bg-input-amount)"}
             border={
               inputType && errorMessage
-                ? "1px solid var(--Color-Red-600, #D92D20)"
-                : "1px solid var(--Color-Neutral-600, #40475C)"
+                ? "1px solid var(--Color-Red-600, var(--input-error-border))"
+                : "1px solid var(--Color-Neutral-600, var(--border-method-normal))"
             }
             xl={{
               p: "16px",
@@ -458,7 +466,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
         mt={"8px"}
         fontSize={"12px"}
         fontWeight={"16px"}
-        color={"#F04438"}
+        color={"var(--error-message-color)"}
       >
         {errorMessage}
       </Text>
@@ -485,7 +493,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
       <Text
         mt={"18px"}
         pb={"10px"}
-        color={"#FF9A0D"}
+        color={"var(--text-primary-link-color)"}
         textAlign={"center"}
         fontWeight={700}
         fontSize={"12px"}
@@ -497,7 +505,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
           mt: "20px",
           fontSize: "16px",
         }}
-        _hover={{ color: "#FFAF40" }}
+        _hover={{ color: "var(--border-method-active)" }}
         onClick={() => onScrollView(navKey.invite)}
       >
         Get rewards of {rewardRate}%

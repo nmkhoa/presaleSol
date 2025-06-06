@@ -56,7 +56,7 @@ export default function ReferralInfoPanel() {
             <Text
               fontSize={{ base: "18px", md: "20px", "2xl": "24px" }}
               fontWeight={700}
-              color={"#FFFFFF"}
+              color={"var(--color-white)"}
             >
               Your Network = Your Reward!
             </Text>
@@ -69,7 +69,7 @@ export default function ReferralInfoPanel() {
               <Box flex={"1 1 50%"}>
                 <Text
                   fontSize={{ base: "12px", md: "14px", "2xl": "16px" }}
-                  color={"#06070A"}
+                  color={"var(--progress-out-bg)"}
                   fontWeight={500}
                   textAlign={"left"}
                 >
@@ -82,16 +82,16 @@ export default function ReferralInfoPanel() {
                   <Box
                     w={{ base: "100%", xl: "317px" }}
                     h={"40px"}
-                    background={"#000000"}
+                    background={"var(--bg-color)"}
                     rounded={"8px"}
-                    border={"1px solid #40475C"}
+                    border={"1px solid var(--border-method-normal)"}
                     px={"16px"}
                     display="flex"
                     alignItems="center"
                   >
                     <Text
                       fontSize={"12px"}
-                      color={"#FFEED6"}
+                      color={"var(--color-input"}
                       fontWeight={500}
                       w={"100%"}
                       whiteSpace="nowrap"
@@ -115,9 +115,9 @@ export default function ReferralInfoPanel() {
                       <Button
                         w={"62px"}
                         p={"12px"}
-                        background="#FFFFFF"
+                        background="var(--color-white)"
                         rounded={"8px"}
-                        color={"#1A1001"}
+                        color={"var(--btn-white-color)"}
                         fontWeight={700}
                         fontSize={{ base: "12px", xl: "14px" }}
                         _hover={{ filter: "brightness(1.3)" }}
@@ -133,7 +133,7 @@ export default function ReferralInfoPanel() {
         </Box>
         <Box
           background={
-            "linear-gradient(143.45deg, #17191F 10.97%, #1B1D24 56.87%)"
+            "linear-gradient(143.45deg, var(--card-bg-light) 10.97%, var(--card-bg-normal) 56.87%)"
           }
           w="full"
           h="600px"
@@ -145,14 +145,14 @@ export default function ReferralInfoPanel() {
             <Text
               fontWeight={700}
               fontSize={{ base: "14px", md: "18px" }}
-              color={"#FFFFFF"}
+              color={"var(--color-white)"}
             >
               Your wallet for claiming rewards
             </Text>
             <Box
               w={"full"}
               h={"50px"}
-              background={"#050507"}
+              background={"var(--referral-info-bg)"}
               rounded={"8px"}
               display={"flex"}
               alignItems={"center"}
@@ -167,7 +167,7 @@ export default function ReferralInfoPanel() {
                 <Text
                   fontWeight={500}
                   fontSize={{ base: "14px", md: "16px", xl: "18px" }}
-                  color={"#6E758A"}
+                  color={"var(--table-head-color)"}
                 >
                   {user ? getAddressFormat(user.walletAddress) : ""}
                 </Text>
@@ -191,7 +191,7 @@ export default function ReferralInfoPanel() {
                   px={"12px"}
                   fontWeight={500}
                   fontSize={{ base: "12px", md: "14px", xl: "16px" }}
-                  color={"#6E758A"}
+                  color={"var(--table-head-color)"}
                 >
                   Address
                 </Text>
@@ -199,7 +199,7 @@ export default function ReferralInfoPanel() {
                 <Text
                   px={"12px"}
                   fontWeight={500}
-                  color={"#6E758A"}
+                  color={"var(--table-head-color)"}
                   fontSize={{ base: "12px", md: "14px", xl: "16px" }}
                   textAlign={"left"}
                 >
@@ -209,7 +209,7 @@ export default function ReferralInfoPanel() {
                 <Text
                   px={"12px"}
                   fontWeight={500}
-                  color={"#6E758A"}
+                  color={"var(--table-head-color)"}
                   textAlign={"right"}
                   fontSize={{ base: "12px", md: "14px", xl: "16px" }}
                 >
@@ -248,20 +248,24 @@ export default function ReferralInfoPanel() {
                       <Box
                         key={index}
                         py={"18px"}
-                        background={"#15171F"}
+                        background={"var(--transaction-bg)"}
                         borderRadius={"8px"}
                         fontSize={{ base: "12px", md: "14px", xl: "16px" }}
                         className="grid grid-cols-3"
                         wordBreak="break-word"
                       >
-                        <Text px={"12px"} fontWeight={500} color={"#C7CCD9"}>
+                        <Text
+                          px={"12px"}
+                          fontWeight={500}
+                          color={"var(--normal-text-color)"}
+                        >
                           {getAddressFormat(data.referral) || "-"}
                         </Text>
                         <Flex
                           gap={"2px"}
                           px={"12px"}
                           fontWeight={500}
-                          color={"#C7CCD9"}
+                          color={"var(--normal-text-color)"}
                         >
                           {getNumberFixed(
                             data.totalTokenReward,
@@ -273,7 +277,7 @@ export default function ReferralInfoPanel() {
                         <Text
                           px={"16px"}
                           fontWeight={500}
-                          color={"#C7CCD9"}
+                          color={"var(--normal-text-color)"}
                           textAlign={"right"}
                         >
                           {formatTimeAgo(data.blockTime) || "-"}

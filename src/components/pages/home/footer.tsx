@@ -90,7 +90,7 @@ const FooterHome = () => {
                     }}
                     outline={"none"}
                     target="_blank"
-                    color={"#FAFAFA"}
+                    color={"var(--footer-text-color)"}
                   >
                     {item.title}
                   </Link>
@@ -98,7 +98,7 @@ const FooterHome = () => {
               })}
             </Flex>
           </Flex>
-          <Box w={"100%"} h={"1px"} background={"#FAFAFA"} opacity={"10%"} />
+          <Box w={"100%"} h={"1px"} background={"var(--color-line)"} />
           <Flex
             maxW={"1240px"}
             mx={"auto"}
@@ -126,7 +126,7 @@ const FooterHome = () => {
                 fontWeight={500}
                 target="_blank"
                 outline={"none"}
-                color={"#FAFAFA"}
+                color={"var(--footer-text-color)"}
               >
                 Privacy Policy
               </Link>
@@ -135,7 +135,7 @@ const FooterHome = () => {
                 fontWeight={500}
                 target="_blank"
                 outline={"none"}
-                color={"#FAFAFA"}
+                color={"var(--footer-text-color)"}
               >
                 Terms and Conditions
               </Link>
@@ -143,11 +143,13 @@ const FooterHome = () => {
                 href={`mailto:${policyLink.privacyPolicy}`}
                 fontWeight={500}
                 outline={"none"}
-                color={"#FAFAFA"}
+                color={"var(--footer-text-color)"}
               >
                 <Flex gap={"4px"} fontWeight={500}>
                   Contact
-                  <Text color={"#FF9A0D"}>hi@unich.com</Text>
+                  <Text color={"var(--text-primary-link-color)"}>
+                    hi@unich.com
+                  </Text>
                 </Flex>
               </Link>
             </Flex>
@@ -160,7 +162,7 @@ const FooterHome = () => {
               xl={{ w: "171px", h: "36px" }}
             />
           </Flex>
-          <Box w={"100%"} h={"1px"} background={"#FAFAFA"} opacity={"10%"} />
+          <Box w={"100%"} h={"1px"} background={"var(--color-line)"} />
           <Flex
             maxW={"1240px"}
             mx={"auto"}

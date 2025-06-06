@@ -103,7 +103,7 @@ const Products = () => {
             maxW={"600px"}
             mt={"16px"}
             mx={"auto"}
-            color={"#C7CCD9"}
+            color={"var(--normal-text-color)"}
             fontWeight={500}
             fontSize={"14px"}
             md={{
@@ -133,7 +133,7 @@ const Products = () => {
             <Text
               fontSize={"24px"}
               fontWeight={700}
-              color={"#FFA915"}
+              color={"var(--total-user-color)"}
               lineHeight={"28px"}
             >
               4,000,000+
@@ -141,7 +141,7 @@ const Products = () => {
             <Text
               fontSize={"18px"}
               fontWeight={700}
-              color={"#C7CCD9"}
+              color={"var(--normal-text-color)"}
               lineHeight={"24px"}
             >
               Users
@@ -151,7 +151,9 @@ const Products = () => {
 
         <Flex
           w={"100%"}
-          background={"linear-gradient(143.45deg, #111423 100%, #0A0C15 100%)"}
+          background={
+            "linear-gradient(143.45deg, var(--pre-market-bg-light) 100%, var(--pre-market-bg-normal) 100%)"
+          }
           borderRadius={"16px"}
           flexDirection={"column"}
           md={{
@@ -181,7 +183,7 @@ const Products = () => {
               <Text
                 fontSize={"16px"}
                 fontWeight={"700"}
-                color={"#FFAF40"}
+                color={"var(--border-method-active)"}
                 md={{ fontSize: "20px" }}
                 xl={{ fontSize: "24px" }}
               >
@@ -190,7 +192,7 @@ const Products = () => {
               <Text
                 fontSize={"12px"}
                 fontWeight={700}
-                color={"#C7CCD9"}
+                color={"var(--normal-text-color)"}
                 md={{ fontSize: "16px" }}
                 xl={{ fontSize: "18px" }}
               >
@@ -290,7 +292,9 @@ const Products = () => {
         mx={"auto"}
         mt={"20px"}
         pt={"44px"}
-        background={"linear-gradient(143.45deg, #111423 100%, #0A0C15 100%)"}
+        background={
+          "linear-gradient(143.45deg, var(--pre-market-bg-light) 100%, var(--pre-market-bg-normal) 100%)"
+        }
         borderRadius={"16px"}
         md={{ h: "346px" }}
         xl={{
@@ -318,7 +322,7 @@ const Products = () => {
             w={"100%"}
             padding={"20px 16px 16px"}
             background={
-              "linear-gradient(0deg, #05060C 20%, rgba(0, 0, 0, 0) 95%)"
+              "linear-gradient(0deg, var(--pre-order-bg-light) 20%, var(--bg-color) 95%)"
             }
             gap={"0px"}
             borderRadius={"16px"}
@@ -360,7 +364,7 @@ const Products = () => {
                   <Text
                     fontSize={"16px"}
                     fontWeight={700}
-                    color={"#FFAF40"}
+                    color={"var(--border-method-active)"}
                     md={{ fontSize: "20px" }}
                     xl={{ fontSize: "24px" }}
                   >
@@ -422,7 +426,9 @@ const Products = () => {
         mx={"auto"}
         mt={"20px"}
         pt={"44px"}
-        background={"linear-gradient(143.45deg, #111423 100%, #0A0C15 100%)"}
+        background={
+          "linear-gradient(143.45deg, var(--pre-market-bg-light) 100%, var(--pre-market-bg-normal) 100%)"
+        }
         borderRadius={"16px"}
         md={{ h: "346px" }}
         xl={{
@@ -447,7 +453,7 @@ const Products = () => {
             w={"100%"}
             padding={"20px 16px 16px"}
             background={
-              "linear-gradient(0deg, #05060C 20%, rgba(0, 0, 0, 0) 95%)"
+              "linear-gradient(0deg, var(--pre-order-bg-light) 20%, var(--bg-color) 95%)"
             }
             gap={"0px"}
             borderRadius={"16px"}
@@ -485,7 +491,7 @@ const Products = () => {
                   <Text
                     fontSize={"16px"}
                     fontWeight={700}
-                    color={"#FFAF40"}
+                    color={"var(--border-method-active)"}
                     md={{ fontSize: "20px" }}
                     xl={{ fontSize: "24px" }}
                   >
@@ -503,7 +509,8 @@ const Products = () => {
                   fontSize: "16px",
                 }}
               >
-                Pre-buy & pre-sell tokens at any price and profit within the day.
+                Pre-buy & pre-sell tokens at any price and profit within the
+                day.
               </Text>
             </Box>
             <Flex
