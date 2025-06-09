@@ -384,7 +384,9 @@ const InviteAndEarn = () => {
               onClick={checkConnected}
               className="btn-gradient-secondary"
             >
-              <Box p={"10px"}>Go to dashboard</Box>
+              <Box p={"10px"} fontWeight={700}>
+                Go to dashboard
+              </Box>
             </Link>
           </Box>
         </Box>

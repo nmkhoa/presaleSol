@@ -102,7 +102,11 @@ export const Toaster = () => {
                   </Toast.Title>
                 )}
                 {toast.description && (
-                  <Toast.Description fontSize={"16px"} fontWeight={"normal"}>
+                  <Toast.Description
+                    color={"white"}
+                    fontSize={"16px"}
+                    fontWeight={"normal"}
+                  >
                     {toast.description}
                     {toast.meta?.url && toast?.meta?.urlTile && (
                       <Link

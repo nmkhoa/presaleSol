@@ -334,10 +334,13 @@ const Products = () => {
               gap: "100px",
             }}
           >
-            <Box>
-              <Box display={"flex"} md={{ display: "block" }}>
+            <Box w={"100%"}>
+              <Box
+                display={"flex"}
+                justifyContent={"space-between"}
+                md={{ display: "block" }}
+              >
                 <Text
-                  minW={"200px"}
                   className="text-secondary"
                   fontSize={"24px"}
                   fontWeight={700}
@@ -356,7 +359,8 @@ const Products = () => {
                     fontSize={"12px"}
                     fontWeight={700}
                     whiteSpace={"nowrap"}
-                    md={{ fontSize: "14px" }}
+                    ml={"auto"}
+                    md={{ ml: 0, fontSize: "14px" }}
                     xl={{ fontSize: "18px" }}
                   >
                     Total Volume:
@@ -365,7 +369,8 @@ const Products = () => {
                     fontSize={"16px"}
                     fontWeight={700}
                     color={"var(--border-method-active)"}
-                    md={{ fontSize: "20px" }}
+                    ml={"auto"}
+                    md={{ ml: 0, fontSize: "20px" }}
                     xl={{ fontSize: "24px" }}
                   >
                     $
@@ -461,10 +466,13 @@ const Products = () => {
             flexDirection={"column"}
             md={{ p: "30px 24px 24px", flexDirection: "row", gap: "100px" }}
           >
-            <Box>
-              <Box display={"flex"} md={{ display: "block" }}>
+            <Box w={"100%"}>
+              <Box
+                display={"flex"}
+                justifyContent={"space-between"}
+                md={{ display: "block" }}
+              >
                 <Text
-                  minW={"200px"}
                   className="text-secondary"
                   fontSize={"24px"}
                   fontWeight={700}
@@ -483,7 +491,8 @@ const Products = () => {
                     fontSize={"12px"}
                     fontWeight={700}
                     whiteSpace={"nowrap"}
-                    md={{ fontSize: "14px" }}
+                    ml={"auto"}
+                    md={{ ml: 0, fontSize: "14px" }}
                     xl={{ fontSize: "18px" }}
                   >
                     Total Volume:
@@ -492,7 +501,8 @@ const Products = () => {
                     fontSize={"16px"}
                     fontWeight={700}
                     color={"var(--border-method-active)"}
-                    md={{ fontSize: "20px" }}
+                    ml={"auto"}
+                    md={{ ml: 0, fontSize: "20px" }}
                     xl={{ fontSize: "24px" }}
                   >
                     $
