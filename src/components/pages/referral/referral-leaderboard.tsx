@@ -1,6 +1,6 @@
 import { useCurrentRank, useLeaderboard } from "@/core/hook/use-users";
 import { useAuthStore } from "@/stores/auth.store";
-import { getAddressFormat, getNumberFixed } from "@/utils";
+import { formatAmount, getAddressFormat, getNumberFixed } from "@/utils";
 import { Box, Flex, Grid, HStack, Image, Text } from "@chakra-ui/react";
 import { useCallback, useRef, useState } from "react";
 
@@ -186,7 +186,7 @@ export default function ReferralLeaderboard() {
                       color={"var(--normal-text-color)"}
                       textAlign={"right"}
                     >
-                      ${getNumberFixed(data.totalReward, 2)}
+                      ${formatAmount(getNumberFixed(data.totalReward, 2))}
                     </Text>
                   </Box>
                 );
@@ -232,7 +232,7 @@ export default function ReferralLeaderboard() {
               color={"var(--normal-text-color)"}
               textAlign={"right"}
             >
-              ${getNumberFixed(currentRank.totalReward, 2)}
+              ${formatAmount(getNumberFixed(currentRank.totalReward, 2))}
             </Text>
           </Box>
         )}
