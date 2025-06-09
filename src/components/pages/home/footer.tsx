@@ -10,7 +10,7 @@ const FooterHome = () => {
     <Box pt={"40px"} md={{ pt: "70px" }} xl={{ pt: "180px" }}>
       <Image
         src="/images/unich.svg"
-        w={"90%"}
+        w={"100%"}
         h={"auto"}
         mx={"auto"}
         alt="unich"

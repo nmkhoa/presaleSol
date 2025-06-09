@@ -127,11 +127,12 @@ const InviteAndEarn = () => {
   return (
     <Box id={navKey.invite}>
       <Flex
-        w={"fit-content"}
+        w={"100%"}
         gap={"16px"}
         mx={"auto"}
         pt={"70px"}
         alignItems={"center"}
+        justifyContent={"center"}
         flexDirection={"column"}
         md={{
           px: "44px",
@@ -147,6 +148,7 @@ const InviteAndEarn = () => {
         <Box
           w={"100%"}
           p={"8px"}
+          maxW={"524px"}
           background={"url(/images/invite_bg.svg)"}
           backgroundSize={"cover"}
           backgroundRepeat={"no-repeat"}
@@ -154,12 +156,12 @@ const InviteAndEarn = () => {
           display={"flex"}
           alignItems={"end"}
           md={{
-            w: "680px",
+            maxW: "680px",
             p: "20px",
           }}
           xl={{
             display: "block",
-            w: "505px",
+            maxW: "505px",
           }}
         >
           <Box w={"100%"}>
@@ -269,6 +271,7 @@ const InviteAndEarn = () => {
         </Box>
         <Box
           w={"100%"}
+          maxW={"524px"}
           minH={"100%"}
           p={"12px"}
           background={
@@ -276,11 +279,11 @@ const InviteAndEarn = () => {
           }
           borderRadius={"12px"}
           md={{
-            w: "680px",
+            maxW: "680px",
             p: "20px",
           }}
           xl={{
-            w: "715px",
+            maxW: "715px",
           }}
         >
           <Flex
