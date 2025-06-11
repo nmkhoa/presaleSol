@@ -73,14 +73,14 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
     index: number,
     isLast: boolean
   ) => {
-    let currentInputAmount = maxPriceByNFT;
+    const price = getPriceByMethod();
+    let currentInputAmount = maxPriceByNFT / price;
     if (!index && isLast) {
       currentInputAmount = +inputAmount;
     }
-    const price = getPriceByMethod();
     if (isLast && index) {
       currentInputAmount =
-        (+inputAmount * price - maxPriceByNFT * price * index) / (price || 1);
+        (+inputAmount * price - maxPriceByNFT * index) / (price || 1);
     }
     if (method.key === paymentMethods[0].key) {
       const solUsdPriceFeedAccount = pythSolanaReceiver

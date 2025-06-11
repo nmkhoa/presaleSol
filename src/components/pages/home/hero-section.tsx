@@ -70,44 +70,53 @@ const HeroSection = () => {
 
   const getAllNft = async () => {
     if (!publicKey) return;
-    const response = await connection.getParsedTokenAccountsByOwner(publicKey, {
-      programId: TOKEN_PROGRAM_ID,
-    });
-    if (response?.value?.length) {
-      const result = response.value
-        .map((accountInfo) => {
-          return {
-            publicKey: accountInfo?.pubkey?.toBase58() || "",
-            mint: accountInfo?.account?.data?.parsed?.info?.mint || "",
-            owner: accountInfo?.account?.data?.parsed?.info?.owner || "",
-            decimals: +(
-              accountInfo?.account?.data?.parsed?.info?.tokenAmount?.decimals ||
-              0
-            ),
-            amount: +(
-              accountInfo?.account?.data?.parsed?.info?.tokenAmount?.amount || 0
-            ),
-          };
-        })
-        ?.filter(
-          (accountInfo) => !accountInfo?.decimals && accountInfo?.amount
-        );
-      let param = "";
-      result?.forEach((data, index) => {
-        if (!index) {
-          param += data.mint;
-        } else {
-          param += `;${data.mint}`;
+    try {
+      const response = await connection.getParsedTokenAccountsByOwner(
+        publicKey,
+        {
+          programId: TOKEN_PROGRAM_ID,
         }
-      });
-      const res = await getUnichNFT(param);
-      let lastNftOwned: CollectionNftType[] = [];
-      if (res?.length) {
-        lastNftOwned = result?.filter((nft) =>
-          res?.some((value) => value?.nftAddress === nft?.mint)
-        );
+      );
+      if (response?.value?.length) {
+        const result = response.value
+          .map((accountInfo) => {
+            return {
+              publicKey: accountInfo?.pubkey?.toBase58() || "",
+              mint: accountInfo?.account?.data?.parsed?.info?.mint || "",
+              owner: accountInfo?.account?.data?.parsed?.info?.owner || "",
+              decimals: +(
+                accountInfo?.account?.data?.parsed?.info?.tokenAmount
+                  ?.decimals || 0
+              ),
+              amount: +(
+                accountInfo?.account?.data?.parsed?.info?.tokenAmount?.amount ||
+                0
+              ),
+            };
+          })
+          ?.filter(
+            (accountInfo) => !accountInfo?.decimals && accountInfo?.amount
+          );
+        let param = "";
+        result?.forEach((data, index) => {
+          if (!index) {
+            param += data.mint;
+          } else {
+            param += `;${data.mint}`;
+          }
+        });
+        const res = await getUnichNFT(param);
+        let lastNftOwned: CollectionNftType[] = [];
+        if (res?.length) {
+          lastNftOwned = result?.filter((nft) =>
+            res?.some((value) => value?.nftAddress === nft?.mint)
+          );
+        }
+        setCollectionNft(lastNftOwned);
       }
-      setCollectionNft(lastNftOwned);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      setCollectionNft([]);
     }
   };
 
