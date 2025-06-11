@@ -3,6 +3,7 @@ const basePaths = {
   Users: "/users",
   TOKEN: "/token-purchased",
   referral: "/referral",
+  nft: "/nfts",
 };
 export const endpoints = {
   AUTH: {
@@ -19,5 +20,8 @@ export const endpoints = {
     REWARD_SUMMARY: `${basePaths.referral}/referrer-reward-summary`,
     CURRENT_RANK: `${basePaths.referral}/referrer-reward-rank`,
     LEADERBOARD: `${basePaths.referral}/referrer-reward-leaderboard`,
+  },
+  NFT: {
+    GET_NFT: basePaths.nft,
   },
 };

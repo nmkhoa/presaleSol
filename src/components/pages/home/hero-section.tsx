@@ -9,7 +9,6 @@ import PublicSale from "../../home/public-sale";
 import Whitelist from "../../home/whitelist";
 import InviteAndEarn from "../../home/invite-earn";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { PublicKey } from "@solana/web3.js";
 import { useUnichProgram } from "@/hooks/use-program";
 import {
   baseNumbSolValue,
@@ -17,15 +16,24 @@ import {
   basePriceValue,
 } from "@/constants/contract";
 import { navKey, paymentMethods } from "@/constants/home";
-import { getAccount, getAssociatedTokenAddress } from "@solana/spl-token";
+import {
+  getAccount,
+  getAssociatedTokenAddress,
+  TOKEN_PROGRAM_ID,
+} from "@solana/spl-token";
 import { useTokenStore } from "@/stores/token.store";
 import { request } from "@/config/request";
-import { feedIdSolana, nftAddress } from "@/constants/environment";
+import { feedIdSolana } from "@/constants/environment";
 import { useNftStore } from "@/stores/whitelist.store";
 import { useSolSale, useSolUser } from "@/core/hook/use-sol-user";
+import { PublicKey } from "@solana/web3.js";
+import { getUnichNFT } from "@/core/services/sol.service";
+import { useAuthStore } from "@/stores/auth.store";
+import type { CollectionNftType } from "@/types/user/user.interface";
 
 const HeroSection = () => {
   const [tab, setTab] = useState(0);
+  const { user } = useAuthStore();
   const { wallet, publicKey, connected } = useWallet();
   const { setSolUserAccountInfo, setSolSaleAccountInfo } = useTokenStore();
   const program = useUnichProgram();
@@ -36,7 +44,7 @@ const HeroSection = () => {
     setTokenBalanceUsdc,
     setTokenBalanceUsdt,
   } = useTokenStore();
-  const { setNft } = useNftStore();
+  const { setCollectionNft } = useNftStore();
   const { mutateAsync: getSolSaleAccount } = useSolSale();
   const { mutateAsync: getSolUserAccount } = useSolUser();
 
@@ -60,30 +68,54 @@ const HeroSection = () => {
     });
   }, []);
 
-  const getMyNft = async () => {
+  const getAllNft = async () => {
     if (!publicKey) return;
-    const nftMintAddress = new PublicKey(nftAddress);
-    const associatedTokenAddress = await getAssociatedTokenAddress(
-      nftMintAddress,
-      publicKey
-    );
-    const tokenAccount = await connection.getParsedAccountInfo(
-      associatedTokenAddress
-    );
-    if (
-      tokenAccount.value &&
-      "parsed" in tokenAccount.value.data &&
-      tokenAccount?.value?.data?.parsed?.info
-    ) {
-      setNft(tokenAccount?.value?.data?.parsed?.info);
-    } else {
-      setNft(null);
+    const response = await connection.getParsedTokenAccountsByOwner(publicKey, {
+      programId: TOKEN_PROGRAM_ID,
+    });
+    if (response?.value?.length) {
+      const result = response.value
+        .map((accountInfo) => {
+          return {
+            publicKey: accountInfo?.pubkey?.toBase58() || "",
+            mint: accountInfo?.account?.data?.parsed?.info?.mint || "",
+            owner: accountInfo?.account?.data?.parsed?.info?.owner || "",
+            decimals: +(
+              accountInfo?.account?.data?.parsed?.info?.tokenAmount?.decimals ||
+              0
+            ),
+            amount: +(
+              accountInfo?.account?.data?.parsed?.info?.tokenAmount?.amount || 0
+            ),
+          };
+        })
+        ?.filter(
+          (accountInfo) => !accountInfo?.decimals && accountInfo?.amount
+        );
+      let param = "";
+      result?.forEach((data, index) => {
+        if (!index) {
+          param += data.mint;
+        } else {
+          param += `;${data.mint}`;
+        }
+      });
+      const res = await getUnichNFT(param);
+      let lastNftOwned: CollectionNftType[] = [];
+      if (res?.length) {
+        lastNftOwned = result?.filter((nft) =>
+          res?.some((value) => value?.nftAddress === nft?.mint)
+        );
+      }
+      setCollectionNft(lastNftOwned);
     }
   };
 
   useEffect(() => {
-    getMyNft();
-  }, [publicKey, connection]);
+    if (user?.id) {
+      getAllNft();
+    }
+  }, [publicKey, connection, user]);
 
   useEffect(() => {
     if (publicKey) {
@@ -361,7 +393,7 @@ const HeroSection = () => {
               )}
               {!!tab && (
                 <Whitelist
-                  getMyNft={getMyNft}
+                  getMyNft={getAllNft}
                   fetchSaleAccount={fetchSaleAccount}
                   fetchUserAccount={fetchUserAccount}
                 />

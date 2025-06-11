@@ -20,3 +20,11 @@ export interface NftInfoType {
   state: string;
   tokenAmount: NftInfoAmountType;
 }
+
+export interface CollectionNftType {
+  publicKey: string;
+  mint: string;
+  owner: string;
+  decimals: number;
+  amount: number;
+}

@@ -42,7 +42,7 @@ interface Props {
 }
 
 const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
-  const { nft } = useNftStore();
+  const { collectionNft } = useNftStore();
   const [method, setMethod] = useState(paymentMethods[0]);
   const { setShowModal } = useContext(ConnectWalletContext);
   const { solSaleAccountInfo } = useTokenStore();
@@ -61,7 +61,27 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
   const [inputReceive, setInputReceive] = useState("");
   const [inputType, setInputType] = useState(0);
 
-  const getPurchaseToken = async () => {
+  const getPriceByMethod = () => {
+    if (method.key === paymentMethods[0].key) return tokensPrice?.sol || 0;
+    if (method.key === paymentMethods[1].key) return tokensPrice?.usdc || 0;
+    if (method.key === paymentMethods[2].key) return tokensPrice?.usdt || 0;
+    return 0;
+  };
+
+  const getPurchaseToken = async (
+    nftMint: string,
+    index: number,
+    isLast: boolean
+  ) => {
+    let currentInputAmount = maxPriceByNFT;
+    if (!index && isLast) {
+      currentInputAmount = +inputAmount;
+    }
+    const price = getPriceByMethod();
+    if (isLast && index) {
+      currentInputAmount =
+        (+inputAmount * price - maxPriceByNFT * price * index) / (price || 1);
+    }
     if (method.key === paymentMethods[0].key) {
       const solUsdPriceFeedAccount = pythSolanaReceiver
         .getPriceFeedAccountAddress(0, feedIdSolana)
@@ -70,30 +90,35 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
         solUsdPriceFeedAccount
       );
       return await program!.methods
-        .purchaseTokensWithSolWhitelist(new BN(+inputAmount * baseNumbSolValue))
+        .purchaseTokensWithSolWhitelist(
+          new BN(currentInputAmount * baseNumbSolValue)
+        )
         .accounts({
           buyer: publicKey as Address | undefined,
           priceUpdate: solUsdPriceFeedAccountPubkey,
+          nftMint: new PublicKey(nftMint),
         })
         .instruction();
     }
     if (method.key === paymentMethods[1].key) {
       return await program!.methods
         .purchaseTokensWithUsdcWhitelist(
-          new BN(+inputAmount * baseNumbTokenValue)
+          new BN(currentInputAmount * baseNumbTokenValue)
         )
         .accounts({
           buyer: publicKey as Address | undefined,
+          nftMint: new PublicKey(nftMint),
         })
         .instruction();
     }
     if (method.key === paymentMethods[2].key) {
       return await program!.methods
         .purchaseTokensWithUsdtWhitelist(
-          new BN(+inputAmount * baseNumbTokenValue)
+          new BN(currentInputAmount * baseNumbTokenValue)
         )
         .accounts({
           buyer: publicKey as Address | undefined,
+          nftMint: new PublicKey(nftMint),
         })
         .instruction();
     }
@@ -103,10 +128,27 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
     if (!inputAmount || !publicKey || errorMessage) return;
     try {
       setLoadingPurchase(true);
+      const price = getPriceByMethod();
+      const inputUSD = +inputAmount * price;
+      const totalNFTToBurn = Math.ceil(inputUSD / maxPriceByNFT);
+      const nftCanUseToBurn = collectionNft?.filter(
+        (_, index) => index < totalNFTToBurn
+      );
       const transaction = new Transaction();
-      const purchaseIx = await getPurchaseToken();
-      if (purchaseIx) {
-        transaction.add(purchaseIx);
+      const purchaseIxs = await Promise.all(
+        nftCanUseToBurn?.map(async (nft, index) => {
+          return await getPurchaseToken(
+            nft.mint,
+            index,
+            index === nftCanUseToBurn?.length - 1
+          );
+        })
+      );
+      if (purchaseIxs && purchaseIxs?.length) {
+        purchaseIxs?.forEach((purchaseIx) => {
+          if (!purchaseIx) return null;
+          transaction.add(purchaseIx);
+        });
         const txHash = await provider!.sendAndConfirm(transaction, []);
         toaster.create({
           title: "Transaction Successful!",
@@ -189,13 +231,6 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
     setInputType(1);
   };
 
-  const getPriceByMethod = () => {
-    if (method.key === paymentMethods[0].key) return tokensPrice?.sol || 0;
-    if (method.key === paymentMethods[1].key) return tokensPrice?.usdc || 0;
-    if (method.key === paymentMethods[2].key) return tokensPrice?.usdt || 0;
-    return 0;
-  };
-
   const balanceByMethod = useMemo(() => {
     if (method.key === paymentMethods[0].key) return tokenBalanceSol;
     if (method.key === paymentMethods[1].key) return tokenBalanceUsdc;
@@ -209,7 +244,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
 
   const validateNftBy = () => {
     const priceByMethod = getPriceByMethod();
-    const maxAmountUSD = Number(nft?.tokenAmount?.amount || 0) * maxPriceByNFT;
+    const maxAmountUSD = collectionNft?.length * maxPriceByNFT;
     if (!inputType) {
       const maxToken = (maxAmountUSD || 0) / (priceByMethod || 1);
       if (getNumberFixed(inputAmount) > getNumberFixed(maxToken)) {
@@ -289,7 +324,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
   if (!connected) {
     return <SaleWithoutConnectWallet />;
   }
-  if (connected && !Number(nft?.tokenAmount?.amount || 0)) {
+  if (connected && !collectionNft?.length) {
     return <SaleWithoutNFT />;
   }
 

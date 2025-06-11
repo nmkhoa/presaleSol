@@ -6,10 +6,17 @@ import {
   saleAccountSeed,
   userAccountSeed,
 } from "@/constants/contract";
-import type { SaleAccountInfoType, UserAccountInfoType } from "@/types/home";
+import type {
+  NFTResponse,
+  SaleAccountInfoType,
+  UserAccountInfoType,
+} from "@/types/home";
 import { PublicKey } from "@solana/web3.js";
 import type { UnichPresaleContract } from "../../contracts/unich-presale-contract";
 import type { Program } from "@coral-xyz/anchor";
+import { request } from "@/config/request";
+import { endpoints } from "@/constants/api-endpoint";
+import type { AxiosError } from "axios";
 
 export const getSolSaleAccount = async ({
   program,
@@ -94,4 +101,20 @@ export const getSolUserAccount = async ({
     usdtRefEarned: accountData.usdtRefEarned.toString() / baseNumbUsdValue,
     tokenRefEarned: accountData.tokenRefEarned.toString() / baseNumbTokenValue,
   });
+};
+
+export const getUnichNFT = async (addresses: string) => {
+  return await request
+    .get<NFTResponse[]>(endpoints.NFT.GET_NFT, {
+      params: { addresses },
+    })
+    .then((response) => response.data)
+    .catch((error: AxiosError) => {
+      console.error("API Error:", error);
+      throw {
+        message: "An error occurred during authentication",
+        status: error.response?.status || 500,
+        // Sanitized error info for frontend
+      };
+    });
 };

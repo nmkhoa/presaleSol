@@ -1,5 +1,5 @@
 {
-  "address": "4R8pvK4qwZEtPYhf5ftkL6RitYophzHMfZuKQeDK95mK",
+  "address": "4iw9jAzzC8JRhKDgebeqREJDizaFVdzwdckraxG5yCAz",
   "metadata": {
     "name": "unich_presale_contract",
     "version": "0.1.0",
@@ -7,6 +7,202 @@
     "description": "Created with Anchor"
   },
   "instructions": [
+    {
+      "name": "add_admin",
+      "discriminator": [
+        177,
+        236,
+        33,
+        205,
+        124,
+        152,
+        55,
+        186
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "signer_admin_account",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  65,
+                  68,
+                  77,
+                  73,
+                  78,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "signer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "new_admin_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  65,
+                  68,
+                  77,
+                  73,
+                  78,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "new_admin"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "new_admin",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "add_nft",
+      "discriminator": [
+        55,
+        57,
+        85,
+        145,
+        81,
+        134,
+        220,
+        223
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "signer_admin_account",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  65,
+                  68,
+                  77,
+                  73,
+                  78,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "signer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "nft_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  78,
+                  70,
+                  84,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "new_nft"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "new_nft",
+          "type": "pubkey"
+        }
+      ]
+    },
     {
       "name": "change_round",
       "discriminator": [
@@ -27,7 +223,6 @@
         },
         {
           "name": "signer_admin_account",
-          "writable": true,
           "pda": {
             "seeds": [
               {
@@ -573,10 +768,6 @@
         {
           "name": "usdt_mint",
           "type": "pubkey"
-        },
-        {
-          "name": "nft_mint",
-          "type": "pubkey"
         }
       ]
     },
@@ -600,7 +791,6 @@
         },
         {
           "name": "signer_admin_account",
-          "writable": true,
           "pda": {
             "seeds": [
               {
@@ -755,392 +945,6 @@
       ]
     },
     {
-      "name": "initialize_sale_usdc_account",
-      "discriminator": [
-        150,
-        151,
-        219,
-        32,
-        39,
-        111,
-        55,
-        228
-      ],
-      "accounts": [
-        {
-          "name": "signer",
-          "writable": true,
-          "signer": true
-        },
-        {
-          "name": "signer_admin_account",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  65,
-                  68,
-                  77,
-                  73,
-                  78,
-                  95,
-                  65,
-                  67,
-                  67,
-                  79,
-                  85,
-                  78,
-                  84,
-                  95,
-                  83,
-                  69,
-                  69,
-                  68
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "signer"
-              }
-            ]
-          }
-        },
-        {
-          "name": "sale_account",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  83,
-                  65,
-                  76,
-                  69,
-                  95,
-                  65,
-                  67,
-                  67,
-                  79,
-                  85,
-                  78,
-                  84,
-                  95,
-                  83,
-                  69,
-                  69,
-                  68
-                ]
-              }
-            ]
-          }
-        },
-        {
-          "name": "usdc_mint",
-          "writable": true,
-          "relations": [
-            "config_account"
-          ]
-        },
-        {
-          "name": "sale_usdc_account",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "account",
-                "path": "sale_account"
-              },
-              {
-                "kind": "account",
-                "path": "token_program"
-              },
-              {
-                "kind": "account",
-                "path": "usdc_mint"
-              }
-            ],
-            "program": {
-              "kind": "const",
-              "value": [
-                140,
-                151,
-                37,
-                143,
-                78,
-                36,
-                137,
-                241,
-                187,
-                61,
-                16,
-                41,
-                20,
-                142,
-                13,
-                131,
-                11,
-                90,
-                19,
-                153,
-                218,
-                255,
-                16,
-                132,
-                4,
-                142,
-                123,
-                216,
-                219,
-                233,
-                248,
-                89
-              ]
-            }
-          }
-        },
-        {
-          "name": "config_account",
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  67,
-                  79,
-                  78,
-                  70,
-                  73,
-                  71,
-                  95,
-                  65,
-                  67,
-                  67,
-                  79,
-                  85,
-                  78,
-                  84,
-                  95,
-                  83,
-                  69,
-                  69,
-                  68
-                ]
-              }
-            ]
-          }
-        },
-        {
-          "name": "token_program",
-          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
-        },
-        {
-          "name": "associated_token_program",
-          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
-        },
-        {
-          "name": "system_program",
-          "address": "11111111111111111111111111111111"
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "initialize_sale_usdt_account",
-      "discriminator": [
-        148,
-        124,
-        14,
-        206,
-        254,
-        162,
-        111,
-        101
-      ],
-      "accounts": [
-        {
-          "name": "signer",
-          "writable": true,
-          "signer": true
-        },
-        {
-          "name": "signer_admin_account",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  65,
-                  68,
-                  77,
-                  73,
-                  78,
-                  95,
-                  65,
-                  67,
-                  67,
-                  79,
-                  85,
-                  78,
-                  84,
-                  95,
-                  83,
-                  69,
-                  69,
-                  68
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "signer"
-              }
-            ]
-          }
-        },
-        {
-          "name": "sale_account",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  83,
-                  65,
-                  76,
-                  69,
-                  95,
-                  65,
-                  67,
-                  67,
-                  79,
-                  85,
-                  78,
-                  84,
-                  95,
-                  83,
-                  69,
-                  69,
-                  68
-                ]
-              }
-            ]
-          }
-        },
-        {
-          "name": "usdt_mint",
-          "writable": true,
-          "relations": [
-            "config_account"
-          ]
-        },
-        {
-          "name": "sale_usdt_account",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "account",
-                "path": "sale_account"
-              },
-              {
-                "kind": "account",
-                "path": "token_program"
-              },
-              {
-                "kind": "account",
-                "path": "usdt_mint"
-              }
-            ],
-            "program": {
-              "kind": "const",
-              "value": [
-                140,
-                151,
-                37,
-                143,
-                78,
-                36,
-                137,
-                241,
-                187,
-                61,
-                16,
-                41,
-                20,
-                142,
-                13,
-                131,
-                11,
-                90,
-                19,
-                153,
-                218,
-                255,
-                16,
-                132,
-                4,
-                142,
-                123,
-                216,
-                219,
-                233,
-                248,
-                89
-              ]
-            }
-          }
-        },
-        {
-          "name": "config_account",
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  67,
-                  79,
-                  78,
-                  70,
-                  73,
-                  71,
-                  95,
-                  65,
-                  67,
-                  67,
-                  79,
-                  85,
-                  78,
-                  84,
-                  95,
-                  83,
-                  69,
-                  69,
-                  68
-                ]
-              }
-            ]
-          }
-        },
-        {
-          "name": "token_program",
-          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
-        },
-        {
-          "name": "associated_token_program",
-          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
-        },
-        {
-          "name": "system_program",
-          "address": "11111111111111111111111111111111"
-        }
-      ],
-      "args": []
-    },
-    {
       "name": "purchase_tokens_with_sol",
       "discriminator": [
         201,
@@ -1263,7 +1067,8 @@
           }
         },
         {
-          "name": "price_update"
+          "name": "price_update",
+          "optional": true
         },
         {
           "name": "system_program",
@@ -1361,10 +1166,39 @@
         },
         {
           "name": "nft_mint",
-          "writable": true,
-          "relations": [
-            "config_account"
-          ]
+          "writable": true
+        },
+        {
+          "name": "nft_account",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  78,
+                  70,
+                  84,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "nft_mint"
+              }
+            ]
+          }
         },
         {
           "name": "buyer_nft_account",
@@ -1455,7 +1289,8 @@
           }
         },
         {
-          "name": "price_update"
+          "name": "price_update",
+          "optional": true
         },
         {
           "name": "token_program",
@@ -1945,10 +1780,39 @@
         },
         {
           "name": "nft_mint",
-          "writable": true,
-          "relations": [
-            "config_account"
-          ]
+          "writable": true
+        },
+        {
+          "name": "nft_account",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  78,
+                  70,
+                  84,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "nft_mint"
+              }
+            ]
+          }
         },
         {
           "name": "buyer_nft_account",
@@ -2526,10 +2390,39 @@
         },
         {
           "name": "nft_mint",
-          "writable": true,
-          "relations": [
-            "config_account"
-          ]
+          "writable": true
+        },
+        {
+          "name": "nft_account",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  78,
+                  70,
+                  84,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "nft_mint"
+              }
+            ]
+          }
         },
         {
           "name": "buyer_nft_account",
@@ -2640,6 +2533,201 @@
       ]
     },
     {
+      "name": "remove_admin",
+      "discriminator": [
+        74,
+        202,
+        71,
+        106,
+        252,
+        31,
+        72,
+        183
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "signer_admin_account",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  65,
+                  68,
+                  77,
+                  73,
+                  78,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "signer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  65,
+                  68,
+                  77,
+                  73,
+                  78,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "admin"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "admin",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "update_contract_status",
+      "discriminator": [
+        131,
+        188,
+        75,
+        62,
+        150,
+        188,
+        224,
+        131
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "signer_admin_account",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  65,
+                  68,
+                  77,
+                  73,
+                  78,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "signer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "config_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  67,
+                  79,
+                  78,
+                  70,
+                  73,
+                  71,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "is_active",
+          "type": "bool"
+        }
+      ]
+    },
+    {
       "name": "update_sale_status",
       "discriminator": [
         237,
@@ -2659,7 +2747,6 @@
         },
         {
           "name": "signer_admin_account",
-          "writable": true,
           "pda": {
             "seeds": [
               {
@@ -2754,7 +2841,6 @@
         },
         {
           "name": "signer_admin_account",
-          "writable": true,
           "pda": {
             "seeds": [
               {
@@ -2818,38 +2904,6 @@
           }
         },
         {
-          "name": "config_account",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  67,
-                  79,
-                  78,
-                  70,
-                  73,
-                  71,
-                  95,
-                  65,
-                  67,
-                  67,
-                  79,
-                  85,
-                  78,
-                  84,
-                  95,
-                  83,
-                  69,
-                  69,
-                  68
-                ]
-              }
-            ]
-          }
-        },
-        {
           "name": "system_program",
           "address": "11111111111111111111111111111111"
         }
@@ -2870,16 +2924,16 @@
       ]
     },
     {
-      "name": "withdraw_funds",
+      "name": "withdraw_sol",
       "discriminator": [
-        241,
-        36,
-        29,
-        111,
-        208,
-        31,
-        104,
-        217
+        145,
+        131,
+        74,
+        136,
+        65,
+        137,
+        42,
+        38
       ],
       "accounts": [
         {
@@ -2889,7 +2943,6 @@
         },
         {
           "name": "signer_admin_account",
-          "writable": true,
           "pda": {
             "seeds": [
               {
@@ -2923,17 +2976,148 @@
           }
         },
         {
-          "name": "receiver"
+          "name": "receiver",
+          "writable": true
+        },
+        {
+          "name": "sale_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  83,
+                  65,
+                  76,
+                  69,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "config_account",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  67,
+                  79,
+                  78,
+                  70,
+                  73,
+                  71,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdraw_usdc",
+      "discriminator": [
+        114,
+        49,
+        72,
+        184,
+        27,
+        156,
+        243,
+        155
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "signer_admin_account",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  65,
+                  68,
+                  77,
+                  73,
+                  78,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "signer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "receiver",
+          "writable": true
         },
         {
           "name": "usdc_mint",
-          "writable": true,
-          "relations": [
-            "config_account"
-          ]
-        },
-        {
-          "name": "usdt_mint",
           "writable": true,
           "relations": [
             "config_account"
@@ -3027,13 +3211,13 @@
           }
         },
         {
-          "name": "sale_usdt_account",
+          "name": "receiver_usdc_account",
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "account",
-                "path": "sale_account"
+                "path": "receiver"
               },
               {
                 "kind": "account",
@@ -3041,7 +3225,7 @@
               },
               {
                 "kind": "account",
-                "path": "usdt_mint"
+                "path": "usdc_mint"
               }
             ],
             "program": {
@@ -3084,13 +3268,157 @@
           }
         },
         {
-          "name": "receiver_usdc_account",
+          "name": "config_account",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  67,
+                  79,
+                  78,
+                  70,
+                  73,
+                  71,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdraw_usdt",
+      "discriminator": [
+        117,
+        75,
+        94,
+        162,
+        178,
+        92,
+        19,
+        141
+      ],
+      "accounts": [
+        {
+          "name": "signer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "signer_admin_account",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  65,
+                  68,
+                  77,
+                  73,
+                  78,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "signer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "receiver",
+          "writable": true
+        },
+        {
+          "name": "usdt_mint",
+          "writable": true,
+          "relations": [
+            "config_account"
+          ]
+        },
+        {
+          "name": "sale_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  83,
+                  65,
+                  76,
+                  69,
+                  95,
+                  65,
+                  67,
+                  67,
+                  79,
+                  85,
+                  78,
+                  84,
+                  95,
+                  83,
+                  69,
+                  69,
+                  68
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "sale_usdt_account",
           "writable": true,
           "pda": {
             "seeds": [
               {
                 "kind": "account",
-                "path": "receiver"
+                "path": "sale_account"
               },
               {
                 "kind": "account",
@@ -3098,7 +3426,7 @@
               },
               {
                 "kind": "account",
-                "path": "usdc_mint"
+                "path": "usdt_mint"
               }
             ],
             "program": {
@@ -3241,7 +3569,12 @@
           "address": "11111111111111111111111111111111"
         }
       ],
-      "args": []
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
     }
   ],
   "accounts": [
@@ -3269,6 +3602,19 @@
         189,
         24,
         102
+      ]
+    },
+    {
+      "name": "NFTAccount",
+      "discriminator": [
+        45,
+        29,
+        251,
+        53,
+        216,
+        110,
+        121,
+        151
       ]
     },
     {
@@ -3312,6 +3658,32 @@
     }
   ],
   "events": [
+    {
+      "name": "NFTAdded",
+      "discriminator": [
+        46,
+        234,
+        178,
+        71,
+        6,
+        188,
+        2,
+        64
+      ]
+    },
+    {
+      "name": "ReferralRewardClaimed",
+      "discriminator": [
+        56,
+        212,
+        222,
+        36,
+        145,
+        243,
+        229,
+        103
+      ]
+    },
     {
       "name": "TokenPurchased",
       "discriminator": [
@@ -3441,6 +3813,46 @@
       "code": 6022,
       "name": "InvalidPriceUpdate",
       "msg": "InvalidPriceUpdate"
+    },
+    {
+      "code": 6023,
+      "name": "InvalidContractStatus",
+      "msg": "InvalidContractStatus"
+    },
+    {
+      "code": 6024,
+      "name": "AlreadyAdmin",
+      "msg": "AlreadyAdmin"
+    },
+    {
+      "code": 6025,
+      "name": "NotAdmin",
+      "msg": "NotAdmin"
+    },
+    {
+      "code": 6026,
+      "name": "CannotRemoveSelf",
+      "msg": "CannotRemoveSelf"
+    },
+    {
+      "code": 6027,
+      "name": "InvalidWithdrawAmount",
+      "msg": "InvalidWithdrawAmount"
+    },
+    {
+      "code": 6028,
+      "name": "AlreadyNFT",
+      "msg": "AlreadyNFT"
+    },
+    {
+      "code": 6029,
+      "name": "InvalidNFT",
+      "msg": "InvalidNFT"
+    },
+    {
+      "code": 6030,
+      "name": "InvalidNFTAmount",
+      "msg": "InvalidNFTAmount"
     }
   ],
   "types": [
@@ -3484,9 +3896,33 @@
           {
             "name": "token_decimals",
             "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NFTAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "is_whitelist_nft",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NFTAdded",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "pubkey"
           },
           {
-            "name": "nft_mint",
+            "name": "nft_address",
             "type": "pubkey"
           }
         ]
@@ -3595,6 +4031,30 @@
           },
           {
             "name": "posted_slot",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ReferralRewardClaimed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "sol_amount",
+            "type": "u64"
+          },
+          {
+            "name": "usdc_amount",
+            "type": "u64"
+          },
+          {
+            "name": "usdt_amount",
             "type": "u64"
           }
         ]
@@ -3724,6 +4184,18 @@
           {
             "name": "purchase_type",
             "type": "string"
+          },
+          {
+            "name": "referral_currency_reward",
+            "type": "u64"
+          },
+          {
+            "name": "referral_token_reward",
+            "type": "u64"
+          },
+          {
+            "name": "nft_address",
+            "type": "pubkey"
           }
         ]
       }
@@ -3842,6 +4314,31 @@
       "value": "[67, 79, 78, 70, 73, 71, 95, 65, 67, 67, 79, 85, 78, 84, 95, 83, 69, 69, 68]"
     },
     {
+      "name": "INIT_SALE_ACCOUNT_LAMPORTS",
+      "type": "u32",
+      "value": "1858320"
+    },
+    {
+      "name": "MIN_SOL_REWARD_TO_CLAIM",
+      "type": "u32",
+      "value": "10000000"
+    },
+    {
+      "name": "MIN_USDC_REWARD_TO_CLAIM",
+      "type": "u32",
+      "value": "10000"
+    },
+    {
+      "name": "MIN_USDT_REWARD_TO_CLAIM",
+      "type": "u32",
+      "value": "10000"
+    },
+    {
+      "name": "NFT_ACCOUNT_SEED",
+      "type": "bytes",
+      "value": "[78, 70, 84, 95, 65, 67, 67, 79, 85, 78, 84, 95, 83, 69, 69, 68]"
+    },
+    {
       "name": "SALE_ACCOUNT_SEED",
       "type": "bytes",
       "value": "[83, 65, 76, 69, 95, 65, 67, 67, 79, 85, 78, 84, 95, 83, 69, 69, 68]"
@@ -3850,6 +4347,11 @@
       "name": "USD_DECIMALS",
       "type": "u8",
       "value": "6"
+    },
+    {
+      "name": "USD_PER_DISCOUNT_NFT",
+      "type": "u16",
+      "value": "500"
     },
     {
       "name": "USER_ACCOUNT_SEED",

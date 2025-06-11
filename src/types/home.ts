@@ -63,3 +63,10 @@ export type TransactionResponse = {
   data: Transaction[];
   pagination: Pagination;
 };
+
+export type NFTResponse = {
+  blockTime: string;
+  id: string;
+  isBurned: boolean;
+  nftAddress: string;
+};
