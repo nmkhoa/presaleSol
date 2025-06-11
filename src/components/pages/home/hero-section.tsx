@@ -44,7 +44,7 @@ const HeroSection = () => {
     setTokenBalanceUsdc,
     setTokenBalanceUsdt,
   } = useTokenStore();
-  const { setCollectionNft } = useNftStore();
+  const { collectionNft, setCollectionNft } = useNftStore();
   const { mutateAsync: getSolSaleAccount } = useSolSale();
   const { mutateAsync: getSolUserAccount } = useSolUser();
 
@@ -114,6 +114,8 @@ const HeroSection = () => {
   useEffect(() => {
     if (user?.id) {
       getAllNft();
+    } else if (collectionNft) {
+      setCollectionNft([]);
     }
   }, [publicKey, connection, user]);
 
