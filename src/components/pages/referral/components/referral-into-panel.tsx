@@ -184,116 +184,115 @@ export default function ReferralInfoPanel() {
                 My Referral
               </Text>
             </HStack>
-            {!isLoading && referralInfo.length === 0 ? (
-              <NoData message="You haven’t made any referral yet!" />
-            ) : (
-              <Box pl={"20px"} pr={"3px"}>
-                <Box py={"24px"} className="grid grid-cols-3" pr={"17px"}>
-                  <Text
-                    px={"12px"}
-                    fontWeight={500}
-                    fontSize={{ base: "12px", md: "14px", xl: "16px" }}
-                    color={"var(--table-head-color)"}
-                  >
-                    Address
-                  </Text>
-
-                  <Text
-                    px={"12px"}
-                    fontWeight={500}
-                    color={"var(--table-head-color)"}
-                    fontSize={{ base: "12px", md: "14px", xl: "16px" }}
-                    textAlign={"left"}
-                  >
-                    Earning
-                  </Text>
-
-                  <Text
-                    px={"12px"}
-                    fontWeight={500}
-                    color={"var(--table-head-color)"}
-                    textAlign={"right"}
-                    fontSize={{ base: "12px", md: "14px", xl: "16px" }}
-                  >
-                    Time
-                  </Text>
-                </Box>
-                <Grid
-                  gap={"8px"}
-                  maxH={"340px"}
-                  overflowY="auto"
-                  className="custom-scrollbar"
+            <Box pl={"20px"} pr={"3px"}>
+              <Box py={"24px"} className="grid grid-cols-3" pr={"17px"}>
+                <Text
+                  px={"12px"}
+                  fontWeight={500}
+                  fontSize={{ base: "12px", md: "14px", xl: "16px" }}
+                  color={"var(--table-head-color)"}
                 >
-                  {isLoading && (
-                    <Box
-                      textAlign="center"
-                      py="20px"
-                      color="gray.500"
-                      fontSize={{ base: "12px", md: "14px", xl: "16px" }}
-                    >
-                      Loading...
-                    </Box>
-                  )}
-                  {referralInfo &&
-                    referralInfo.map((data, index) => {
-                      return (
-                        <Box
-                          key={index}
-                          py={"18px"}
-                          background={"var(--transaction-bg)"}
-                          borderRadius={"8px"}
-                          fontSize={{ base: "12px", md: "14px", xl: "16px" }}
-                          className="grid grid-cols-3"
-                          wordBreak="break-word"
-                        >
-                          <Text
-                            px={"12px"}
-                            fontWeight={500}
-                            color={"var(--normal-text-color)"}
-                          >
-                            {getAddressFormat(data.referral) || "-"}
-                          </Text>
-                          <Flex
-                            gap={"2px"}
-                            px={"12px"}
-                            fontWeight={500}
-                            color={"var(--normal-text-color)"}
-                          >
-                            {data?.totalTokenReward
-                              ? formatAmount(
-                                  getNumberFixed(
-                                    data.totalTokenReward,
-                                    data.currency === "SOL" ? 3 : 2
-                                  )
-                                )
-                              : "-"}{" "}
-                            {data?.currency}
-                          </Flex>
+                  Address
+                </Text>
 
-                          <Text
-                            px={"16px"}
-                            fontWeight={500}
-                            color={"var(--normal-text-color)"}
-                            textAlign={"right"}
-                          >
-                            {formatTimeAgo(data.blockTime) || "-"}
-                          </Text>
-                        </Box>
-                      );
-                    })}
-                  {hasNextPage && (
-                    <div ref={ref} className="flex justify-center py-4">
-                      <div className="flex flex-col items-center">
-                        <div className="spinner-border animate-spin inline-block w-6 h-6 border-4 border-solid rounded-full border-blue-600 border-t-transparent" />
-                        <p className="mt-2 text-sm text-gray-600">
-                          Loading more...
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </Grid>
+                <Text
+                  px={"12px"}
+                  fontWeight={500}
+                  color={"var(--table-head-color)"}
+                  fontSize={{ base: "12px", md: "14px", xl: "16px" }}
+                  textAlign={"left"}
+                >
+                  Earning
+                </Text>
+
+                <Text
+                  px={"12px"}
+                  fontWeight={500}
+                  color={"var(--table-head-color)"}
+                  textAlign={"right"}
+                  fontSize={{ base: "12px", md: "14px", xl: "16px" }}
+                >
+                  Time
+                </Text>
               </Box>
-            )}
+              <Grid
+                gap={"8px"}
+                maxH={"340px"}
+                overflowY="auto"
+                className="custom-scrollbar"
+              >
+                {isLoading && (
+                  <Box
+                    textAlign="center"
+                    py="20px"
+                    color="gray.500"
+                    fontSize={{ base: "12px", md: "14px", xl: "16px" }}
+                  >
+                    Loading...
+                  </Box>
+                )}
+                {!isLoading && referralInfo.length === 0 && (
+                  <NoData message="Data not found" size="150px" />
+                )}
+                {referralInfo &&
+                  referralInfo.map((data, index) => {
+                    return (
+                      <Box
+                        key={index}
+                        py={"18px"}
+                        background={"var(--transaction-bg)"}
+                        borderRadius={"8px"}
+                        fontSize={{ base: "12px", md: "14px", xl: "16px" }}
+                        className="grid grid-cols-3"
+                        wordBreak="break-word"
+                      >
+                        <Text
+                          px={"12px"}
+                          fontWeight={500}
+                          color={"var(--normal-text-color)"}
+                        >
+                          {getAddressFormat(data.referral) || "-"}
+                        </Text>
+                        <Flex
+                          gap={"2px"}
+                          px={"12px"}
+                          fontWeight={500}
+                          color={"var(--normal-text-color)"}
+                        >
+                          {data?.totalTokenReward
+                            ? formatAmount(
+                                getNumberFixed(
+                                  data.totalTokenReward,
+                                  data.currency === "SOL" ? 3 : 2
+                                )
+                              )
+                            : "-"}{" "}
+                          {data?.currency}
+                        </Flex>
+
+                        <Text
+                          px={"16px"}
+                          fontWeight={500}
+                          color={"var(--normal-text-color)"}
+                          textAlign={"right"}
+                        >
+                          {formatTimeAgo(data.blockTime) || "-"}
+                        </Text>
+                      </Box>
+                    );
+                  })}
+                {hasNextPage && (
+                  <div ref={ref} className="flex justify-center py-4">
+                    <div className="flex flex-col items-center">
+                      <div className="spinner-border animate-spin inline-block w-6 h-6 border-4 border-solid rounded-full border-blue-600 border-t-transparent" />
+                      <p className="mt-2 text-sm text-gray-600">
+                        Loading more...
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </Grid>
+            </Box>
           </Box>
         </Box>
       </Stack>

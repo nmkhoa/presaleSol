@@ -2,16 +2,17 @@ import { Box, Image } from "@chakra-ui/react";
 
 interface Props {
   message?: string;
+  size?: string;
 }
 
-const NoData = ({ message }: Props) => {
+const NoData = ({ message, size }: Props) => {
   return (
     <Box pt={"24px"}>
       <Image
         src="/images/no_data.svg"
         mx={"auto"}
-        w={{ base: "120px", md: "180px" }}
-        h={{ base: "120px", md: "180px" }}
+        w={{ base: "120px", md: size ?? "180px" }}
+        h={{ base: "120px", md: size ?? "180px" }}
       />
       <Box
         pb={"60px"}

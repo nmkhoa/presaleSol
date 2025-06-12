@@ -25,6 +25,8 @@ import {
   getNumberFixed,
   getTxHashLink,
   onScrollView,
+  roundDownFixed,
+  roundUpFixed,
 } from "@/utils";
 import { toaster } from "../ui/toaster";
 import { PythSolanaReceiver } from "@pythnetwork/pyth-solana-receiver";
@@ -185,7 +187,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
   const getReceive = (value: string) => {
     if (!value) return "0";
     const priceByMethod = getPriceByMethod();
-    return getNumberFixed(
+    return roundDownFixed(
       (+value * priceByMethod) / (solSaleAccountInfo?.currentPrice || 1)
     );
   };
@@ -193,7 +195,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
   const getInputAmount = (value: string) => {
     if (!value) return "0";
     const priceByMethod = getPriceByMethod();
-    return getNumberFixed(
+    return roundUpFixed(
       (+value * (solSaleAccountInfo?.currentPrice || 0)) / (priceByMethod || 1)
     );
   };
@@ -216,6 +218,12 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     setInputAmount(input?.toString());
     setInputReceive(value);
     setInputType(1);
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === ",") {
+      e.preventDefault();
+    }
   };
 
   const getPriceByMethod = () => {
@@ -401,6 +409,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
                 fontWeight: 700,
               }}
               onChange={onHandleInput}
+              onKeyDown={onKeyDown}
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
             <Image
@@ -445,6 +454,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
             <Input
               height={"20px"}
               p={0}
+              type="number"
               lineHeight={"20px"}
               border={"none"}
               outline={"none"}
@@ -456,6 +466,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
                 fontWeight: 700,
               }}
               onChange={onHandleInputReceive}
+              onKeyDown={onKeyDown}
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
             <Image
