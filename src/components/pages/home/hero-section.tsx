@@ -130,7 +130,7 @@ const HeroSection = () => {
 
   useEffect(() => {
     getPriceData();
-  }, []);
+  }, [connected]);
 
   const getBalance = useCallback(
     async (
