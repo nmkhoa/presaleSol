@@ -205,6 +205,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     const validate = validateInput(value);
     if (!validate) return;
     const receive = getReceive(value);
+    console.log("input: ", value);
     setInputReceive(receive?.toString());
     setInputAmount(value);
     setInputType(0);
@@ -493,21 +494,21 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
         w={"100%"}
         height={"44px"}
         mt={"4px"}
-        disabled={connected && isBalanceDisable}
+        loading={loadingPurchase}
+        disabled={connected && !!errorMessage}
         xl={{
           h: "58px",
         }}
       >
-        <Button
+        <Box
           w={"100%"}
           height={"100%"}
-          loading={loadingPurchase}
           fontSize={"12px !important"}
           md={{ fontSize: "16px !important" }}
           onClick={() => (connected ? handleBuyUn() : setShowModal(true))}
         >
           {connected ? "Buy $UN Now" : "Connect wallet & Buy"}
-        </Button>
+        </Box>
       </Button>
       <Text
         mt={"18px"}

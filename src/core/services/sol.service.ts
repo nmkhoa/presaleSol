@@ -3,6 +3,7 @@ import {
   baseNumbSolValue,
   baseNumbTokenValue,
   baseNumbUsdValue,
+  basePriceValue,
   saleAccountSeed,
   userAccountSeed,
 } from "@/constants/contract";
@@ -59,7 +60,7 @@ export const getSolSaleAccount = async ({
     isCompleted: saleAccountData.isCompleted,
     refCurrencyRate: +saleAccountData.refCurrencyRate.toString(),
     refTokenRate: +saleAccountData.refTokenRate.toString(),
-    usdRaised: +saleAccountData.usdRaised.toString() / baseNumbUsdValue,
+    usdRaised: +saleAccountData.usdRaised.toString() / basePriceValue,
     usdcRaised: +saleAccountData.usdcRaised.toString() / baseNumbUsdValue,
     usdtRaised: +saleAccountData.usdtRaised.toString() / baseNumbUsdValue,
     currentPrice: currentPrice,

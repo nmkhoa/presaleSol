@@ -97,6 +97,7 @@
   --pre-market-bg: rgba(0, 0, 0, 0);
   --btn-disable-light: #16171b;
   --btn-disbale-normal: #191925;
+  --coming-soon-color: #fdb022;
 }
 
 body {
@@ -158,6 +159,7 @@ button:disabled,
 .btn-connect-wallet div,
 .btn-connect-wallet button {
   display: flex;
+  width: 100%;
   height: 100%;
   padding: 12px 20px;
   background: linear-gradient(

@@ -134,13 +134,7 @@ const TokenSold = () => {
           }}
           xl={{ fontSize: "24px", lineHeight: "28px" }}
         >
-          $
-          {formatAmount(
-            Math.floor(
-              (solSaleAccountInfo?.tokensSold || 0) *
-                (solSaleAccountInfo?.currentPrice || 0)
-            )
-          )}
+          ${formatAmount(Math.floor(solSaleAccountInfo?.usdRaised || 0))}
         </Text>
         <Text
           fontSize={"12px"}

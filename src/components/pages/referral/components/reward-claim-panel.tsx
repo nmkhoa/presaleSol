@@ -266,7 +266,7 @@ export default function RewardClaimPanel() {
                   ? formatAmount(
                       getNumberFixed(solUserAccountInfo?.tokenRefEarned, 2)
                     )
-                  : "-.--"}
+                  : "0.00"}
               </Text>
             </HStack>
           </Box>
@@ -295,7 +295,7 @@ export default function RewardClaimPanel() {
                   ? formatAmount(
                       getNumberFixed(earnedValues?.totalUSDEarned, 2)
                     )
-                  : "-.--"}
+                  : "0.00"}
               </Text>
             </HStack>
           </Box>

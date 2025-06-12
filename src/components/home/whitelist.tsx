@@ -37,6 +37,7 @@ import { useTokenStore } from "@/stores/token.store";
 import { useNftStore } from "@/stores/whitelist.store";
 import SaleWithoutConnectWallet from "./sale-connect";
 import SaleWithoutNFT from "./sale-nft";
+import WhiteListComing from "./whitelist-coming";
 
 interface Props {
   fetchSaleAccount: () => Promise<void>;
@@ -195,6 +196,8 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
 
   const onHandleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    const isNumber = /^[0-9]*\.?[0-9]*$/.test(value) || value === "";
+    if (!isNumber) return;
     const validate = validateInput(value);
     if (!validate) return;
     const receive = getReceive(value);
@@ -314,6 +317,8 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
       solSaleAccountInfo.denominator
     );
   }, [solSaleAccountInfo]);
+
+  return <WhiteListComing />;
 
   if (!connected) {
     return <SaleWithoutConnectWallet />;
@@ -517,21 +522,21 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
         w={"100%"}
         height={"44px"}
         mt={"4px"}
-        disabled={connected && isBalanceDisable}
+        disabled={connected && !!errorMessage}
+        loading={loadingPurchase}
         xl={{
           h: "58px",
         }}
       >
-        <Button
+        <Box
           w={"100%"}
           height={"100%"}
-          loading={loadingPurchase}
           fontSize={"12px !important"}
           md={{ fontSize: "16px !important" }}
           onClick={() => (connected ? handleBuyUn() : setShowModal(true))}
         >
           {connected ? "Buy $UN Now" : "Connect wallet & Buy"}
-        </Button>
+        </Box>
       </Button>
       <Text
         mt={"18px"}

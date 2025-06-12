@@ -65,7 +65,7 @@ export const paymentMethods = [
   {
     title: "SOL",
     key: "sol",
-    icon: "/images/solana.svg",
+    icon: "/images/solana.png",
     link: "https://unich.finance/",
     token: tokenSolana,
   },

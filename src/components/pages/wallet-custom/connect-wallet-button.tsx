@@ -48,7 +48,7 @@ const ConnectWalletButton = () => {
                 className="!px-2 !py-[10px] bg-neutral-900 rounded-r-[8px]"
               >
                 <img
-                  src="/images/solana.svg"
+                  src="/images/solana.png"
                   className="w-[16px] h-[16px]"
                   alt=""
                 />
