@@ -32,14 +32,14 @@ const CryptoAlliance = () => {
             maxW={"720px"}
             mx={"auto"}
             pt={"20px"}
-            px={"24px"}
+            px={"12px"}
             className="text-secondary"
             fontSize={"28px"}
             fontWeight={700}
             lineHeight={"140%"}
-            md={{ px: "0", fontSize: "36px" }}
+            md={{ fontSize: "36px" }}
             xl={{
-              maxW: "900px",
+              maxW: "1240px",
               pt: 0,
               fontSize: "48px",
             }}
@@ -51,13 +51,13 @@ const CryptoAlliance = () => {
             maxW={"720px"}
             mx={"auto"}
             pt={"20px"}
-            px={"24px"}
+            px={"12px"}
             fontSize={"14px"}
             fontWeight={500}
             lineHeight={"140%"}
-            md={{ px: "0", fontSize: "14px" }}
+            md={{ fontSize: "14px" }}
             xl={{
-              maxW: "900px",
+              maxW: "1240px",
               pt: 0,
               fontSize: "4 16px",
             }}

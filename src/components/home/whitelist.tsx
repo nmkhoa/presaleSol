@@ -16,6 +16,7 @@ import { useAnchorProvider } from "@/hooks/use-anchor-provider";
 import {
   baseNumbSolValue,
   baseNumbTokenValue,
+  maxNFTPerTransaction,
   maxPriceByNFT,
 } from "@/constants/contract";
 import { BN, type Address } from "@coral-xyz/anchor";
@@ -25,6 +26,8 @@ import {
   getNumberFixed,
   getTxHashLink,
   onScrollView,
+  roundDownFixed,
+  roundUpFixed,
 } from "@/utils";
 import { toaster } from "../ui/toaster";
 import { PythSolanaReceiver } from "@pythnetwork/pyth-solana-receiver";
@@ -175,7 +178,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
   const getReceive = (value: string) => {
     if (!value) return "0";
     const priceByMethod = getPriceByMethod();
-    return getNumberFixed(
+    return roundDownFixed(
       (+value * priceByMethod) /
         ((solSaleAccountInfo?.currentPrice || 1) * 0.75)
     );
@@ -184,7 +187,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
   const getInputAmount = (value: string) => {
     if (!value) return "0";
     const priceByMethod = getPriceByMethod();
-    return getNumberFixed(
+    return roundUpFixed(
       (+value * (solSaleAccountInfo?.currentPrice || 0) * 0.75) /
         (priceByMethod || 1)
     );
@@ -287,6 +290,12 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
       return `Insufficient balance. Please deposit ${getNumberFixed(
         balanceMust < 0 ? 0 : balanceMust
       )} ${method?.title?.toUpperCase()} more to purchase.`;
+    }
+    const price = getPriceByMethod();
+    const inputUSD = +inputAmount * price;
+    const totalNFTToBurn = Math.ceil(inputUSD / maxPriceByNFT);
+    if (totalNFTToBurn > maxNFTPerTransaction) {
+      return `Each transaction can use a maximum of ${maxNFTPerTransaction} NFTs.`;
     }
     return "";
   }, [inputAmount, solSaleAccountInfo]);

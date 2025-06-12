@@ -34,6 +34,18 @@ export function getNumberFixed(number: number | string, fix?: number) {
   return +num.toFixed(fix ? fix : 4);
 }
 
+export function roundUpFixed(value: number | string, decimals?: number) {
+  const num = typeof value === "number" ? value : +value;
+  const factor = Math.pow(10, decimals || 4);
+  return Math.ceil(num * factor) / factor;
+}
+
+export function roundDownFixed(value: number | string, decimals?: number) {
+  const num = typeof value === "number" ? value : +value;
+  const factor = Math.pow(10, decimals || 4);
+  return Math.floor(num * factor) / factor;
+}
+
 export function formatTimeAgo(blockTime: string): string {
   if (!blockTime) return "";
   const timestampDate = new Date(blockTime);

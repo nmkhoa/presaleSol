@@ -15,3 +15,4 @@ export const productPriceKey = {
 };
 
 export const maxPriceByNFT = 500;
+export const maxNFTPerTransaction = 5;
