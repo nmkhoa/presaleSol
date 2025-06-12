@@ -68,20 +68,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
     return 0;
   };
 
-  const getPurchaseToken = async (
-    nftMint: string,
-    index: number,
-    isLast: boolean
-  ) => {
-    const price = getPriceByMethod();
-    let currentInputAmount = maxPriceByNFT / price;
-    if (!index && isLast) {
-      currentInputAmount = +inputAmount;
-    }
-    if (isLast && index) {
-      currentInputAmount =
-        (+inputAmount * price - maxPriceByNFT * index) / (price || 1);
-    }
+  const getPurchaseToken = async (nftMint: string, amount: number) => {
     if (method.key === paymentMethods[0].key) {
       const solUsdPriceFeedAccount = pythSolanaReceiver
         .getPriceFeedAccountAddress(0, feedIdSolana)
@@ -90,9 +77,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
         solUsdPriceFeedAccount
       );
       return await program!.methods
-        .purchaseTokensWithSolWhitelist(
-          new BN(currentInputAmount * baseNumbSolValue)
-        )
+        .purchaseTokensWithSolWhitelist(new BN(amount * baseNumbSolValue))
         .accounts({
           buyer: publicKey as Address | undefined,
           priceUpdate: solUsdPriceFeedAccountPubkey,
@@ -102,9 +87,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
     }
     if (method.key === paymentMethods[1].key) {
       return await program!.methods
-        .purchaseTokensWithUsdcWhitelist(
-          new BN(currentInputAmount * baseNumbTokenValue)
-        )
+        .purchaseTokensWithUsdcWhitelist(new BN(amount * baseNumbTokenValue))
         .accounts({
           buyer: publicKey as Address | undefined,
           nftMint: new PublicKey(nftMint),
@@ -113,9 +96,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
     }
     if (method.key === paymentMethods[2].key) {
       return await program!.methods
-        .purchaseTokensWithUsdtWhitelist(
-          new BN(currentInputAmount * baseNumbTokenValue)
-        )
+        .purchaseTokensWithUsdtWhitelist(new BN(amount * baseNumbTokenValue))
         .accounts({
           buyer: publicKey as Address | undefined,
           nftMint: new PublicKey(nftMint),
@@ -134,14 +115,12 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
       const nftCanUseToBurn = collectionNft?.filter(
         (_, index) => index < totalNFTToBurn
       );
+      const amountPerTransaction =
+        +inputAmount / (nftCanUseToBurn?.length || 1);
       const transaction = new Transaction();
       const purchaseIxs = await Promise.all(
-        nftCanUseToBurn?.map(async (nft, index) => {
-          return await getPurchaseToken(
-            nft.mint,
-            index,
-            index === nftCanUseToBurn?.length - 1
-          );
+        nftCanUseToBurn?.map(async (nft) => {
+          return await getPurchaseToken(nft.mint, amountPerTransaction);
         })
       );
       if (purchaseIxs && purchaseIxs?.length) {
