@@ -85,7 +85,7 @@ const WhiteListComing = () => {
       >
         Whitelist will be available in just a few days!{" "}
         <Link
-          href=""
+          href="https://analysis.unich.com/unich-exclusive-nft-got-yours-yet/"
           color={"var(--coming-soon-color)"}
           textDecoration={"underline"}
           target="_blank"
