@@ -267,6 +267,7 @@ export const partners = [
 ];
 
 export const allowedKeys = [
+  "0",
   "1",
   "2",
   "3",
