@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Flex, Grid, Image, Input, Text } from "@chakra-ui/react";
-import { navKey, paymentMethods } from "../../constants/home";
+import { allowedKeys, navKey, paymentMethods } from "../../constants/home";
 import { useContext, useMemo, useState } from "react";
 import { ConnectWalletContext } from "../../contexts/connect-wallet-context";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -214,6 +214,12 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
     setInputAmount(input?.toString());
     setInputReceive(value);
     setInputType(1);
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!allowedKeys.includes(e.key)) {
+      e.preventDefault();
+    }
   };
 
   const balanceByMethod = useMemo(() => {
@@ -432,6 +438,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
                 fontWeight: 700,
               }}
               onChange={onHandleInput}
+              onKeyDown={onKeyDown}
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
             <Image
@@ -488,6 +495,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
               outline={"none"}
               value={inputReceive}
               onChange={onHandleInputReceive}
+              onKeyDown={onKeyDown}
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
             <Image

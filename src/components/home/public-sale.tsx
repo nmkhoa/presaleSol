@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Flex, Grid, Image, Input, Text } from "@chakra-ui/react";
-import { navKey, paymentMethods } from "../../constants/home";
+import { allowedKeys, navKey, paymentMethods } from "../../constants/home";
 import { useContext, useMemo, useState } from "react";
 import { ConnectWalletContext } from "../../contexts/connect-wallet-context";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -210,6 +210,12 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
     setInputType(0);
   };
 
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!allowedKeys.includes(e.key)) {
+      e.preventDefault();
+    }
+  };
+
   const onHandleInputReceive = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const validate = validateInput(value);
@@ -403,6 +409,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
                 fontWeight: 700,
               }}
               onChange={onHandleInput}
+              onKeyDown={onKeyDown}
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
             <Image
@@ -459,6 +466,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
                 fontWeight: 700,
               }}
               onChange={onHandleInputReceive}
+              onKeyDown={onKeyDown}
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
             <Image
