@@ -114,7 +114,7 @@ const HeroSection = () => {
         }
         setCollectionNft(lastNftOwned);
       }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setCollectionNft([]);
     }
@@ -129,10 +129,8 @@ const HeroSection = () => {
   }, [publicKey, connection, user]);
 
   useEffect(() => {
-    if (publicKey) {
-      getPriceData();
-    }
-  }, [publicKey]);
+    getPriceData();
+  }, []);
 
   const getBalance = useCallback(
     async (

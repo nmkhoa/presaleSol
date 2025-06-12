@@ -9,6 +9,7 @@ import {
   Image,
   Grid,
   Flex,
+  Input,
 } from "@chakra-ui/react";
 import IconSOL from "@assets/icon/icon_SOL.svg";
 import {
@@ -20,6 +21,7 @@ import {
 import { useReferralInfo } from "@/core/hook/use-users";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
+import NoData from "@/components/table/no-data";
 export default function ReferralInfoPanel() {
   const { user, accessToken } = useAuthStore();
 
@@ -84,30 +86,22 @@ export default function ReferralInfoPanel() {
               </Box>
               <Box flex={"1 1 50%"}>
                 <Flex gap={"10px"}>
-                  <Box
-                    w={{ base: "100%", xl: "317px" }}
+                  <Input
                     h={"40px"}
-                    background={"var(--bg-color)"}
-                    rounded={"8px"}
-                    border={"1px solid var(--border-method-normal)"}
-                    px={"16px"}
-                    display="flex"
-                    alignItems="center"
-                  >
-                    <Text
-                      fontSize={"12px"}
-                      color={"var(--color-input"}
-                      fontWeight={500}
-                      w={"100%"}
-                      whiteSpace="nowrap"
-                      overflow="hidden"
-                      textOverflow="ellipsis"
-                    >
-                      {user
+                    background={"var(--bg-super-dark)"}
+                    color={"var(--color-input)"}
+                    borderRadius={"8px"}
+                    border={"none"}
+                    disabled
+                    fontSize={"12px"}
+                    fontWeight={500}
+                    opacity={1}
+                    value={
+                      user
                         ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}`
-                        : ""}
-                    </Text>
-                  </Box>
+                        : "Connect wallet to see your code"
+                    }
+                  />
                   <Clipboard.Root
                     value={
                       user
@@ -190,122 +184,116 @@ export default function ReferralInfoPanel() {
                 My Referral
               </Text>
             </HStack>
-            <Box pl={"20px"} pr={"3px"}>
-              <Box py={"24px"} className="grid grid-cols-3" pr={"17px"}>
-                <Text
-                  px={"12px"}
-                  fontWeight={500}
-                  fontSize={{ base: "12px", md: "14px", xl: "16px" }}
-                  color={"var(--table-head-color)"}
-                >
-                  Address
-                </Text>
+            {!isLoading && referralInfo.length === 0 ? (
+              <NoData message="You haven’t made any referral yet!" />
+            ) : (
+              <Box pl={"20px"} pr={"3px"}>
+                <Box py={"24px"} className="grid grid-cols-3" pr={"17px"}>
+                  <Text
+                    px={"12px"}
+                    fontWeight={500}
+                    fontSize={{ base: "12px", md: "14px", xl: "16px" }}
+                    color={"var(--table-head-color)"}
+                  >
+                    Address
+                  </Text>
 
-                <Text
-                  px={"12px"}
-                  fontWeight={500}
-                  color={"var(--table-head-color)"}
-                  fontSize={{ base: "12px", md: "14px", xl: "16px" }}
-                  textAlign={"left"}
-                >
-                  Earning
-                </Text>
+                  <Text
+                    px={"12px"}
+                    fontWeight={500}
+                    color={"var(--table-head-color)"}
+                    fontSize={{ base: "12px", md: "14px", xl: "16px" }}
+                    textAlign={"left"}
+                  >
+                    Earning
+                  </Text>
 
-                <Text
-                  px={"12px"}
-                  fontWeight={500}
-                  color={"var(--table-head-color)"}
-                  textAlign={"right"}
-                  fontSize={{ base: "12px", md: "14px", xl: "16px" }}
-                >
-                  Time
-                </Text>
-              </Box>
-              <Grid
-                gap={"8px"}
-                maxH={"340px"}
-                overflowY="auto"
-                className="custom-scrollbar"
-              >
-                {isLoading && (
-                  <Box
-                    textAlign="center"
-                    py="20px"
-                    color="gray.500"
+                  <Text
+                    px={"12px"}
+                    fontWeight={500}
+                    color={"var(--table-head-color)"}
+                    textAlign={"right"}
                     fontSize={{ base: "12px", md: "14px", xl: "16px" }}
                   >
-                    Loading...
-                  </Box>
-                )}
-                {!isLoading && referralInfo.length === 0 && (
-                  <Box
-                    textAlign="center"
-                    py="20px"
-                    color="gray.500"
-                    fontSize={{ base: "12px", md: "14px", xl: "16px" }}
-                  >
-                    No data found.
-                  </Box>
-                )}
-                {referralInfo &&
-                  referralInfo.map((data, index) => {
-                    return (
-                      <Box
-                        key={index}
-                        py={"18px"}
-                        background={"var(--transaction-bg)"}
-                        borderRadius={"8px"}
-                        fontSize={{ base: "12px", md: "14px", xl: "16px" }}
-                        className="grid grid-cols-3"
-                        wordBreak="break-word"
-                      >
-                        <Text
-                          px={"12px"}
-                          fontWeight={500}
-                          color={"var(--normal-text-color)"}
+                    Time
+                  </Text>
+                </Box>
+                <Grid
+                  gap={"8px"}
+                  maxH={"340px"}
+                  overflowY="auto"
+                  className="custom-scrollbar"
+                >
+                  {isLoading && (
+                    <Box
+                      textAlign="center"
+                      py="20px"
+                      color="gray.500"
+                      fontSize={{ base: "12px", md: "14px", xl: "16px" }}
+                    >
+                      Loading...
+                    </Box>
+                  )}
+                  {referralInfo &&
+                    referralInfo.map((data, index) => {
+                      return (
+                        <Box
+                          key={index}
+                          py={"18px"}
+                          background={"var(--transaction-bg)"}
+                          borderRadius={"8px"}
+                          fontSize={{ base: "12px", md: "14px", xl: "16px" }}
+                          className="grid grid-cols-3"
+                          wordBreak="break-word"
                         >
-                          {getAddressFormat(data.referral) || "-"}
-                        </Text>
-                        <Flex
-                          gap={"2px"}
-                          px={"12px"}
-                          fontWeight={500}
-                          color={"var(--normal-text-color)"}
-                        >
-                          {data?.totalTokenReward
-                            ? formatAmount(
-                                getNumberFixed(
-                                  data.totalTokenReward,
-                                  data.currency === "SOL" ? 3 : 2
+                          <Text
+                            px={"12px"}
+                            fontWeight={500}
+                            color={"var(--normal-text-color)"}
+                          >
+                            {getAddressFormat(data.referral) || "-"}
+                          </Text>
+                          <Flex
+                            gap={"2px"}
+                            px={"12px"}
+                            fontWeight={500}
+                            color={"var(--normal-text-color)"}
+                          >
+                            {data?.totalTokenReward
+                              ? formatAmount(
+                                  getNumberFixed(
+                                    data.totalTokenReward,
+                                    data.currency === "SOL" ? 3 : 2
+                                  )
                                 )
-                              )
-                            : "-"}{" "}
-                          {data?.currency}
-                        </Flex>
+                              : "-"}{" "}
+                            {data?.currency}
+                          </Flex>
 
-                        <Text
-                          px={"16px"}
-                          fontWeight={500}
-                          color={"var(--normal-text-color)"}
-                          textAlign={"right"}
-                        >
-                          {formatTimeAgo(data.blockTime) || "-"}
-                        </Text>
-                      </Box>
-                    );
-                  })}
-                {hasNextPage && (
-                  <div ref={ref} className="flex justify-center py-4">
-                    <div className="flex flex-col items-center">
-                      <div className="spinner-border animate-spin inline-block w-6 h-6 border-4 border-solid rounded-full border-blue-600 border-t-transparent" />
-                      <p className="mt-2 text-sm text-gray-600">
-                        Loading more...
-                      </p>
+                          <Text
+                            px={"16px"}
+                            fontWeight={500}
+                            color={"var(--normal-text-color)"}
+                            textAlign={"right"}
+                          >
+                            {formatTimeAgo(data.blockTime) || "-"}
+                          </Text>
+                        </Box>
+                      );
+                    })}
+                  {hasNextPage && (
+                    <div ref={ref} className="flex justify-center py-4">
+                      <div className="flex flex-col items-center">
+                        <div className="spinner-border animate-spin inline-block w-6 h-6 border-4 border-solid rounded-full border-blue-600 border-t-transparent" />
+                        <p className="mt-2 text-sm text-gray-600">
+                          Loading more...
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                )}
-              </Grid>
-            </Box>
+                  )}
+                </Grid>
+              </Box>
+            )}
           </Box>
         </Box>
       </Stack>

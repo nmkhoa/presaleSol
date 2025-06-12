@@ -95,6 +95,8 @@
   --hero-border-color: rgba(255, 255, 255, 0.15);
   --referral-layout-bg: rgba(0, 0, 1, 0);
   --pre-market-bg: rgba(0, 0, 0, 0);
+  --btn-disable-light: #16171b;
+  --btn-disbale-normal: #191925;
 }
 
 body {
@@ -126,9 +128,17 @@ button:hover,
 }
 
 button:disabled,
-.btn-connect-wallet:disabled,
 .btn-gradient-secondary:disabled {
   pointer-events: none !important;
+}
+
+.btn-connect-wallet:disabled {
+  opacity: 1;
+  background: linear-gradient(
+    271.06deg,
+    var(--btn-secondary-border-medium) 8.52%,
+    var(--btn-secondary-border-semi) 104.75%
+  );
 }
 
 .btn-connect-wallet {
@@ -176,6 +186,17 @@ button:disabled,
 
 .btn-connect-wallet button:disabled {
   pointer-events: none !important;
+}
+
+.btn-connect-wallet:disabled div,
+.btn-connect-wallet:disabled button {
+  opacity: 1;
+  background: linear-gradient(
+    0deg,
+    var(--btn-disable-light) 9.78%,
+    var(--btn-disbale-normal) 100%
+  );
+  color: var(--btn-secondary-border-medium);
 }
 
 .hero-section {

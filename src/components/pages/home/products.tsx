@@ -36,11 +36,11 @@ const Products = () => {
         w={"fit-content"}
         gap={"20px"}
         mx={"auto"}
-        mt={"96px"}
+        pt={"96px"}
         alignItems={"center"}
         flexDirection={"column"}
         xl={{
-          mt: "130px",
+          pt: "130px",
           flexDirection: "row",
         }}
       >

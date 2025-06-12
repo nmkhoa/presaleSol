@@ -25,6 +25,7 @@ import { toaster } from "../ui/toaster";
 import { useGetTransaction } from "@/core/hook/use-users";
 import { useInView } from "react-intersection-observer";
 import { navKey } from "@/constants/home";
+import NoData from "../table/no-data";
 
 const InviteAndEarn = () => {
   const { connected, publicKey } = useWallet();
@@ -121,7 +122,7 @@ const InviteAndEarn = () => {
             2
           )
         )
-      : "-.--";
+      : "0.00";
   }, [connected, solUserAccountInfo]);
 
   return (
@@ -194,6 +195,7 @@ const InviteAndEarn = () => {
                 borderRadius={"8px"}
                 border={"none"}
                 disabled
+                fontWeight={500}
                 opacity={1}
                 value={
                   user
@@ -356,6 +358,8 @@ const InviteAndEarn = () => {
                     ? formatAmount(
                         getNumberFixed(solUserAccountInfo?.tokenRefEarned, 2)
                       )
+                    : connected
+                    ? "0.00"
                     : "-.--"}
                 </Text>
               </Flex>
@@ -376,6 +380,8 @@ const InviteAndEarn = () => {
                   ? formatAmount(
                       getNumberFixed(earnedValues?.totalUSDEarned, 2)
                     )
+                  : connected
+                  ? "0.00"
                   : "-.--"}
               </Text>
             </Box>
@@ -414,139 +420,138 @@ const InviteAndEarn = () => {
                 Transaction History
               </Text>
               <Box h={"1px"} mt={"24px"} background={"white"} opacity={"0.1"} />
-              <Box pl={"20px"} pr={"3px"}>
-                <Grid
-                  py={"24px"}
-                  pr={"10px"}
-                  gridTemplateColumns={"repeat(5, minmax(0, 1fr))"}
-                  xl={{ gridTemplateColumns: "repeat(6, minmax(0, 1fr))" }}
-                >
-                  <Text
-                    px={"16px"}
-                    fontWeight={500}
-                    color={"var(--table-head-color)"}
+              {!isLoading && transaction && transaction.length === 0 ? (
+                <NoData />
+              ) : (
+                <Box pl={"20px"} pr={"3px"}>
+                  <Grid
+                    py={"24px"}
+                    pr={"10px"}
+                    gridTemplateColumns={"repeat(5, minmax(0, 1fr))"}
+                    xl={{ gridTemplateColumns: "repeat(6, minmax(0, 1fr))" }}
                   >
-                    Tx Hash
-                  </Text>
-                  <Text
-                    px={"16px"}
-                    fontWeight={500}
-                    color={"var(--table-head-color)"}
+                    <Text
+                      px={"16px"}
+                      fontWeight={500}
+                      color={"var(--table-head-color)"}
+                    >
+                      Tx Hash
+                    </Text>
+                    <Text
+                      px={"16px"}
+                      fontWeight={500}
+                      color={"var(--table-head-color)"}
+                    >
+                      Amount
+                    </Text>
+                    <Text
+                      px={"16px"}
+                      fontWeight={500}
+                      color={"var(--table-head-color)"}
+                    >
+                      Total Spent
+                    </Text>
+                    <Text
+                      px={"16px"}
+                      fontWeight={500}
+                      color={"var(--table-head-color)"}
+                    >
+                      Price
+                    </Text>
+                    <Text
+                      px={"16px"}
+                      fontWeight={500}
+                      color={"var(--table-head-color)"}
+                      textAlign={"right"}
+                      xl={{ gridColumn: "span 2 / span 2" }}
+                    >
+                      Time
+                    </Text>
+                  </Grid>
+                  <Grid
+                    gap={"8px"}
+                    maxH={"340px"}
+                    overflowY="auto"
+                    className="custom-scrollbar"
                   >
-                    Amount
-                  </Text>
-                  <Text
-                    px={"16px"}
-                    fontWeight={500}
-                    color={"var(--table-head-color)"}
-                  >
-                    Total Spent
-                  </Text>
-                  <Text
-                    px={"16px"}
-                    fontWeight={500}
-                    color={"var(--table-head-color)"}
-                  >
-                    Price
-                  </Text>
-                  <Text
-                    px={"16px"}
-                    fontWeight={500}
-                    color={"var(--table-head-color)"}
-                    textAlign={"right"}
-                    xl={{ gridColumn: "span 2 / span 2" }}
-                  >
-                    Time
-                  </Text>
-                </Grid>
-                <Grid
-                  gap={"8px"}
-                  maxH={"340px"}
-                  overflowY="auto"
-                  className="custom-scrollbar"
-                >
-                  {isLoading && (
-                    <Box textAlign="center" py="20px" color="gray.500">
-                      Loading...
-                    </Box>
-                  )}
-                  {!isLoading && transaction && transaction.length === 0 && (
-                    <Box textAlign="center" py="20px" color="gray.500">
-                      No data found.
-                    </Box>
-                  )}
-                  {transaction &&
-                    transaction.map((data, index) => {
-                      return (
-                        <Box
-                          key={index}
-                          py={"18px"}
-                          display={"grid"}
-                          background={"var(--transaction-bg)"}
-                          borderRadius={"8px"}
-                          gridTemplateColumns={"repeat(5, minmax(0, 1fr))"}
-                          xl={{
-                            gridTemplateColumns: "repeat(6, minmax(0, 1fr))",
-                          }}
-                        >
-                          <a
-                            href={getTxHashLink(data.signature)}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                    {isLoading && (
+                      <Box textAlign="center" py="20px" color="gray.500">
+                        Loading...
+                      </Box>
+                    )}
+                    {transaction &&
+                      transaction.map((data, index) => {
+                        return (
+                          <Box
+                            key={index}
+                            py={"18px"}
+                            display={"grid"}
+                            background={"var(--transaction-bg)"}
+                            borderRadius={"8px"}
+                            gridTemplateColumns={"repeat(5, minmax(0, 1fr))"}
+                            xl={{
+                              gridTemplateColumns: "repeat(6, minmax(0, 1fr))",
+                            }}
                           >
-                            <Text
-                              px="16px"
-                              fontWeight={500}
-                              _hover={{ textDecoration: "underline" }}
-                              cursor="pointer"
-                              className="truncate"
+                            <a
+                              href={getTxHashLink(data.signature)}
+                              target="_blank"
+                              rel="noopener noreferrer"
                             >
-                              {data.signature.slice(0, 9)}
+                              <Text
+                                px="16px"
+                                fontWeight={500}
+                                _hover={{ textDecoration: "underline" }}
+                                cursor="pointer"
+                                className="truncate"
+                              >
+                                {data.signature.slice(0, 9)}
+                              </Text>
+                            </a>
+                            <Flex gap={"2px"} px={"16px"} fontWeight={500}>
+                              <Image
+                                src="/images/token.svg"
+                                w={"20px"}
+                                h={"20px"}
+                                alt="token"
+                              />
+                              {getNumberFixed(data.tokenAmount, 2)}
+                            </Flex>
+                            <Text px={"16px"} fontWeight={500}>
+                              {getNumberFixed(
+                                data.currencyAmount,
+                                data.currency === "SOL" ? 3 : 2
+                              ) || "-"}{" "}
+                              {data.currency.toUpperCase()}
                             </Text>
-                          </a>
-                          <Flex gap={"2px"} px={"16px"} fontWeight={500}>
-                            <Image
-                              src="/images/token.svg"
-                              w={"20px"}
-                              h={"20px"}
-                              alt="token"
-                            />
-                            {getNumberFixed(data.tokenAmount, 2)}
-                          </Flex>
-                          <Text px={"16px"} fontWeight={500}>
-                            {getNumberFixed(
-                              data.currencyAmount,
-                              data.currency === "SOL" ? 3 : 2
-                            ) || "-"}{" "}
-                            {data.currency.toUpperCase()}
-                          </Text>
-                          <Text px={"16px"} fontWeight={500}>
-                            ${data.currencyPrice || "-"}
-                          </Text>
-                          <Text
-                            xl={{ gridColumn: "span 2 / span 2" }}
-                            px={"16px"}
-                            fontWeight={500}
-                            color={"var(--normal-text-color)"}
-                            textAlign={"right"}
-                          >
-                            {formatTimeAgo(data.blockTime) || "N/A"}
-                          </Text>
-                        </Box>
-                      );
-                    })}
-                  {hasNextPage && (
-                    <div ref={ref} className="flex justify-center py-4">
-                      <div className="flex flex-col items-center">
-                        <div className="spinner-border animate-spin inline-block w-6 h-6 border-4 border-solid rounded-full border-blue-600 border-t-transparent" />
-                        <p className="mt-2 text-sm text-gray-600">
-                          Loading more...
-                        </p>
+                            <Text px={"16px"} fontWeight={500}>
+                              ${data.currencyPrice || "-"}
+                            </Text>
+                            <Text
+                              xl={{ gridColumn: "span 2 / span 2" }}
+                              px={"16px"}
+                              fontWeight={500}
+                              color={"var(--normal-text-color)"}
+                              textAlign={"right"}
+                            >
+                              {formatTimeAgo(data.blockTime) || "N/A"}
+                            </Text>
+                          </Box>
+                        );
+                      })}
+                    {hasNextPage && (
+                      <div ref={ref} className="flex justify-center py-4">
+                        <div className="flex flex-col items-center">
+                          <div className="spinner-border animate-spin inline-block w-6 h-6 border-4 border-solid rounded-full border-blue-600 border-t-transparent" />
+                          <p className="mt-2 text-sm text-gray-600">
+                            Loading more...
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </Grid>
-              </Box>
+                    )}
+                  </Grid>
+                </Box>
+              )}
             </Box>
           </Box>
         </Box>

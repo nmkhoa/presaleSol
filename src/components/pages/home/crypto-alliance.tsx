@@ -11,7 +11,12 @@ import { askedQuestions, navKey, partners } from "../../../constants/home";
 
 const CryptoAlliance = () => {
   return (
-    <Box id={navKey.partners} position={"relative"}>
+    <Box
+      id={navKey.partners}
+      position={"relative"}
+      pt={"64px"}
+      md={{ pt: "140px" }}
+    >
       <Box
         position={"absolute"}
         w={"100%"}
@@ -27,7 +32,7 @@ const CryptoAlliance = () => {
         }}
       />
       <Box position={"relative"}>
-        <Box maxW={"1240px"} mx={"auto"} mt={"64px"} md={{ mt: "140px" }}>
+        <Box maxW={"1240px"} mx={"auto"}>
           <Text
             maxW={"720px"}
             mx={"auto"}
@@ -110,10 +115,10 @@ const CryptoAlliance = () => {
           id={navKey.faq}
           maxW={"720px"}
           mx={"auto"}
-          mt={"120px"}
+          pt={"120px"}
           px={"12px"}
           xl={{ maxW: "1240px", px: "0" }}
-          md={{ mt: "200px" }}
+          md={{ pt: "200px" }}
         >
           <Text
             className="text-secondary"

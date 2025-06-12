@@ -12,6 +12,7 @@ import {
   Spacer,
   Flex,
   Clipboard,
+  Input,
 } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 
@@ -144,6 +145,7 @@ export default function RewardClaimPanel() {
         w={"full"}
         minH={"136px"}
         p={"20px"}
+        mb={"12px"}
         background={"url(/images/invite_bg2.svg)"}
         backgroundSize={"cover"}
         backgroundRepeat={"no-repeat"}
@@ -180,30 +182,22 @@ export default function RewardClaimPanel() {
               alignItems="center"
               gap="8px"
             >
-              <Box
-                flex="1"
-                h="40px"
-                background="var(--bg-color)"
-                rounded="8px"
-                border="1px solid var(--border-method-normal)"
-                px="12px"
-                display="flex"
-                alignItems="center"
-                overflow="hidden"
-              >
-                <Text
-                  fontSize="12px"
-                  color="var(--color-input)"
-                  fontWeight={500}
-                  whiteSpace="nowrap"
-                  overflow="hidden"
-                  textOverflow="ellipsis"
-                >
-                  {user
+              <Input
+                h={"40px"}
+                background={"var(--bg-super-dark)"}
+                color={"var(--color-input)"}
+                borderRadius={"8px"}
+                border={"none"}
+                disabled
+                fontSize={"12px"}
+                fontWeight={500}
+                opacity={1}
+                value={
+                  user
                     ? `${window.location.origin}/?affiliateCode=${user.affiliateCode}`
-                    : ""}
-                </Text>
-              </Box>
+                    : "Connect wallet to see your code"
+                }
+              />
 
               <Clipboard.Root
                 value={
@@ -384,6 +378,13 @@ export default function RewardClaimPanel() {
             linear-gradient(94.13deg, var(--btn-yellow-normal) -3.77%, var(--btn-orange-light) 19.01%, var(--btn-orange-extra) 119.2%) padding-box,
             linear-gradient(271.06deg, var(--btn-yellow-semi) 8.52%, var(--btn-yellow-extra) 104.75%) border-box
           `}
+            _disabled={{
+              opacity: 1,
+              border: "1px solid var(--btn-secondary-border-medium)",
+              background:
+                "linear-gradient(0deg, var(--btn-disable-light) 9.78%, var(--btn-disbale-normal) 100%)",
+              color: "var(--btn-secondary-border-medium)",
+            }}
             onClick={() => handleClaim()}
           >
             Claim Now

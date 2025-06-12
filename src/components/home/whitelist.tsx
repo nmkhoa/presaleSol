@@ -248,7 +248,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
   };
 
   const errorMessage = useMemo(() => {
-    if (!inputAmount) return "";
+    if (!inputAmount || !connected) return "";
     const priceByMethod = getPriceByMethod();
     const minToken =
       +(solSaleAccountInfo?.minUsdAmount || 0) / (priceByMethod || 1);
@@ -325,7 +325,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
         fontWeight={500}
         xl={{ mt: "36px", fontSize: "14px" }}
       >
-        Payment method
+        Payment Method
       </Text>
       <Grid
         gap={"12px"}
@@ -391,7 +391,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
               fontSize: "14px",
             }}
           >
-            You pay
+            You Pay
           </Text>
           <Flex
             gap={"8px"}
@@ -419,8 +419,13 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
               lineHeight={"20px"}
               border={"none"}
               outline={"none"}
-              disabled={!connected}
               value={inputAmount}
+              color={"white"}
+              fontWeight={700}
+              _placeholder={{
+                color: "var(--table-head-color)",
+                fontWeight: 700,
+              }}
               onChange={onHandleInput}
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
@@ -453,6 +458,12 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
             alignItems={"center"}
             borderRadius={"8px"}
             background={"var(--bg-input-amount)"}
+            color={"white"}
+            fontWeight={700}
+            _placeholder={{
+              color: "var(--table-head-color)",
+              fontWeight: 700,
+            }}
             border={
               inputType && errorMessage
                 ? "1px solid var(--Color-Red-600, var(--input-error-border))"
@@ -469,7 +480,6 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
               lineHeight={"20px"}
               border={"none"}
               outline={"none"}
-              disabled={!connected}
               value={inputReceive}
               onChange={onHandleInputReceive}
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
@@ -493,10 +503,12 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
       >
         {errorMessage}
       </Text>
-      <Box
+      <Button
         className="btn-connect-wallet"
+        w={"100%"}
         height={"44px"}
         mt={"4px"}
+        disabled={connected && isBalanceDisable}
         xl={{
           h: "58px",
         }}
@@ -505,14 +517,13 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
           w={"100%"}
           height={"100%"}
           loading={loadingPurchase}
-          disabled={connected && isBalanceDisable}
           fontSize={"12px !important"}
           md={{ fontSize: "16px !important" }}
           onClick={() => (connected ? handleBuyUn() : setShowModal(true))}
         >
           {connected ? "Buy $UN Now" : "Connect wallet & Buy"}
         </Button>
-      </Box>
+      </Button>
       <Text
         mt={"18px"}
         pb={"10px"}
