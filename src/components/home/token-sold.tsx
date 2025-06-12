@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import { useTokenStore } from "@/stores/token.store";
 
 const TokenSold = () => {
-  const { solSaleAccountInfo } = useTokenStore();
+  const { solSaleAccountInfo, tokensPrice } = useTokenStore();
   const totalSoldPerAll = useMemo(() => {
     if (!solSaleAccountInfo?.tokensForSale || !solSaleAccountInfo) return 0;
     return (
@@ -27,6 +27,14 @@ const TokenSold = () => {
       };
     }
   }, [solSaleAccountInfo]);
+
+  const totalRaised = useMemo(() => {
+    return (
+      (solSaleAccountInfo?.solRaised || 0) * (tokensPrice?.sol || 0) +
+      (solSaleAccountInfo?.usdcRaised || 0) * (tokensPrice?.usdc || 0) +
+      (solSaleAccountInfo?.usdtRaised || 0) * (tokensPrice?.usdt || 0)
+    );
+  }, [solSaleAccountInfo, tokensPrice]);
 
   return (
     <Box>
@@ -134,7 +142,7 @@ const TokenSold = () => {
           }}
           xl={{ fontSize: "24px", lineHeight: "28px" }}
         >
-          ${formatAmount(Math.floor(solSaleAccountInfo?.usdRaised || 0))}
+          ${formatAmount(Math.floor(totalRaised))}
         </Text>
         <Text
           fontSize={"12px"}

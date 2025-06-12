@@ -34,6 +34,7 @@ export type SaleAccountInfoType = {
   tokensForSale: number;
   tokensSold: number;
   usdRaised: number;
+  solRaised: number;
   usdcRaised: number;
   usdtRaised: number;
   whitelistDiscount: number;
