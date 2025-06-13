@@ -423,7 +423,6 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
             }}
           >
             <Input
-              type="number"
               placeholder="Enter amount"
               height={"20px"}
               p={0}
@@ -489,7 +488,6 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
             <Input
               height={"20px"}
               p={0}
-              type="number"
               lineHeight={"20px"}
               border={"none"}
               outline={"none"}

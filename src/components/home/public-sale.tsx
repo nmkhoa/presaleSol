@@ -394,7 +394,6 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
             }}
           >
             <Input
-              type="number"
               placeholder="Enter amount"
               height={"20px"}
               p={0}
@@ -454,7 +453,6 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
             <Input
               height={"20px"}
               p={0}
-              type="number"
               lineHeight={"20px"}
               border={"none"}
               outline={"none"}
