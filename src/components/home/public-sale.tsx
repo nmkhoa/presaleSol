@@ -401,7 +401,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
               lineHeight={"20px"}
               border={"none"}
               outline={"none"}
-              value={inputAmount}
+              value={formatAmount(inputAmount)}
               color={"white"}
               fontWeight={700}
               _placeholder={{
@@ -458,7 +458,7 @@ const PublicSale = ({ fetchSaleAccount, fetchUserAccount }: Props) => {
               lineHeight={"20px"}
               border={"none"}
               outline={"none"}
-              value={inputReceive}
+              value={formatAmount(inputReceive)}
               color={"white"}
               fontWeight={700}
               _placeholder={{

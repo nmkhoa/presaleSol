@@ -430,7 +430,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
               lineHeight={"20px"}
               border={"none"}
               outline={"none"}
-              value={inputAmount}
+              value={formatAmount(inputAmount)}
               color={"white"}
               fontWeight={700}
               _placeholder={{
@@ -493,7 +493,7 @@ const Whitelist = ({ fetchSaleAccount, fetchUserAccount, getMyNft }: Props) => {
               lineHeight={"20px"}
               border={"none"}
               outline={"none"}
-              value={inputReceive}
+              value={formatAmount(inputReceive)}
               onChange={onHandleInputReceive}
               onKeyDown={onKeyDown}
               className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
